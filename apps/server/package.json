@@ -1,0 +1,10 @@
+{
+  "name": "@pixel-idle/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Servidor autoritativo (Colyseus). STUB — implementado na Fase 3. Ver docs/ARCHITECTURE.md.",
+  "scripts": {
+    "dev": "echo \"[server] stub — Fase 3. Deps (colyseus, prisma) serão adicionadas quando implementarmos o backend autoritativo.\""
+  }
+}
