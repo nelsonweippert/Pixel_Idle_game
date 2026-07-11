@@ -19,12 +19,19 @@ export interface AssetEntry {
   id: string;
   type: string;
   anim?: string;
-  path: string; // relativo a assets/
+  path: string; // PNG, relativo a assets/
+  sheet?: string; // spritesheet JSON Pixi, relativo a assets/
   width: number;
   height: number;
+  frameW?: number;
+  frameH?: number;
   frames?: number;
   directions?: number;
+  fps?: number;
+  anchor?: { x: number; y: number };
   colors: number;
+  pixelScale: number;
+  partialAlpha: number;
   source?: string;
   validatedAt: string;
 }

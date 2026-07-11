@@ -45,11 +45,24 @@ engine (lunge, projétil, flash, número), não da coreografia.
 Grade **frames (colunas) × direções (linhas)**, cada célula = 1 tamanho válido do tipo.
 Ex.: `character/walk` 48×48, 4 frames, 4 direções → folha **192×192**.
 
+**Contrato de direções** (ordem das linhas, top→bottom): **`south · north · east · west`**.
+É explícito de propósito — ambiguidade de direção foi o que quebrou o walk do Wraithfall 3×.
+Tipos com vários tamanhos (creature) exigem `--size <px>` no validate/ingest pra desambiguar.
+
+## Qualidade — o que a Forja REPROVA (limpeza de pixel art)
+
+Além de dimensão/cor/transparência, o validador barra o que estraga arte de IA:
+- **anti-aliasing** — >2% de pixels com alpha parcial (borda borrada). `ingest` já limpa
+  (binariza o alpha) por padrão; use `--no-clean` pra desligar.
+- **upscale** — imagem que é um sprite pequeno escalado (blocos N×N idênticos). Gere no
+  tamanho nativo; scale 1:1 é obrigatório.
+
 ## Paleta
 
 **Master: Resurrect 64** (`packages/forge/src/palette.ts`). É a paleta de trabalho + guia.
 O validador **limita a contagem** de cores por sprite (não força pertencimento — isso
-degradaria o Pixellab). Snap à master é **opcional** (`forge ingest … --snap`).
+degradaria o Pixellab). Snap à master é **opcional** (`forge ingest … --snap`) e usa
+**image-q** (quantização CIEDE2000, dither opcional com `--dither`) — não um nearest ingênuo.
 
 ## Style-prompt fixo do Pixellab
 
@@ -70,12 +83,25 @@ npm run forge -- spec
 # validar um asset solto
 npm run forge -- validate hero.png --type character --anim walk
 
-# ingerir (valida → normaliza → registra). Reprovou, não entra.
-npm run forge -- ingest hero.png --type character --id knight --anim walk
-npm run forge -- ingest rat.png  --type creature  --id greenfields/cave-rat --anim idle
+# ingerir (valida entrada → limpa/normaliza → re-valida saída → registra). Reprovou, não entra.
+npm run forge -- ingest hero.png --type character --id knight --anim walk --size 48
+npm run forge -- ingest rat.png  --type creature  --id greenfields/cave-rat --anim idle --size 48
+
+# rodar os testes da Forja
+npm test -w @pixel-idle/forge
 
 # listar o que já passou
 npm run forge -- list
 ```
 
-Saída vai pra `assets/sprites/<id>[.<anim>].png` e entra no `assets/manifest.json`.
+**Saída pronta pro PixiJS:** asset animado gera `assets/sprites/<id>.<anim>.png` **+**
+`assets/sprites/<id>.<anim>.json` (spritesheet no formato Pixi — `frames` com `anchor`,
+`animations` por direção, `fps`). Carrega direto:
+
+```ts
+const sheet = await Assets.load("assets/sprites/knight.walk.json");
+const spr = new AnimatedSprite(sheet.animations.south); // anda pra baixo
+spr.animationSpeed = sheet.data.meta.fps / 60;
+```
+
+Tudo entra no `assets/manifest.json` — **o portão** (o jogo só carrega o registrado).

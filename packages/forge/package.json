@@ -8,9 +8,11 @@
     "forge": "src/cli.ts"
   },
   "scripts": {
-    "forge": "tsx src/cli.ts"
+    "forge": "tsx src/cli.ts",
+    "test": "tsx test/run.ts"
   },
   "dependencies": {
+    "image-q": "^4.0.0",
     "sharp": "^0.35.3"
   },
   "devDependencies": {

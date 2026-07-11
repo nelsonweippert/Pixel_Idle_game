@@ -134,3 +134,27 @@ export function specFor(type: AssetType): TypeSpec {
   if (!s) throw new Error(`tipo de asset desconhecido: ${type}`);
   return s;
 }
+
+/**
+ * CONTRATO de direções — ordem das linhas do spritesheet (top→bottom) p/ 4-dir.
+ * É um contrato explícito de propósito (foi ambiguidade assim que quebrou o walk
+ * do Wraithfall 3×). Toda geração/edição 4-dir DEVE seguir esta ordem.
+ */
+export const DIRECTION_ORDER = ["south", "north", "east", "west"] as const;
+export type Direction = (typeof DIRECTION_ORDER)[number];
+
+/** regras de QUALIDADE de pixel art (limpeza), aplicadas na validação */
+export const QUALITY = {
+  /** máx proporção de pixels com alpha parcial (borda de AA) antes de reprovar */
+  maxPartialAlphaRatio: 0.02,
+  /** exige escala de pixel 1:1 (reprova upscale disfarçado) */
+  requireUnitPixelScale: true,
+  /** tolerância de alpha "cheio/vazio" p/ detectar AA */
+  alphaEdgeTolerance: 16,
+  /** limiar de binarização de alpha no clean */
+  cleanAlphaThreshold: 128,
+};
+
+export function anchorPoint(anchor: Anchor): { x: number; y: number } {
+  return anchor === "bottom-center" ? { x: 0.5, y: 1 } : { x: 0.5, y: 0.5 };
+}

@@ -27,3 +27,6 @@ Thumbs.db
 *.tsbuildinfo
 next-env.d.ts
 __wtest.txt
+
+# forja: fixtures de teste (regenerados)
+**/test/.tmp/
