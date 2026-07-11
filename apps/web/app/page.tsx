@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
+import { Landing } from "@/components/Landing";
 
 export default function Home() {
-  // Fase 0: cai direto na tela de jogo.
-  redirect("/play");
+  return <Landing />;
 }
