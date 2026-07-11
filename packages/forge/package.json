@@ -1,0 +1,20 @@
+{
+  "name": "@pixel-idle/forge",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "O guardião de arte: valida, normaliza e registra todo asset contra o ART_SPEC.",
+  "bin": {
+    "forge": "src/cli.ts"
+  },
+  "scripts": {
+    "forge": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.0",
+    "@types/node": "^22.10.0"
+  }
+}

@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "npm run dev -w @pixel-idle/web",
     "dev:server": "npm run dev -w @pixel-idle/server",
-    "build": "npm run build -w @pixel-idle/web"
+    "build": "npm run build -w @pixel-idle/web",
+    "forge": "npm run forge -w @pixel-idle/forge --"
   }
 }
