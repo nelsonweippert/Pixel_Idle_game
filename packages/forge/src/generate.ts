@@ -29,8 +29,9 @@ const MASTER_REQUEST = 128;
 /** style-prompt fixo — trava o look (dark high-fantasy, top-down, legível).
  *  Genérico de propósito: nunca imitar IP específico (só "estilo", nunca a arte). */
 export const STYLE =
-  "classic high-fantasy pixel art, top-down RPG sprite, clean readable silhouette, " +
-  "simple flat shading, dark fantasy medieval, muted earthy palette, no anti-aliasing";
+  "high-fantasy pixel art character, top-down RPG sprite, bold dark outline around the silhouette, " +
+  "rich saturated colors, dramatic top-down lighting with bright rim highlights, high contrast cel shading, " +
+  "dark fantasy medieval, clean readable silhouette, polished game art, no anti-aliasing";
 
 export type AnimName = "idle" | "walk" | "attack";
 
@@ -151,11 +152,37 @@ async function seatFrame(file: string, box: BoxFrac, cell: number, doKey: boolea
     .png()
     .toBuffer();
   const left = Math.max(0, Math.round((cell - w) / 2));
-  const top = Math.max(0, cell - h - 1); // pé ~1px do fundo
-  return sharp({ create: { width: cell, height: cell, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+  const top = Math.max(0, cell - h - 2); // pé ~2px do fundo (folga p/ o outline)
+  const cellBuf = await sharp({ create: { width: cell, height: cell, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
     .composite([{ input: region, left, top }])
     .png()
     .toBuffer();
+  return addOutline(cellBuf, cell);
+}
+
+/**
+ * Contorno escuro 1px em volta da silhueta — é o que dá o "pop" da arte estilo
+ * Tibia/idle premium (o sprite destaca do fundo, leitura imediata). Pinta de cor
+ * escura todo pixel transparente adjacente a um pixel opaco.
+ */
+async function addOutline(cellBuf: Buffer, cell: number, color: [number, number, number] = [18, 14, 22]): Promise<Buffer> {
+  const { data } = await sharp(cellBuf).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const out = Buffer.from(data);
+  const alphaAt = (x: number, y: number) =>
+    x < 0 || y < 0 || x >= cell || y >= cell ? 0 : data[(y * cell + x) * 4 + 3];
+  for (let y = 0; y < cell; y++) {
+    for (let x = 0; x < cell; x++) {
+      const i = (y * cell + x) * 4;
+      if (data[i + 3] >= 128) continue; // já opaco
+      if (alphaAt(x - 1, y) >= 128 || alphaAt(x + 1, y) >= 128 || alphaAt(x, y - 1) >= 128 || alphaAt(x, y + 1) >= 128) {
+        out[i] = color[0];
+        out[i + 1] = color[1];
+        out[i + 2] = color[2];
+        out[i + 3] = 255;
+      }
+    }
+  }
+  return sharp(out, { raw: { width: cell, height: cell, channels: 4 } }).png().toBuffer();
 }
 
 /** caixa de conteúdo (união das cardeais) + margem p/ armas em movimento. */
