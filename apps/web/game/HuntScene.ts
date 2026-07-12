@@ -13,6 +13,12 @@ const TILE = 32;
 const WORLD_W = GRID.w * TILE;
 const WORLD_H = GRID.h * TILE;
 const HERO_SPRITE_SCALE = 1; // 64px nativo (~2 tiles de altura, overhang pra cima estilo Tibia)
+// Pixellab centraliza o personagem no frame: ~30px de conteúdo (y17..47) num
+// frame de 64 → ~16px transparentes ABAIXO do pé. Sem compensar, o sprite
+// "flutua" acima da sombra. Estes offsets assentam o pé na linha do chão.
+const SPR_FEET_PAD = 16; // px vazios abaixo do pé no frame
+const SPR_CONTENT_H = 30; // altura do conteúdo do personagem
+const GROUND_Y = TILE * 0.42; // linha do chão (onde a sombra é desenhada)
 
 interface Sprite {
   root: Container;
@@ -192,8 +198,10 @@ export class HuntScene {
     let anim: AnimatedSprite | undefined;
     if (e.vocation === "knight" && this.knight) {
       anim = new AnimatedSprite(this.knight.idle.animations.east);
-      anim.anchor.set(0.5, 1); // âncora no pé
-      anim.position.set(0, TILE * 0.5); // pés na base do tile
+      anim.anchor.set(0.5, 1); // âncora no fundo do frame
+      // fundo do frame fica ABAIXO do pé real por SPR_FEET_PAD → empurra pra
+      // baixo pra o pé visível cair na linha da sombra (não flutua)
+      anim.position.set(0, GROUND_Y + SPR_FEET_PAD * HERO_SPRITE_SCALE);
       anim.scale.set(HERO_SPRITE_SCALE);
       anim.animationSpeed = 2 / 60;
       anim.play();
@@ -202,7 +210,7 @@ export class HuntScene {
     }
 
     // barra de hp + rótulo — acima da cabeça (sprite alto vs caixa baixa)
-    const headY = anim ? -(64 * HERO_SPRITE_SCALE - TILE * 0.5) - 6 : -TILE * 0.55;
+    const headY = anim ? GROUND_Y - SPR_CONTENT_H * HERO_SPRITE_SCALE - 6 : -TILE * 0.55;
     const hpWrap = new Container();
     const hpBg = new Graphics().rect(-12, 0, 24, 4).fill(0x000000);
     const hpFill = new Graphics().rect(-11, 1, 22, 2).fill(0x6fbf73);
