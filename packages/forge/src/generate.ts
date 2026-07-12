@@ -26,6 +26,11 @@ import { loadImage, contentBounds } from "./image";
  *  a célula — quanto maior o master, mais detalhe real sobra no downscale. */
 const MASTER_REQUEST = 128;
 
+/** boost de saturação no assentamento — cores vibrantes "chamam atenção" (o snap
+ *  pra Resurrect 64 + prompt tendiam a abafar). Aplicado antes do snap, puxa as
+ *  cores pra entradas mais vivas da paleta. */
+const SATURATION = 1.4;
+
 /** style-prompt fixo — trava o look (dark high-fantasy, top-down, legível).
  *  Genérico de propósito: nunca imitar IP específico (só "estilo", nunca a arte). */
 export const STYLE =
@@ -149,6 +154,7 @@ async function seatFrame(file: string, box: BoxFrac, cell: number, doKey: boolea
   const region = await sharp(src)
     .extract(ex)
     .resize(w, h, { kernel: "nearest", fit: "fill" })
+    .modulate({ saturation: SATURATION }) // cores mais vivas antes do snap
     .png()
     .toBuffer();
   const left = Math.max(0, Math.round((cell - w) / 2));
