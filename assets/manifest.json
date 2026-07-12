@@ -208,6 +208,29 @@
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\ranger.idle.png",
       "validatedAt": "2026-07-12T01:26:04.572Z"
+    },
+    {
+      "id": "sorcerer",
+      "type": "character",
+      "anim": "idle",
+      "path": "sprites/sorcerer.idle.png",
+      "sheet": "sprites/sorcerer.idle.json",
+      "width": 64,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 1,
+      "directions": 4,
+      "fps": 2,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 33,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\sorcerer.idle.png",
+      "validatedAt": "2026-07-12T01:58:27.824Z"
     }
   ]
 }
