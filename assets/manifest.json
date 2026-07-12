@@ -1,5 +1,75 @@
 {
   "version": 1,
   "palette": "Resurrect 64",
-  "assets": []
+  "assets": [
+    {
+      "id": "knight",
+      "type": "character",
+      "anim": "attack",
+      "path": "sprites/knight.attack.png",
+      "sheet": "sprites/knight.attack.json",
+      "width": 256,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 4,
+      "directions": 4,
+      "fps": 10,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 33,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\knight.attack.png",
+      "validatedAt": "2026-07-12T00:49:47.748Z"
+    },
+    {
+      "id": "knight",
+      "type": "character",
+      "anim": "idle",
+      "path": "sprites/knight.idle.png",
+      "sheet": "sprites/knight.idle.json",
+      "width": 64,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 1,
+      "directions": 4,
+      "fps": 2,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 23,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\knight.idle.png",
+      "validatedAt": "2026-07-12T00:49:47.578Z"
+    },
+    {
+      "id": "knight",
+      "type": "character",
+      "anim": "walk",
+      "path": "sprites/knight.walk.png",
+      "sheet": "sprites/knight.walk.json",
+      "width": 256,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 4,
+      "directions": 4,
+      "fps": 8,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 26,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\knight.walk.png",
+      "validatedAt": "2026-07-12T00:49:47.660Z"
+    }
+  ]
 }

@@ -49,7 +49,7 @@ export const MASTER_PALETTE = PALETTE_NAME;
 const CHAR_ANIMS: AnimRule[] = [
   { name: "idle", minFrames: 1, maxFrames: 2, directions: 4, fps: 2 },
   { name: "walk", minFrames: 3, maxFrames: 4, directions: 4, fps: 8 },
-  { name: "attack", minFrames: 2, maxFrames: 3, directions: 4, fps: 10 },
+  { name: "attack", minFrames: 2, maxFrames: 4, directions: 4, fps: 10 }, // maxFrames 4: animate-v3 exige frame_count≥4
 ];
 
 const CREATURE_ANIMS: AnimRule[] = [
@@ -70,12 +70,12 @@ export const ART_SPEC: Record<AssetType, TypeSpec> = {
   },
   character: {
     type: "character",
-    sizes: [{ w: 48, h: 48 }],
-    maxColors: 24,
+    sizes: [{ w: 64, h: 64 }],
+    maxColors: 40,
     requireTransparency: true,
     anchor: "bottom-center",
     animations: CHAR_ANIMS,
-    note: "Heróis/humanoides. Corpo ~32 de largura com headroom + sombra. 4 direções.",
+    note: "Heróis/humanoides, 64×64 (subido de 48 em 2026-07-11: PRO gera master ~112px e o downscale nearest→64 fica legível; 48 ficava rústico). 4 direções. maxColors 40 (subido de 24→32→40 em 2026-07-11 por dado empírico: idle 23c, walk 26c, attack 33c snapados na Resurrect 64. O teto existe pra pegar arte NÃO-processada (milhares de cores), não pra orçamento artístico apertado; 40 dá folga e ainda pega o caso cru dramaticamente).",
   },
   creature: {
     type: "creature",
@@ -124,8 +124,8 @@ export const ART_SPEC: Record<AssetType, TypeSpec> = {
     maxColors: 24,
     requireTransparency: true,
     anchor: "center",
-    animations: [{ name: "play", minFrames: 2, maxFrames: 8, directions: 1, fps: 12 }],
-    note: "Efeitos (slash, fireball, cura, hit). Direção única, tocado uma vez.",
+    animations: [{ name: "play", minFrames: 2, maxFrames: 24, directions: 1, fps: 12 }],
+    note: "Efeitos (slash, fireball, cura, hit). Direção única, tocado uma vez. maxFrames 24 (subido de 8 em 2026-07-11: packs FX externos tipo 'Effect and FX' têm 7–22 frames por animação — FX legitimamente precisa de mais frames que walk de personagem).",
   },
 };
 

@@ -56,12 +56,13 @@ export async function writeManifest(m: Manifest): Promise<void> {
   await fs.writeFile(MANIFEST_PATH, JSON.stringify(m, null, 2) + "\n", "utf8");
 }
 
-/** upsert por id */
+/** upsert por (id, anim) — um personagem tem 1 id com várias animações
+ *  (idle/walk/attack) que coexistem; a animação faz parte da chave. */
 export async function register(entry: AssetEntry): Promise<Manifest> {
   const m = await readManifest();
-  m.assets = m.assets.filter((a) => a.id !== entry.id);
+  m.assets = m.assets.filter((a) => !(a.id === entry.id && a.anim === entry.anim));
   m.assets.push(entry);
-  m.assets.sort((a, b) => a.id.localeCompare(b.id));
+  m.assets.sort((a, b) => a.id.localeCompare(b.id) || (a.anim ?? "").localeCompare(b.anim ?? ""));
   await writeManifest(m);
   return m;
 }

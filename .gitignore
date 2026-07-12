@@ -30,3 +30,8 @@ __wtest.txt
 
 # forja: fixtures de teste (regenerados)
 **/test/.tmp/
+
+# forja: intermediários regeneráveis (cache de geração Pixellab + staging)
+assets/_work/
+assets/_incoming/
+assets/library/_tmp/

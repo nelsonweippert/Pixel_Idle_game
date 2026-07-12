@@ -17,6 +17,8 @@ import { validate, type ValidateResult } from "./validate";
 import { normalize } from "./normalize";
 import { buildPixiSheet } from "./atlas";
 import { ASSETS_DIR, readManifest, register } from "./manifest";
+import { generate, type Brief, type AnimName } from "./generate";
+import { importEffectDir, readIndex, applyFamilies } from "./library";
 
 const C = {
   red: (s: string) => `\x1b[31m${s}\x1b[0m`,
@@ -99,38 +101,50 @@ async function cmdValidate(pos: string[], flags: Record<string, string | boolean
   process.exit(r.ok ? 0 : 1);
 }
 
-async function cmdIngest(pos: string[], flags: Record<string, string | boolean>) {
-  const file = pos[0];
-  const type = flags.type as AssetType;
-  const id = flags.id as string;
-  if (!file || !type || !id) {
-    console.error(
-      "uso: forge ingest <arquivo> --type <tipo> --id <id> [--anim <a>] [--size <px>] [--snap] [--dither] [--no-clean]",
-    );
-    process.exit(2);
-  }
-  const anim = flags.anim as string | undefined;
-  const frameSize = flags.size ? Number(flags.size) : undefined;
+interface IngestOpts {
+  file: string;
+  type: AssetType;
+  id: string;
+  anim?: string;
+  frameSize?: number;
+  clean?: boolean;
+  snap?: boolean;
+  dither?: boolean;
+  targetStatic?: number;
+}
+
+/** regras que a normalização CONSERTA (clean tira AA, snap reduz cores). Não
+ *  bloqueiam a ENTRADA — são garantidas na SAÍDA. Todo o resto é estrutural
+ *  (geometria/transparência/upscale) e normalize não conserta → gate de entrada. */
+const NORMALIZABLE = new Set(["colors", "antialiasing"]);
+
+/** NÚCLEO do ingest (o portão): valida entrada (estrutural) → normaliza →
+ *  re-valida saída (tudo) → gera sheet Pixi → registra. Usado pelo CLI `ingest`
+ *  e pelo `generate`. Retorna false (sem lançar) se reprovar. */
+async function ingestOne(o: IngestOpts): Promise<boolean> {
+  const { file, type, id, anim } = o;
+  const frameSize = o.frameSize;
   const spec = specFor(type);
 
-  // 1) valida a ENTRADA
+  // 1) valida a ENTRADA — só o estrutural (o que normalize NÃO conserta).
+  //    cores/AA são sujeira esperada de arte crua (Pixellab) → a Forja limpa.
   const pre = await validate(file, { type, anim, frameSize });
-  if (!pre.ok) {
-    console.log(C.red("\n  ingest bloqueado — asset reprovado na entrada:\n"));
-    printResult(file, pre);
-    process.exit(1);
+  const structural = pre.violations.filter((x) => !NORMALIZABLE.has(x.rule));
+  if (structural.length) {
+    console.log(C.red("\n  ingest bloqueado — falha ESTRUTURAL na entrada (normalize não conserta):\n"));
+    printResult(file, { ...pre, ok: false, violations: structural });
+    return false;
   }
 
   // 2) normaliza (clean ligado por padrão)
   const rel = anim ? `sprites/${id}.${anim}.png` : `sprites/${id}.png`;
   const outPath = path.join(ASSETS_DIR, rel);
-  const targetStatic = !anim && flags.to ? Number(flags.to) : undefined;
   await normalize(file, outPath, {
-    targetW: targetStatic,
-    targetH: targetStatic,
-    clean: !flags["no-clean"],
-    snap: !!flags.snap,
-    dither: !!flags.dither,
+    targetW: o.targetStatic,
+    targetH: o.targetStatic,
+    clean: o.clean !== false,
+    snap: !!o.snap,
+    dither: !!o.dither,
   });
 
   // 3) re-valida a SAÍDA
@@ -138,7 +152,7 @@ async function cmdIngest(pos: string[], flags: Record<string, string | boolean>)
   if (!post.ok) {
     console.log(C.red("\n  normalização gerou saída inválida:\n"));
     printResult(outPath, post);
-    process.exit(1);
+    return false;
   }
 
   // 4) asset animado → gera spritesheet JSON pronto pro Pixi
@@ -158,8 +172,8 @@ async function cmdIngest(pos: string[], flags: Record<string, string | boolean>)
       anchor,
       fps,
     });
-    sheetRel = anim ? `sprites/${id}.${anim}.json` : undefined;
-    await fs.writeFile(path.join(ASSETS_DIR, sheetRel!), JSON.stringify(sheet, null, 2) + "\n", "utf8");
+    sheetRel = `sprites/${id}.${anim}.json`;
+    await fs.writeFile(path.join(ASSETS_DIR, sheetRel), JSON.stringify(sheet, null, 2) + "\n", "utf8");
   }
 
   // 5) registra no manifesto (o portão)
@@ -187,9 +201,138 @@ async function cmdIngest(pos: string[], flags: Record<string, string | boolean>)
   console.log(C.green("\n  ✔ ingerido e registrado no manifesto:"));
   printResult(outPath, post);
   console.log(
-    C.dim(
-      `   id: ${id}${sheetRel ? " · sheet: " + sheetRel : ""}${flags.snap ? " · snap:master" : ""}\n`,
-    ),
+    C.dim(`   id: ${id}${sheetRel ? " · sheet: " + sheetRel : ""}${o.snap ? " · snap:master" : ""}\n`),
+  );
+  return true;
+}
+
+async function cmdIngest(pos: string[], flags: Record<string, string | boolean>) {
+  const file = pos[0];
+  const type = flags.type as AssetType;
+  const id = flags.id as string;
+  if (!file || !type || !id) {
+    console.error(
+      "uso: forge ingest <arquivo> --type <tipo> --id <id> [--anim <a>] [--size <px>] [--snap] [--dither] [--no-clean]",
+    );
+    process.exit(2);
+  }
+  const ok = await ingestOne({
+    file,
+    type,
+    id,
+    anim: flags.anim as string | undefined,
+    frameSize: flags.size ? Number(flags.size) : undefined,
+    clean: !flags["no-clean"],
+    snap: !!flags.snap,
+    dither: !!flags.dither,
+    targetStatic: !flags.anim && flags.to ? Number(flags.to) : undefined,
+  });
+  process.exit(ok ? 0 : 1);
+}
+
+/**
+ * `forge generate` — o fluxo idea→asset completo. Gera pelo Pixellab, monta os
+ * spritesheets e (por padrão) ingere cada um pela Forja. É o único comando que
+ * fala com a API; tudo mais é offline.
+ */
+async function cmdGenerate(pos: string[], flags: Record<string, string | boolean>) {
+  const id = (flags.id as string) ?? pos[0];
+  const subject = flags.subject as string;
+  if (!id || !subject) {
+    console.error(
+      'uso: forge generate --id knight --subject "knight in plate armor..." [--size 64] [--anims idle,walk,attack] [--type character] [--snap] [--no-ingest]',
+    );
+    process.exit(2);
+  }
+  const type = (flags.type as AssetType) ?? "character";
+  const spec = specFor(type);
+  const size = flags.size ? Number(flags.size) : spec.sizes[0].w;
+  const anims = ((flags.anims as string) ?? "idle,walk,attack")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean) as AnimName[];
+
+  const brief: Brief = { id, subject, size, view: flags.view as string | undefined, anims };
+  console.log(C.bold(`\n  Forja · generate  ${C.gold(id)}  ${C.dim(type + " · " + size + "px · " + anims.join("+"))}`));
+  console.log(C.dim(`  "${subject}"\n`));
+
+  const sheets = await generate(brief, { log: (m) => console.log(C.dim("  " + m)) });
+
+  if (flags["no-ingest"]) {
+    console.log(C.gold("\n  --no-ingest: sheets gerados (não ingeridos):"));
+    for (const s of sheets) console.log(C.dim(`   ${path.relative(ASSETS_DIR, s.file)}`));
+    console.log("");
+    return;
+  }
+
+  // ingere cada sheet pela Forja (o portão)
+  let ingested = 0;
+  for (const s of sheets) {
+    const ok = await ingestOne({
+      file: s.file,
+      type,
+      id,
+      anim: s.anim,
+      frameSize: size,
+      clean: !flags["no-clean"],
+      snap: !flags["no-snap"], // generate snapa por padrão: arte Pixellab sempre precisa
+      dither: !!flags.dither,
+    });
+    if (ok) ingested++;
+  }
+  console.log(
+    ingested === sheets.length
+      ? C.green(`  ✔ ${ingested}/${sheets.length} animações no manifesto — ${id} pronto pro jogo.\n`)
+      : C.gold(`  ⚠ ${ingested}/${sheets.length} passaram na Forja (ver reprovações acima).\n`),
+  );
+}
+
+/**
+ * `forge library <dir>` — importa assets externos (efeitos) pra BIBLIOTECA
+ * classificada (assets/library/). Passa cada sheet pela Forja (valida→limpa→
+ * snap→re-valida→sheet Pixi) e indexa por cor/frames/fonte. NÃO entra no
+ * manifesto do jogo — é pool pra usar depois.
+ */
+async function cmdLibrary(pos: string[], flags: Record<string, string | boolean>) {
+  const sub = pos[0];
+  if (sub === "list") {
+    const idx = await readIndex();
+    const fam = Object.entries(idx.byFamily ?? {}).sort((a, b) => b[1].length - a[1].length);
+    console.log(C.bold(`\n  biblioteca — ${idx.count} ${idx.kind}(s) · paleta ${C.gold(idx.palette)}`));
+    if (fam.length)
+      console.log(C.dim(`  famílias: ${fam.map(([f, ids]) => `${f}(${ids.length})`).join(" · ")}`));
+    console.log(C.dim(`  cores: ${Object.entries(idx.byColor).map(([c, ids]) => `${c}(${ids.length})`).join(" · ")}`));
+    console.log(C.dim(`  fontes: ${Object.entries(idx.bySource).map(([s, ids]) => `${s}(${ids.length})`).join(" · ")}\n`));
+    return;
+  }
+
+  if (sub === "classify") {
+    const file = pos[1];
+    if (!file) {
+      console.error("uso: forge library classify <arquivo.json>  (json = {items:[{sheet,family,motion}]} ou [ ... ])");
+      process.exit(2);
+    }
+    const raw = JSON.parse(await fs.readFile(path.resolve(file), "utf8"));
+    const items = Array.isArray(raw) ? raw : raw.items;
+    const res = await applyFamilies(items, (m) => console.log(C.dim("  " + m)));
+    console.log(C.green(`\n  ✔ ${res.updated} effects classificados de ${res.sheets} sheets\n`));
+    return;
+  }
+  const dir = sub === "import" ? pos[1] : sub;
+  if (!dir) {
+    console.error('uso: forge library import <dir> [--no-snap]   |   forge library list');
+    process.exit(2);
+  }
+  const abs = path.resolve(dir);
+  console.log(C.bold(`\n  Forja · library import  ${C.dim(abs)}\n`));
+  const res = await importEffectDir(abs, {
+    snap: !flags["no-snap"],
+    nowIso: new Date().toISOString(),
+    log: (m) => console.log(C.dim("  " + m)),
+  });
+  console.log(
+    C.green(`\n  ✔ ${res.imported} effects na biblioteca`) +
+      C.dim(` · ${res.skipped} linhas puladas · índice: assets/library/index.json\n`),
   );
 }
 
@@ -215,10 +358,14 @@ async function main() {
       return cmdValidate(pos, flags);
     case "ingest":
       return cmdIngest(pos, flags);
+    case "generate":
+      return cmdGenerate(pos, flags);
+    case "library":
+      return cmdLibrary(pos, flags);
     case "list":
       return cmdList();
     default:
-      console.log("comandos: spec · validate · ingest · list");
+      console.log("comandos: spec · validate · ingest · generate · library · list");
       console.log("ex: forge ingest hero.png --type character --id knight --anim walk --size 48");
       process.exit(cmd ? 2 : 0);
   }
