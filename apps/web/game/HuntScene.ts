@@ -12,7 +12,7 @@ import { GRID } from "./MockEngine";
 const TILE = 32;
 const WORLD_W = GRID.w * TILE;
 const WORLD_H = GRID.h * TILE;
-const HERO_SPRITE_SCALE = 0.62; // 64px → ~40px (um pouco maior que um tile)
+const HERO_SPRITE_SCALE = 1; // 64px nativo (~2 tiles de altura, overhang pra cima estilo Tibia)
 
 interface Sprite {
   root: Container;
@@ -201,18 +201,20 @@ export class HuntScene {
       this.paintBody(body, e);
     }
 
-    // barra de hp
+    // barra de hp + rótulo — acima da cabeça (sprite alto vs caixa baixa)
+    const headY = anim ? -(64 * HERO_SPRITE_SCALE - TILE * 0.5) - 6 : -TILE * 0.55;
     const hpWrap = new Container();
-    const hpBg = new Graphics().rect(-12, -TILE * 0.55, 24, 4).fill(0x000000);
-    const hpFill = new Graphics().rect(-11, -TILE * 0.55 + 1, 22, 2).fill(0x6fbf73);
+    const hpBg = new Graphics().rect(-12, 0, 24, 4).fill(0x000000);
+    const hpFill = new Graphics().rect(-11, 1, 22, 2).fill(0x6fbf73);
     hpWrap.addChild(hpBg, hpFill);
+    hpWrap.position.set(0, headY);
 
     const label = new Text({
       text: e.kind === "hero" ? e.name : "",
       style: { fontFamily: "monospace", fontSize: 7, fill: 0xe8ddc9, align: "center" },
     });
     label.anchor.set(0.5);
-    label.position.set(0, -TILE * 0.72);
+    label.position.set(0, headY - 8);
 
     root.addChild(anim ?? body, hpWrap, label);
     const px = tileToPx(e.tile);
