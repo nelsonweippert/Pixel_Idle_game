@@ -18,6 +18,13 @@ import path from "node:path";
 import { createCharacter8dPro, animateV3, pollJob, extractImages } from "./pixellab";
 import { ASSETS_DIR } from "./manifest";
 import { DIRECTION_ORDER } from "./spec";
+import { loadImage, contentBounds } from "./image";
+
+/** tamanho do master pedido ao Pixellab. PRO ignora e entrega ~1.75× (128→~196px).
+ *  Pedimos GRANDE de propósito: o personagem ocupa ~metade do frame (o Pixellab
+ *  centraliza com margem), então recortamos o conteúdo e reescalamos pra preencher
+ *  a célula — quanto maior o master, mais detalhe real sobra no downscale. */
+const MASTER_REQUEST = 128;
 
 /** style-prompt fixo — trava o look (dark high-fantasy, top-down, legível).
  *  Genérico de propósito: nunca imitar IP específico (só "estilo", nunca a arte). */
@@ -63,22 +70,26 @@ async function saveB64(file: string, b64: string): Promise<void> {
   await fs.writeFile(file, Buffer.from(b64, "base64"));
 }
 
-/** downscale limpo pro grid: nearest-neighbor, dimensão exata (fill, nunca crop). */
-async function downscale(input: string | Buffer, size: number): Promise<Buffer> {
-  return sharp(input).resize(size, size, { kernel: "nearest", fit: "fill" }).png().toBuffer();
+/** caixa de conteúdo em FRAÇÕES do frame (robusto a variação de tamanho entre
+ *  master e frames de animação). */
+interface BoxFrac {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
 }
 
 /**
- * Remove fundo por FLOOD-FILL a partir das bordas + downscale. animate-with-text-v3
- * renderiza sobre fundo chapado OPACO (cinza ~128) — mas o sprite pode ter a MESMA
- * cor internamente (armadura cinza). Flood-fill só apaga o fundo CONECTADO às bordas,
- * preservando pixels internos daquela cor. Depois downscale nearest → size.
+ * Remove o fundo por FLOOD-FILL a partir das bordas. animate-with-text-v3 renderiza
+ * sobre fundo chapado OPACO (cinza ~128) — mas o sprite pode ter a MESMA cor
+ * internamente (armadura). Flood-fill só apaga o fundo CONECTADO às bordas,
+ * preservando pixels internos. Retorna PNG do tamanho original, fundo transparente.
  */
-async function keyDownscale(file: string, size: number): Promise<Buffer> {
+async function floodKeyBuffer(file: string): Promise<Buffer> {
   const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const w = info.width;
   const h = info.height;
-  const bg = [data[0], data[1], data[2]]; // canto = cor de fundo
+  const bg = [data[0], data[1], data[2]];
   const tol = 14;
   const match = (i: number) =>
     Math.abs(data[i] - bg[0]) <= tol && Math.abs(data[i + 1] - bg[1]) <= tol && Math.abs(data[i + 2] - bg[2]) <= tol;
@@ -101,7 +112,7 @@ async function keyDownscale(file: string, size: number): Promise<Buffer> {
   }
   while (stack.length) {
     const p = stack.pop()!;
-    data[p * 4 + 3] = 0; // transparente
+    data[p * 4 + 3] = 0;
     const x = p % w;
     const y = (p / w) | 0;
     push(x + 1, y);
@@ -109,10 +120,67 @@ async function keyDownscale(file: string, size: number): Promise<Buffer> {
     push(x, y + 1);
     push(x, y - 1);
   }
-  return sharp(Buffer.from(data), { raw: { width: w, height: h, channels: 4 } })
-    .resize(size, size, { kernel: "nearest", fit: "fill" })
+  return sharp(Buffer.from(data), { raw: { width: w, height: h, channels: 4 } }).png().toBuffer();
+}
+
+/**
+ * ASSENTA o personagem na célula: recorta a caixa de conteúdo (tira a margem do
+ * Pixellab), reescala NEAREST pra preencher ~92% da altura da célula e ancora o pé
+ * embaixo, centralizado. É downscale (do master grande) → detalhe real, sem borrar.
+ */
+async function seatFrame(file: string, box: BoxFrac, cell: number, doKey: boolean): Promise<Buffer> {
+  const src = doKey ? await floodKeyBuffer(file) : await sharp(file).ensureAlpha().png().toBuffer();
+  const meta = await sharp(src).metadata();
+  const W = meta.width ?? cell;
+  const H = meta.height ?? cell;
+  const ex = {
+    left: Math.max(0, Math.round(box.x * W)),
+    top: Math.max(0, Math.round(box.y * H)),
+    width: Math.round(box.w * W),
+    height: Math.round(box.h * H),
+  };
+  ex.width = Math.max(1, Math.min(ex.width, W - ex.left));
+  ex.height = Math.max(1, Math.min(ex.height, H - ex.top));
+  const targetH = Math.round(cell * 0.92);
+  const s = Math.min(targetH / ex.height, (cell * 0.98) / ex.width);
+  const w = Math.max(1, Math.round(ex.width * s));
+  const h = Math.max(1, Math.round(ex.height * s));
+  const region = await sharp(src)
+    .extract(ex)
+    .resize(w, h, { kernel: "nearest", fit: "fill" })
     .png()
     .toBuffer();
+  const left = Math.max(0, Math.round((cell - w) / 2));
+  const top = Math.max(0, cell - h - 1); // pé ~1px do fundo
+  return sharp({ create: { width: cell, height: cell, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+    .composite([{ input: region, left, top }])
+    .png()
+    .toBuffer();
+}
+
+/** caixa de conteúdo (união das cardeais) + margem p/ armas em movimento. */
+async function contentBoxFrac(files: string[]): Promise<BoxFrac> {
+  let x0 = 1,
+    y0 = 1,
+    x1 = 0,
+    y1 = 0;
+  for (const f of files) {
+    const im = await loadImage(f);
+    const b = contentBounds(im);
+    if (!b) continue;
+    x0 = Math.min(x0, b.x / im.width);
+    y0 = Math.min(y0, b.y / im.height);
+    x1 = Math.max(x1, (b.x + b.w) / im.width);
+    y1 = Math.max(y1, (b.y + b.h) / im.height);
+  }
+  if (x1 <= x0) return { x: 0, y: 0, w: 1, h: 1 }; // fallback: frame inteiro
+  // margem: generosa no topo/lados (arma erguida no ataque), pouca embaixo (pé)
+  const mw = (x1 - x0) * 0.3;
+  const mtop = (y1 - y0) * 0.4;
+  const mbot = (y1 - y0) * 0.05;
+  const nx = Math.max(0, x0 - mw);
+  const ny = Math.max(0, y0 - mtop);
+  return { x: nx, y: ny, w: Math.min(1, x1 + mw) - nx, h: Math.min(1, y1 + mbot) - ny };
 }
 
 /** monta um grid: linhas = direções (S→N→E→W), colunas = frames. Canvas transparente. */
@@ -173,10 +241,10 @@ export async function generate(
     masterPx = (await sharp(cached[0]!).metadata()).width ?? 0;
     log(`static: reusando masters (${masterPx}px) em ${path.relative(ASSETS_DIR, masterDir)}`);
   } else {
-    log(`static: gerando 8d PRO (req ${brief.size}px, PRO entrega ~1.75×)…`);
+    log(`static: gerando 8d PRO (req ${MASTER_REQUEST}px master, PRO entrega ~1.75×)…`);
     const { jobId } = await createCharacter8dPro({
       description,
-      size: brief.size,
+      size: MASTER_REQUEST,
       view: brief.view,
     });
     log(`  job ${jobId} — pollando (~2min)…`);
@@ -193,12 +261,16 @@ export async function generate(
   for (const d of cardinals)
     if (!master[d]) throw new Error(`master faltando pra direção "${d}" — 8d incompleto`);
 
+  // caixa de conteúdo (recorta a margem do Pixellab) — vale pra todos os frames
+  const box = await contentBoxFrac(cardinals.map((d) => master[d]));
+  log(`seat: caixa ${(box.w * 100).toFixed(0)}%×${(box.h * 100).toFixed(0)}% do frame (conteúdo preenche a célula)`);
+
   // ── 2) por animação ─────────────────────────────────────────────────────
   const out: SheetOut[] = [];
   for (const anim of brief.anims) {
     if (anim === "idle") {
-      // 1 frame/direção = o estático downscaled. grid 1col × 4linhas.
-      const rows = await Promise.all(cardinals.map(async (d) => [await downscale(master[d], brief.size)]));
+      // 1 frame/direção = o estático assentado. grid 1col × 4linhas.
+      const rows = await Promise.all(cardinals.map(async (d) => [await seatFrame(master[d], box, brief.size, false)]));
       const file = path.join(ASSETS_DIR, "_incoming", `${brief.id}.idle.png`);
       await composeGrid(file, rows, brief.size);
       out.push({ anim, file, frames: 1, directions: 4, masterPx });
@@ -240,9 +312,9 @@ export async function generate(
       } else {
         log(`${anim}/${d}: reusando ${frames.length} frames`);
       }
-      // frames de animação vêm com fundo opaco → flood-key + downscale
+      // frames de animação vêm com fundo opaco → flood-key + assenta na célula
       const picked = frames.slice(0, n);
-      rows.push(await Promise.all(picked.map((f) => keyDownscale(f, brief.size))));
+      rows.push(await Promise.all(picked.map((f) => seatFrame(f, box, brief.size, true))));
     }
     const file = path.join(ASSETS_DIR, "_incoming", `${brief.id}.${anim}.png`);
     await composeGrid(file, rows, brief.size);

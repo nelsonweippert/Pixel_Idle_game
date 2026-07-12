@@ -12,13 +12,8 @@ import { GRID } from "./MockEngine";
 const TILE = 32;
 const WORLD_W = GRID.w * TILE;
 const WORLD_H = GRID.h * TILE;
-const HERO_SPRITE_SCALE = 1; // 64px nativo (~2 tiles de altura, overhang pra cima estilo Tibia)
-// Pixellab centraliza o personagem no frame: ~30px de conteúdo (y17..47) num
-// frame de 64 → ~16px transparentes ABAIXO do pé. Sem compensar, o sprite
-// "flutua" acima da sombra. Estes offsets assentam o pé na linha do chão.
-const SPR_FEET_PAD = 16; // px vazios abaixo do pé no frame
-const SPR_CONTENT_H = 30; // altura do conteúdo do personagem
-const GROUND_Y = TILE * 0.42; // linha do chão (onde a sombra é desenhada)
+const HERO_SPRITE_SCALE = 1; // 64px nativo (a Forja já assenta o conteúdo preenchendo a célula)
+const GROUND_Y = TILE * 0.42; // linha do chão (onde o pé do sprite fica)
 
 interface Sprite {
   root: Container;
@@ -33,8 +28,13 @@ interface Sprite {
   flash: number;
 }
 
-/** direção de spritesheet (linha) por facing — heróis encaram leste (monstros à direita) */
-type SheetSet = { idle: Spritesheet; walk: Spritesheet; attack: Spritesheet };
+/** spritesheets de uma entidade (idle obrigatório; walk/attack opcionais).
+ *  Heróis encaram leste (monstros à direita); monstros encaram oeste. */
+type SheetSet = { idle: Spritesheet; walk?: Spritesheet; attack?: Spritesheet };
+
+const HERO_VOCATIONS = ["knight", "ranger", "cleric", "sorcerer"];
+const CREATURE_IDS = ["cave-rat", "grey-wolf", "bandit", "giant-spider"];
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 interface Float {
   t: Text;
@@ -62,7 +62,6 @@ export class HuntScene {
   private app = new Application();
   private world = new Container();
   private floorLayer = new Container();
-  private shadowLayer = new Container();
   private entityLayer = new Container();
   private fxLayer = new Container();
   private sprites = new Map<string, Sprite>();
@@ -72,7 +71,8 @@ export class HuntScene {
   private host!: HTMLElement;
   private ro?: ResizeObserver;
   private ready = false;
-  private knight?: SheetSet; // sprites reais da Forja (idle/walk/attack)
+  private heroSheets = new Map<string, SheetSet>(); // por vocação
+  private creatureSheets = new Map<string, SheetSet>(); // por slug do nome
 
   async init(host: HTMLElement, region: RegionDef) {
     this.host = host;
@@ -88,7 +88,7 @@ export class HuntScene {
 
     await this.loadSprites();
 
-    this.world.addChild(this.floorLayer, this.shadowLayer, this.entityLayer, this.fxLayer);
+    this.world.addChild(this.floorLayer, this.entityLayer, this.fxLayer);
     this.app.stage.addChild(this.world);
     this.drawFloor();
     this.layout();
@@ -144,64 +144,86 @@ export class HuntScene {
 
   // ── carregamento de sprites reais (saída da Forja) ──────────────────────────
   private async loadSprites() {
-    try {
-      const [idle, walk, attack] = await Promise.all([
-        this.loadSheet("/sprites/knight.idle"),
-        this.loadSheet("/sprites/knight.walk"),
-        this.loadSheet("/sprites/knight.attack"),
-      ]);
-      this.knight = { idle, walk, attack };
-    } catch (err) {
-      // sem sprites → cai no fallback procedural (paintBody). Não quebra a cena.
-      console.warn("[HuntScene] sprites do knight não carregaram, usando fallback:", err);
+    for (const v of HERO_VOCATIONS) {
+      const set = await this.loadSet(`/sprites/${v}`);
+      if (set) this.heroSheets.set(v, set);
+    }
+    for (const c of CREATURE_IDS) {
+      const set = await this.loadSet(`/sprites/${c}`);
+      if (set) this.creatureSheets.set(c, set);
     }
   }
 
-  /** carrega um spritesheet Pixi da Forja (PNG + JSON co-localizados), nearest-scale. */
-  private async loadSheet(base: string): Promise<Spritesheet> {
-    const data = await (await fetch(`${base}.json`)).json();
-    const texture = await Assets.load(`${base}.png`);
-    texture.source.scaleMode = "nearest";
-    const sheet = new Spritesheet(texture, data);
-    await sheet.parse();
-    return sheet;
+  /** carrega o SheetSet de um id (idle obrigatório; walk/attack se existirem). */
+  private async loadSet(base: string): Promise<SheetSet | null> {
+    const idle = await this.loadSheet(`${base}.idle`);
+    if (!idle) return null; // sem idle → fallback procedural
+    const [walk, attack] = await Promise.all([
+      this.loadSheet(`${base}.walk`),
+      this.loadSheet(`${base}.attack`),
+    ]);
+    return { idle, walk: walk ?? undefined, attack: attack ?? undefined };
   }
 
-  /** troca o estado de animação de um sprite real (idle laço / attack uma vez). */
+  /** carrega um spritesheet Pixi da Forja (PNG + JSON co-localizados). null se não existir. */
+  private async loadSheet(base: string): Promise<Spritesheet | null> {
+    try {
+      const res = await fetch(`${base}.json`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const texture = await Assets.load(`${base}.png`);
+      texture.source.scaleMode = "nearest";
+      const sheet = new Spritesheet(texture, data);
+      await sheet.parse();
+      return sheet;
+    } catch {
+      return null;
+    }
+  }
+
+  private sheetFor(e: CombatEntity): SheetSet | undefined {
+    return e.kind === "hero"
+      ? this.heroSheets.get(e.vocation ?? "")
+      : this.creatureSheets.get(slug(e.name));
+  }
+
+  /** troca o estado de animação (idle laço / attack uma vez, se houver sheet). */
   private playState(s: Sprite, state: "idle" | "attack") {
-    if (!s.anim || !this.knight || s.state === state) return;
-    s.state = state;
-    const set = this.knight;
+    if (!s.anim || s.state === state) return;
+    const set = this.sheetFor(s.entity);
+    if (!set) return;
+    const facing = s.entity.kind === "hero" ? "east" : "west";
     if (state === "attack") {
-      s.anim.textures = set.attack.animations.east;
+      if (!set.attack) return; // sem sheet de ataque → fica no idle
+      s.anim.textures = set.attack.animations[facing];
       s.anim.loop = false;
       s.anim.animationSpeed = 10 / 60;
       s.anim.gotoAndPlay(0);
       s.anim.onComplete = () => this.playState(s, "idle");
+      s.state = "attack";
     } else {
-      s.anim.textures = set.idle.animations.east;
+      s.anim.textures = set.idle.animations[facing];
       s.anim.loop = true;
       s.anim.animationSpeed = 2 / 60;
       s.anim.onComplete = () => {};
       s.anim.gotoAndPlay(0);
+      s.state = "idle";
     }
   }
 
   // ── sprites ────────────────────────────────────────────────────────────────
   private makeSprite(e: CombatEntity): Sprite {
     const root = new Container();
-    const shadow = new Graphics().ellipse(0, TILE * 0.42, 11, 4).fill({ color: 0x000000, alpha: 0.35 });
-    this.shadowLayer.addChild(shadow);
 
-    // knight tem sprite real (Forja); resto usa figura procedural
+    // entidade com sprite real da Forja → AnimatedSprite; senão figura procedural
+    const set = this.sheetFor(e);
     const body = new Graphics();
     let anim: AnimatedSprite | undefined;
-    if (e.vocation === "knight" && this.knight) {
-      anim = new AnimatedSprite(this.knight.idle.animations.east);
-      anim.anchor.set(0.5, 1); // âncora no fundo do frame
-      // fundo do frame fica ABAIXO do pé real por SPR_FEET_PAD → empurra pra
-      // baixo pra o pé visível cair na linha da sombra (não flutua)
-      anim.position.set(0, GROUND_Y + SPR_FEET_PAD * HERO_SPRITE_SCALE);
+    if (set) {
+      const facing = e.kind === "hero" ? "east" : "west";
+      anim = new AnimatedSprite(set.idle.animations[facing]);
+      anim.anchor.set(0.5, 1); // âncora no pé (o sprite já preenche a célula)
+      anim.position.set(0, GROUND_Y); // pé na linha do chão
       anim.scale.set(HERO_SPRITE_SCALE);
       anim.animationSpeed = 2 / 60;
       anim.play();
@@ -209,8 +231,8 @@ export class HuntScene {
       this.paintBody(body, e);
     }
 
-    // barra de hp + rótulo — acima da cabeça (sprite alto vs caixa baixa)
-    const headY = anim ? GROUND_Y - SPR_CONTENT_H * HERO_SPRITE_SCALE - 6 : -TILE * 0.55;
+    // barra de hp + rótulo — acima da cabeça (sprite alto preenchendo a célula)
+    const headY = anim ? GROUND_Y - 62 * HERO_SPRITE_SCALE : -TILE * 0.55;
     const hpWrap = new Container();
     const hpBg = new Graphics().rect(-12, 0, 24, 4).fill(0x000000);
     const hpFill = new Graphics().rect(-11, 1, 22, 2).fill(0x6fbf73);
@@ -228,9 +250,6 @@ export class HuntScene {
     const px = tileToPx(e.tile);
     root.position.set(px.x, px.y);
     this.entityLayer.addChild(root);
-
-    // shadow segue o root
-    (root as Container & { _shadow?: Graphics })._shadow = shadow;
 
     return { root, body, anim, state: anim ? "idle" : undefined, hpFill, hpWrap, entity: e, ox: 0, oy: 0, flash: 0 };
   }
@@ -333,8 +352,6 @@ export class HuntScene {
   private removeSprite(id: string) {
     const s = this.sprites.get(id);
     if (!s) return;
-    const shadow = (s.root as Container & { _shadow?: Graphics })._shadow;
-    if (shadow) shadow.destroy();
     s.root.destroy({ children: true });
     this.sprites.delete(id);
   }
@@ -393,8 +410,6 @@ export class HuntScene {
       if (Math.abs(s.ox) < 0.2) s.ox = 0;
       const px = tileToPx(s.entity.tile);
       s.root.position.set(px.x + s.ox, px.y + s.oy);
-      const shadow = (s.root as Container & { _shadow?: Graphics })._shadow;
-      if (shadow) shadow.position.set(px.x, px.y);
       const node = s.anim ?? s.body;
       if (s.flash > 0) {
         s.flash -= dt;
