@@ -14,6 +14,7 @@ const WORLD_W = GRID.w * TILE;
 const WORLD_H = GRID.h * TILE;
 const HERO_SPRITE_SCALE = 1; // 64px nativo (a Forja já assenta o conteúdo preenchendo a célula)
 const GROUND_Y = TILE * 0.42; // linha do chão (onde o pé do sprite fica)
+const FACING = "south"; // frente (rosto/escudo visíveis) — a pose mais legível pra exibir o personagem
 
 interface Sprite {
   root: Container;
@@ -26,6 +27,7 @@ interface Sprite {
   ox: number; // deslocamento de lunge
   oy: number;
   flash: number;
+  bobPhase: number; // fase da respiração (idle vivo, por código)
 }
 
 /** spritesheets de uma entidade (idle obrigatório; walk/attack opcionais).
@@ -71,6 +73,7 @@ export class HuntScene {
   private host!: HTMLElement;
   private ro?: ResizeObserver;
   private ready = false;
+  private time = 0; // acumulador pra animações por código (respiração)
   private heroSheets = new Map<string, SheetSet>(); // por vocação
   private creatureSheets = new Map<string, SheetSet>(); // por slug do nome
 
@@ -192,17 +195,16 @@ export class HuntScene {
     if (!s.anim || s.state === state) return;
     const set = this.sheetFor(s.entity);
     if (!set) return;
-    const facing = s.entity.kind === "hero" ? "east" : "west";
     if (state === "attack") {
       if (!set.attack) return; // sem sheet de ataque → fica no idle
-      s.anim.textures = set.attack.animations[facing];
+      s.anim.textures = set.attack.animations[FACING];
       s.anim.loop = false;
       s.anim.animationSpeed = 10 / 60;
       s.anim.gotoAndPlay(0);
       s.anim.onComplete = () => this.playState(s, "idle");
       s.state = "attack";
     } else {
-      s.anim.textures = set.idle.animations[facing];
+      s.anim.textures = set.idle.animations[FACING];
       s.anim.loop = true;
       s.anim.animationSpeed = 2 / 60;
       s.anim.onComplete = () => {};
@@ -220,8 +222,7 @@ export class HuntScene {
     const body = new Graphics();
     let anim: AnimatedSprite | undefined;
     if (set) {
-      const facing = e.kind === "hero" ? "east" : "west";
-      anim = new AnimatedSprite(set.idle.animations[facing]);
+      anim = new AnimatedSprite(set.idle.animations[FACING]);
       anim.anchor.set(0.5, 1); // âncora no pé (o sprite já preenche a célula)
       anim.position.set(0, GROUND_Y); // pé na linha do chão
       anim.scale.set(HERO_SPRITE_SCALE);
@@ -251,7 +252,7 @@ export class HuntScene {
     root.position.set(px.x, px.y);
     this.entityLayer.addChild(root);
 
-    return { root, body, anim, state: anim ? "idle" : undefined, hpFill, hpWrap, entity: e, ox: 0, oy: 0, flash: 0 };
+    return { root, body, anim, state: anim ? "idle" : undefined, hpFill, hpWrap, entity: e, ox: 0, oy: 0, flash: 0, bobPhase: Math.random() * Math.PI * 2 };
   }
 
   /** figura pixel simples: sombra + corpo + cabeça + dica de arma / olhos */
@@ -404,7 +405,8 @@ export class HuntScene {
   }
 
   private update(dt: number) {
-    // lunge decay + flash
+    this.time += dt;
+    // lunge decay + flash + respiração
     for (const s of this.sprites.values()) {
       s.ox *= Math.pow(0.001, dt / 1000);
       if (Math.abs(s.ox) < 0.2) s.ox = 0;
@@ -416,6 +418,11 @@ export class HuntScene {
         node.tint = 0xff6666;
       } else {
         node.tint = 0xffffff;
+      }
+      // respiração: sprites reais "respiram" (squash vertical sutil; âncora no pé
+      // mantém o pé plantado). Dá vida ao idle de 1 frame sem custo de API.
+      if (s.anim) {
+        s.anim.scale.y = HERO_SPRITE_SCALE * (1 + Math.sin(this.time / 650 + s.bobPhase) * 0.03);
       }
     }
     // floats

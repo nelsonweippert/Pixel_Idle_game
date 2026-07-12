@@ -3,6 +3,121 @@
   "palette": "Resurrect 64",
   "assets": [
     {
+      "id": "bandit",
+      "type": "creature",
+      "anim": "idle",
+      "path": "sprites/bandit.idle.png",
+      "sheet": "sprites/bandit.idle.json",
+      "width": 64,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 1,
+      "directions": 4,
+      "fps": 4,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 19,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\bandit.idle.png",
+      "validatedAt": "2026-07-12T01:46:33.364Z"
+    },
+    {
+      "id": "cave-rat",
+      "type": "creature",
+      "anim": "idle",
+      "path": "sprites/cave-rat.idle.png",
+      "sheet": "sprites/cave-rat.idle.json",
+      "width": 64,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 1,
+      "directions": 4,
+      "fps": 4,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 24,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\cave-rat.idle.png",
+      "validatedAt": "2026-07-12T01:39:37.757Z"
+    },
+    {
+      "id": "cleric",
+      "type": "character",
+      "anim": "idle",
+      "path": "sprites/cleric.idle.png",
+      "sheet": "sprites/cleric.idle.json",
+      "width": 64,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 1,
+      "directions": 4,
+      "fps": 2,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 31,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\cleric.idle.png",
+      "validatedAt": "2026-07-12T01:30:54.410Z"
+    },
+    {
+      "id": "giant-spider",
+      "type": "creature",
+      "anim": "idle",
+      "path": "sprites/giant-spider.idle.png",
+      "sheet": "sprites/giant-spider.idle.json",
+      "width": 64,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 1,
+      "directions": 4,
+      "fps": 4,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 21,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\giant-spider.idle.png",
+      "validatedAt": "2026-07-12T01:49:37.447Z"
+    },
+    {
+      "id": "grey-wolf",
+      "type": "creature",
+      "anim": "idle",
+      "path": "sprites/grey-wolf.idle.png",
+      "sheet": "sprites/grey-wolf.idle.json",
+      "width": 64,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 1,
+      "directions": 4,
+      "fps": 4,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 13,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\grey-wolf.idle.png",
+      "validatedAt": "2026-07-12T01:42:59.488Z"
+    },
+    {
       "id": "knight",
       "type": "character",
       "anim": "attack",
@@ -42,11 +157,11 @@
         "x": 0.5,
         "y": 1
       },
-      "colors": 23,
+      "colors": 18,
       "pixelScale": 1,
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\knight.idle.png",
-      "validatedAt": "2026-07-12T00:49:47.578Z"
+      "validatedAt": "2026-07-12T01:20:47.251Z"
     },
     {
       "id": "knight",
@@ -70,6 +185,29 @@
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\knight.walk.png",
       "validatedAt": "2026-07-12T00:49:47.660Z"
+    },
+    {
+      "id": "ranger",
+      "type": "character",
+      "anim": "idle",
+      "path": "sprites/ranger.idle.png",
+      "sheet": "sprites/ranger.idle.json",
+      "width": 64,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 1,
+      "directions": 4,
+      "fps": 2,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 24,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\ranger.idle.png",
+      "validatedAt": "2026-07-12T01:26:04.572Z"
     }
   ]
 }
