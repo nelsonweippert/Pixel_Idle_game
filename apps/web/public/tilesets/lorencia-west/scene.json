@@ -1,0 +1,17 @@
+{
+  "name": "Planície Oeste",
+  "tileW": 64,
+  "tileH": 64,
+  "width": 48,
+  "height": 30,
+  "baked": "floor.jpg",
+  "pxW": 3072,
+  "pxH": 1920,
+  "battle": {
+    "x": 4,
+    "y": 2,
+    "w": 40,
+    "h": 26
+  },
+  "smooth": true
+}

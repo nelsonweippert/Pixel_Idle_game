@@ -1,0 +1,392 @@
+{
+  "frames": {
+    "walk.south.0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.south.1": {
+      "frame": {
+        "x": 59,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.south.2": {
+      "frame": {
+        "x": 118,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.south.3": {
+      "frame": {
+        "x": 177,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.north.0": {
+      "frame": {
+        "x": 0,
+        "y": 48,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.north.1": {
+      "frame": {
+        "x": 59,
+        "y": 48,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.north.2": {
+      "frame": {
+        "x": 118,
+        "y": 48,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.north.3": {
+      "frame": {
+        "x": 177,
+        "y": 48,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.east.0": {
+      "frame": {
+        "x": 0,
+        "y": 96,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.east.1": {
+      "frame": {
+        "x": 59,
+        "y": 96,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.east.2": {
+      "frame": {
+        "x": 118,
+        "y": 96,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.east.3": {
+      "frame": {
+        "x": 177,
+        "y": 96,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.west.0": {
+      "frame": {
+        "x": 0,
+        "y": 144,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.west.1": {
+      "frame": {
+        "x": 59,
+        "y": 144,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.west.2": {
+      "frame": {
+        "x": 118,
+        "y": 144,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.west.3": {
+      "frame": {
+        "x": 177,
+        "y": 144,
+        "w": 59,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 59,
+        "h": 48
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "animations": {
+    "south": [
+      "walk.south.0",
+      "walk.south.1",
+      "walk.south.2",
+      "walk.south.3"
+    ],
+    "north": [
+      "walk.north.0",
+      "walk.north.1",
+      "walk.north.2",
+      "walk.north.3"
+    ],
+    "east": [
+      "walk.east.0",
+      "walk.east.1",
+      "walk.east.2",
+      "walk.east.3"
+    ],
+    "west": [
+      "walk.west.0",
+      "walk.west.1",
+      "walk.west.2",
+      "walk.west.3"
+    ]
+  },
+  "meta": {
+    "image": "spider.walk.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 236,
+      "h": 192
+    },
+    "scale": 1,
+    "fps": 10
+  }
+}

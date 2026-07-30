@@ -1,0 +1,484 @@
+{
+  "frames": {
+    "walk.south.0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.south.1": {
+      "frame": {
+        "x": 84,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.south.2": {
+      "frame": {
+        "x": 168,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.south.3": {
+      "frame": {
+        "x": 252,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.south.4": {
+      "frame": {
+        "x": 336,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.north.0": {
+      "frame": {
+        "x": 0,
+        "y": 113,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.north.1": {
+      "frame": {
+        "x": 84,
+        "y": 113,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.north.2": {
+      "frame": {
+        "x": 168,
+        "y": 113,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.north.3": {
+      "frame": {
+        "x": 252,
+        "y": 113,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.north.4": {
+      "frame": {
+        "x": 336,
+        "y": 113,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.east.0": {
+      "frame": {
+        "x": 0,
+        "y": 226,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.east.1": {
+      "frame": {
+        "x": 84,
+        "y": 226,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.east.2": {
+      "frame": {
+        "x": 168,
+        "y": 226,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.east.3": {
+      "frame": {
+        "x": 252,
+        "y": 226,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.east.4": {
+      "frame": {
+        "x": 336,
+        "y": 226,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.west.0": {
+      "frame": {
+        "x": 0,
+        "y": 339,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.west.1": {
+      "frame": {
+        "x": 84,
+        "y": 339,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.west.2": {
+      "frame": {
+        "x": 168,
+        "y": 339,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.west.3": {
+      "frame": {
+        "x": 252,
+        "y": 339,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "walk.west.4": {
+      "frame": {
+        "x": 336,
+        "y": 339,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "animations": {
+    "south": [
+      "walk.south.0",
+      "walk.south.1",
+      "walk.south.2",
+      "walk.south.3",
+      "walk.south.4"
+    ],
+    "north": [
+      "walk.north.0",
+      "walk.north.1",
+      "walk.north.2",
+      "walk.north.3",
+      "walk.north.4"
+    ],
+    "east": [
+      "walk.east.0",
+      "walk.east.1",
+      "walk.east.2",
+      "walk.east.3",
+      "walk.east.4"
+    ],
+    "west": [
+      "walk.west.0",
+      "walk.west.1",
+      "walk.west.2",
+      "walk.west.3",
+      "walk.west.4"
+    ]
+  },
+  "meta": {
+    "image": "giant.walk.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 420,
+      "h": 452
+    },
+    "scale": 1,
+    "fps": 10
+  }
+}

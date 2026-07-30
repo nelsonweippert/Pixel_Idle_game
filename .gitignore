@@ -35,3 +35,10 @@ __wtest.txt
 assets/_work/
 assets/_incoming/
 assets/library/_tmp/
+
+# intake de packs de terceiros (bruto, não versiona)
+assets/_packs/
+
+# sessão autenticada CraftPix (cookies — NUNCA versiona)
+tools/.craftpix-auth.json
+assets/_packs/_zips/

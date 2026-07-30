@@ -15,7 +15,7 @@
 import sharp from "sharp";
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { createCharacter8dPro, animateV3, pollJob, extractImages } from "./pixellab";
+import { createCharacter8dPro, createImagePixflux, animateV3, pollJob, extractImages } from "./pixellab";
 import { ASSETS_DIR } from "./manifest";
 import { DIRECTION_ORDER } from "./spec";
 import { loadImage, contentBounds } from "./image";
@@ -26,6 +26,15 @@ import { loadImage, contentBounds } from "./image";
  *  a célula — quanto maior o master, mais detalhe real sobra no downscale. */
 const MASTER_REQUEST = 128;
 
+/** tamanho do master pixflux. Ele RESPEITA o size (32–400) e entrega detalhe real
+ *  nesse tamanho — pedimos 128 (2× a célula 64) pra sobrar detalhe no downscale. */
+const PIXFLUX_MASTER = 128;
+
+/** cauda de estilo pro pixflux. O acabamento (outline/shading/detail) vai nos
+ *  PARÂMETROS do endpoint; aqui só mood/paleta. */
+const PIXFLUX_STYLE =
+  "dark fantasy medieval RPG, vibrant saturated colors, dramatic lighting, clean readable silhouette, no anti-aliasing";
+
 /** boost de saturação no assentamento — cores vibrantes "chamam atenção" (o snap
  *  pra Resurrect 64 + prompt tendiam a abafar). Aplicado antes do snap, puxa as
  *  cores pra entradas mais vivas da paleta. */
@@ -34,9 +43,9 @@ const SATURATION = 1.4;
 /** style-prompt fixo — trava o look (dark high-fantasy, top-down, legível).
  *  Genérico de propósito: nunca imitar IP específico (só "estilo", nunca a arte). */
 export const STYLE =
-  "high-fantasy pixel art character, top-down RPG sprite, bold dark outline around the silhouette, " +
-  "rich saturated colors, dramatic top-down lighting with bright rim highlights, high contrast cel shading, " +
-  "dark fantasy medieval, clean readable silhouette, polished game art, no anti-aliasing";
+  "high-fantasy pixel art character, top-down orthogonal RPG sprite, bold dark outline around the silhouette, " +
+  "limited palette with vibrant saturated accent colors, flat cel shading with light dithering, hard top light, " +
+  "chunky readable proportions, dark fantasy medieval, clean silhouette, no anti-aliasing";
 
 export type AnimName = "idle" | "walk" | "attack";
 
@@ -51,6 +60,13 @@ export interface Brief {
   view?: string;
   /** quais animações produzir */
   anims: AnimName[];
+  /** motor de geração do estático. "pixflux" = imagem única alta fidelidade (default,
+   *  padrão de qualidade novo); "8d" = create-character-with-8-directions (legado). */
+  engine?: "pixflux" | "8d";
+  /** direções a GERAR de fato (pixflux). As demais cardeais são replicadas da 1ª
+   *  (default = só ["south"], já que a cena é south-facing; N/E/W viram cópia do sul
+   *  até derivarmos direções consistentes via bitforge/rotate). "8d" ignora isto. */
+  dirs?: string[];
 }
 
 /** frames por direção que pedimos ao animador. animate-v3 exige frame_count≥4
@@ -134,7 +150,19 @@ async function floodKeyBuffer(file: string): Promise<Buffer> {
  * Pixellab), reescala NEAREST pra preencher ~92% da altura da célula e ancora o pé
  * embaixo, centralizado. É downscale (do master grande) → detalhe real, sem borrar.
  */
-async function seatFrame(file: string, box: BoxFrac, cell: number, doKey: boolean): Promise<Buffer> {
+interface SeatOpts {
+  /** frame vem com fundo opaco (animate-v3) → flood-fill antes de assentar */
+  key?: boolean;
+  /** aplica o outline escuro chapado. FALSE pro pixflux (já traz outline seletivo). */
+  outline?: boolean;
+  /** boost de saturação (1 = neutro). Pixflux já sai vibrante → ~1.0. */
+  sat?: number;
+}
+
+async function seatFrame(file: string, box: BoxFrac, cell: number, o: SeatOpts = {}): Promise<Buffer> {
+  const doKey = o.key ?? false;
+  const doOutline = o.outline ?? true;
+  const sat = o.sat ?? SATURATION;
   const src = doKey ? await floodKeyBuffer(file) : await sharp(file).ensureAlpha().png().toBuffer();
   const meta = await sharp(src).metadata();
   const W = meta.width ?? cell;
@@ -154,7 +182,7 @@ async function seatFrame(file: string, box: BoxFrac, cell: number, doKey: boolea
   const region = await sharp(src)
     .extract(ex)
     .resize(w, h, { kernel: "nearest", fit: "fill" })
-    .modulate({ saturation: SATURATION }) // cores mais vivas antes do snap
+    .modulate({ saturation: sat }) // cores mais vivas antes do snap
     .png()
     .toBuffer();
   const left = Math.max(0, Math.round((cell - w) / 2));
@@ -163,7 +191,7 @@ async function seatFrame(file: string, box: BoxFrac, cell: number, doKey: boolea
     .composite([{ input: region, left, top }])
     .png()
     .toBuffer();
-  return addOutline(cellBuf, cell);
+  return doOutline ? addOutline(cellBuf, cell) : cellBuf;
 }
 
 /**
@@ -257,10 +285,10 @@ export async function generate(
   const workRoot = opts.workRoot ?? path.join(ASSETS_DIR, "_work");
   const work = path.join(workRoot, brief.id.replace(/[\\/]/g, "__"));
   const masterDir = path.join(work, "master");
-  const description = `${brief.subject}, ${STYLE}`;
+  const engine = brief.engine ?? "pixflux";
   const cardinals = [...DIRECTION_ORDER]; // south, north, east, west
 
-  // ── 1) estático 8d PRO (resumível) ──────────────────────────────────────
+  // ── 1) estático (resumível): masters por direção em <work>/master/<dir>.png ──
   const master: Record<string, string> = {};
   const cached = await Promise.all(
     cardinals.map(async (d) => {
@@ -273,10 +301,37 @@ export async function generate(
     cardinals.forEach((d, i) => (master[d] = cached[i]!));
     masterPx = (await sharp(cached[0]!).metadata()).width ?? 0;
     log(`static: reusando masters (${masterPx}px) em ${path.relative(ASSETS_DIR, masterDir)}`);
+  } else if (engine === "pixflux") {
+    // gera só as direções pedidas (default só sul); replica o resto → coerência +
+    // economia (1 gen em vez de 4). alta fidelidade, síncrono.
+    const wantDirs = (brief.dirs ?? ["south"]).filter((d) => cardinals.includes(d as (typeof cardinals)[number]));
+    if (!wantDirs.length) wantDirs.push("south");
+    log(`static: gerando pixflux ${PIXFLUX_MASTER}px (dirs: ${wantDirs.join(",")}; resto replicado)…`);
+    const desc = `${brief.subject}, ${PIXFLUX_STYLE}`;
+    for (const d of wantDirs) {
+      const f = path.join(masterDir, `${d}.png`);
+      if (await exists(f)) {
+        master[d] = f;
+        continue;
+      }
+      const im = await createImagePixflux({
+        description: desc,
+        size: PIXFLUX_MASTER,
+        direction: d,
+        view: brief.view,
+      });
+      await saveB64(f, im.b64);
+      master[d] = f;
+      masterPx = im.width;
+      log(`  ${d}: ${im.width}px ✓`);
+    }
+    // replica a 1ª direção gerada nas cardeais faltantes (N/E/W = cópia do sul)
+    const fallback = master[wantDirs[0]];
+    for (const d of cardinals) if (!master[d]) master[d] = fallback;
   } else {
     log(`static: gerando 8d PRO (req ${MASTER_REQUEST}px master, PRO entrega ~1.75×)…`);
     const { jobId } = await createCharacter8dPro({
-      description,
+      description: `${brief.subject}, ${STYLE}`,
       size: MASTER_REQUEST,
       view: brief.view,
     });
@@ -292,18 +347,23 @@ export async function generate(
     }
   }
   for (const d of cardinals)
-    if (!master[d]) throw new Error(`master faltando pra direção "${d}" — 8d incompleto`);
+    if (!master[d]) throw new Error(`master faltando pra direção "${d}" — estático incompleto`);
+  if (!masterPx) masterPx = (await sharp(master[cardinals[0]]).metadata()).width ?? 0;
 
   // caixa de conteúdo (recorta a margem do Pixellab) — vale pra todos os frames
   const box = await contentBoxFrac(cardinals.map((d) => master[d]));
   log(`seat: caixa ${(box.w * 100).toFixed(0)}%×${(box.h * 100).toFixed(0)}% do frame (conteúdo preenche a célula)`);
+
+  // pixflux já traz outline seletivo colorido + cor vibrante → não redobra outline
+  // nem satura por cima (mataria o cel-shade do artista). 8d = outline chapado + boost.
+  const seatBase: SeatOpts = engine === "pixflux" ? { outline: false, sat: 1.0 } : { outline: true, sat: SATURATION };
 
   // ── 2) por animação ─────────────────────────────────────────────────────
   const out: SheetOut[] = [];
   for (const anim of brief.anims) {
     if (anim === "idle") {
       // 1 frame/direção = o estático assentado. grid 1col × 4linhas.
-      const rows = await Promise.all(cardinals.map(async (d) => [await seatFrame(master[d], box, brief.size, false)]));
+      const rows = await Promise.all(cardinals.map(async (d) => [await seatFrame(master[d], box, brief.size, seatBase)]));
       const file = path.join(ASSETS_DIR, "_incoming", `${brief.id}.idle.png`);
       await composeGrid(file, rows, brief.size);
       out.push({ anim, file, frames: 1, directions: 4, masterPx });
@@ -313,12 +373,22 @@ export async function generate(
 
     const n = ANIM_FRAMES[anim];
     const rows: Buffer[][] = [];
+    // dedup: direções que compartilham o mesmo master (ex: N/E/W = cópia do sul)
+    // são animadas UMA vez só e replicadas → economiza jobs de animação.
+    const seatedByMaster = new Map<string, Buffer[]>();
     for (const d of cardinals) {
+      const mp = master[d];
+      const done = seatedByMaster.get(mp);
+      if (done) {
+        rows.push(done);
+        log(`${anim}/${d}: replicado (mesmo master do sul)`);
+        continue;
+      }
       const frameDir = path.join(work, anim, d);
       let frames = await listFrames(frameDir);
       if (frames.length < n) {
         log(`${anim}/${d}: animando (${n}f) a partir do master…`);
-        const first = (await fs.readFile(master[d])).toString("base64");
+        const first = (await fs.readFile(mp)).toString("base64");
         // retry a nível de JOB: o servidor do Pixellab dá falhas transientes
         // ("Generation failed", OOM, "can't start new thread"). Re-dispara o job.
         let imgs: ReturnType<typeof extractImages> = [];
@@ -347,7 +417,9 @@ export async function generate(
       }
       // frames de animação vêm com fundo opaco → flood-key + assenta na célula
       const picked = frames.slice(0, n);
-      rows.push(await Promise.all(picked.map((f) => seatFrame(f, box, brief.size, true))));
+      const seated = await Promise.all(picked.map((f) => seatFrame(f, box, brief.size, { ...seatBase, key: true })));
+      seatedByMaster.set(mp, seated);
+      rows.push(seated);
     }
     const file = path.join(ASSETS_DIR, "_incoming", `${brief.id}.${anim}.png`);
     await composeGrid(file, rows, brief.size);

@@ -1,0 +1,1107 @@
+{
+  "scenery/DesertElements": {
+    "theme": "deserto",
+    "tags": [
+      "cactos",
+      "rochas",
+      "palmeiras",
+      "obeliscos"
+    ],
+    "desc": "Elementos de deserto: cactos, rochas claras, palmeiras, agaves, obeliscos e troncos secos.",
+    "confidence": "alta"
+  },
+  "props/BonusFantasyTrees": {
+    "theme": "floresta",
+    "tags": [
+      "pinheiros",
+      "tocos",
+      "árvores mortas"
+    ],
+    "desc": "Pinheiros escuros, árvores secas e vários tocos de árvore em tom sombrio de floresta.",
+    "confidence": "alta"
+  },
+  "buildings/InteriorElementsSpriteSheet": {
+    "theme": "interior",
+    "tags": [
+      "móveis",
+      "tapetes",
+      "escadas",
+      "comida"
+    ],
+    "desc": "Móveis e itens de interior: camas, mesas, escadas, tapetes, troféus de caça, cestos e comida.",
+    "confidence": "alta"
+  },
+  "scenery/RoadsFantasySpriteSheet": {
+    "theme": "estrada",
+    "tags": [
+      "caminhos de terra",
+      "estátuas",
+      "feno",
+      "monumentos"
+    ],
+    "desc": "Trilhas e cruzamentos de estrada de terra, com estátuas de pedra, monumentos e montes de feno.",
+    "confidence": "alta"
+  },
+  "props/SnowTreesSpriteSheet": {
+    "theme": "neve",
+    "tags": [
+      "pinheiros nevados",
+      "tocos",
+      "arbustos"
+    ],
+    "desc": "Pinheiros e arbustos cobertos de neve, árvores secas e tocos em ambiente invernal.",
+    "confidence": "alta"
+  },
+  "buildings/CastleEnglish": {
+    "theme": "castelo",
+    "tags": [
+      "torres",
+      "ameias",
+      "ponte",
+      "poço"
+    ],
+    "desc": "Torres de castelo com ameias, fortim circular, ponte de pedra, poço, carroça e casinhas.",
+    "confidence": "alta"
+  },
+  "buildings/FortBuildings": {
+    "theme": "castelo",
+    "tags": [
+      "forte",
+      "quartéis",
+      "muros",
+      "casas de pedra"
+    ],
+    "desc": "Edifícios de forte em pedra clara com telhados escuros, quartéis, torres e seções de muro.",
+    "confidence": "media"
+  },
+  "buildings/PumpkinsFarm": {
+    "theme": "vila",
+    "tags": [
+      "abóboras",
+      "fazenda",
+      "espantalho",
+      "colheita"
+    ],
+    "desc": "Fazenda de abóboras: plantações, cestos de colheita, espantalhos, palheiro e jack-o'-lantern.",
+    "confidence": "media"
+  },
+  "scenery/Bridges": {
+    "theme": "agua",
+    "tags": [
+      "pontes",
+      "pedra",
+      "arcos"
+    ],
+    "desc": "Pontes de pedra com arcos e ameias para atravessar rios.",
+    "confidence": "alta"
+  },
+  "tiles/TileHighGrass": {
+    "theme": "floresta",
+    "tags": [
+      "grama alta",
+      "tiles",
+      "verde"
+    ],
+    "desc": "Tiles de grama alta verde para terreno de campo/floresta.",
+    "confidence": "alta"
+  },
+  "tiles/TilesMountains": {
+    "theme": "floresta",
+    "tags": [
+      "terra",
+      "grama",
+      "pedras",
+      "transições"
+    ],
+    "desc": "Tiles de terreno com transições terra-grama e pedras espalhadas, mais campo/planalto que penhasco cinza.",
+    "confidence": "media"
+  },
+  "tiles/TileWaterAnimated": {
+    "theme": "agua",
+    "tags": [
+      "água animada",
+      "ondas",
+      "margens"
+    ],
+    "desc": "Tiles animados de água azul-escura com ondas e bordas de margem.",
+    "confidence": "alta"
+  },
+  "wang/flagstone-mossgrass": {
+    "theme": "estrada",
+    "tags": [
+      "lajota",
+      "pedra",
+      "grama",
+      "transição"
+    ],
+    "desc": "Tileset wang de transição entre pavimento de lajotas de pedra e grama musgosa (caminho pavimentado).",
+    "confidence": "media"
+  },
+  "wang/water-flagstone": {
+    "theme": "agua",
+    "tags": [
+      "água",
+      "transição",
+      "raso"
+    ],
+    "desc": "Tileset wang de transição de água turquesa entre áreas rasas e profundas com borda escura.",
+    "confidence": "media"
+  },
+  "buildings/CaveSprites": {
+    "theme": "masmorra",
+    "tags": [
+      "caverna",
+      "entrada",
+      "rocha"
+    ],
+    "desc": "Entradas de caverna escuras em rocha com bordas pedregosas.",
+    "confidence": "alta"
+  },
+  "props/NatureFantasySpriteSheet": {
+    "theme": "outono",
+    "tags": [
+      "árvores",
+      "tocos",
+      "rochas",
+      "árvores secas"
+    ],
+    "desc": "Árvores de folhagem laranja/dourada, árvores mortas, tocos e rochas em clima outonal.",
+    "confidence": "media"
+  },
+  "buildings/InteriorItems": {
+    "theme": "interior",
+    "tags": [
+      "móveis",
+      "camas",
+      "lareira",
+      "tapetes"
+    ],
+    "desc": "Móveis e itens de interior: camas, armários, lareiras, escadas, tapetes e estandartes.",
+    "confidence": "alta"
+  },
+  "scenery/Shadows": {
+    "theme": "sombra",
+    "tags": [
+      "overlay",
+      "silhuetas"
+    ],
+    "desc": "Overlays de sombra escuros para árvores, pedras, cercas e outros objetos.",
+    "confidence": "alta"
+  },
+  "buildings/StoneWalls": {
+    "theme": "fortificacao",
+    "tags": [
+      "muralha",
+      "ameias",
+      "torre"
+    ],
+    "desc": "Segmentos modulares de muralha de pedra clara com ameias e torres.",
+    "confidence": "alta"
+  },
+  "buildings/CastleLimestone": {
+    "theme": "castelo",
+    "tags": [
+      "torres",
+      "muralha",
+      "portão",
+      "calcário"
+    ],
+    "desc": "Torres, muralhas, portões e estruturas de castelo em calcário claro com madeira.",
+    "confidence": "alta"
+  },
+  "buildings/GateAndTowerSprites": {
+    "theme": "castelo",
+    "tags": [
+      "portão",
+      "torre",
+      "paliçada",
+      "estacas"
+    ],
+    "desc": "Portões e torres defensivas de pedra escura com paliçadas e barreiras de estacas.",
+    "confidence": "alta"
+  },
+  "buildings/TentAndVillageElem": {
+    "theme": "vila",
+    "tags": [
+      "tendas",
+      "acampamento",
+      "neve",
+      "panos"
+    ],
+    "desc": "Tendas e elementos de acampamento, algumas cobertas de neve, com panos e itens de vila.",
+    "confidence": "media"
+  },
+  "scenery/RiverLakeSprites": {
+    "theme": "agua",
+    "tags": [
+      "lagoa",
+      "juncos",
+      "vitória-régia"
+    ],
+    "desc": "Poças e lagoas com juncos, plantas aquáticas e vitórias-régias.",
+    "confidence": "alta"
+  },
+  "tiles/TileEvilCliffs": {
+    "theme": "montanha",
+    "tags": [
+      "falésias",
+      "rocha escura",
+      "corrompido"
+    ],
+    "desc": "Tileset de falésias de rocha cinza-escura de aparência sombria, sem lava visível.",
+    "confidence": "media"
+  },
+  "tiles/TileIceBonus": {
+    "theme": "neve",
+    "tags": [
+      "gelo",
+      "rachaduras",
+      "buraco"
+    ],
+    "desc": "Tiles de gelo azul com rachaduras, bordas de neve e buraco no gelo.",
+    "confidence": "alta"
+  },
+  "wang/cobble-sandstone": {
+    "theme": "estrada",
+    "tags": [
+      "caminho de pedra",
+      "arenito",
+      "deserto",
+      "transição"
+    ],
+    "desc": "Tile wang de transição entre caminho de pedras escuras e arenito claro.",
+    "confidence": "media"
+  },
+  "wang/grass-wood": {
+    "theme": "floresta",
+    "tags": [
+      "grama",
+      "tábuas de madeira",
+      "transição"
+    ],
+    "desc": "Tile wang de transição entre grama verde e piso de tábuas de madeira.",
+    "confidence": "media"
+  },
+  "buildings/CemeterySprites": {
+    "theme": "cemiterio",
+    "tags": [
+      "lápides",
+      "criptas",
+      "cruzes",
+      "urnas"
+    ],
+    "desc": "Lápides, criptas, cruzes de madeira e urnas funerárias em pedra escura.",
+    "confidence": "alta"
+  },
+  "props/Stone": {
+    "theme": "montanha",
+    "tags": [
+      "rochas",
+      "pedregulhos",
+      "falésia"
+    ],
+    "desc": "Rochas e pedregulhos cinzentos de vários tamanhos, alguns com musgo.",
+    "confidence": "alta"
+  },
+  "buildings/InteriorSprites": {
+    "theme": "interior",
+    "tags": [
+      "móveis",
+      "mesas",
+      "camas",
+      "barris"
+    ],
+    "desc": "Móveis de interior em madeira: mesas, cadeiras, camas, estantes, barris e utensílios.",
+    "confidence": "alta"
+  },
+  "scenery/ShadowsSheet": {
+    "theme": "sombra",
+    "tags": [
+      "sombras",
+      "overlay",
+      "blobs"
+    ],
+    "desc": "Overlays de sombra escuros em formatos variados (círculos, retângulos, silhuetas).",
+    "confidence": "alta"
+  },
+  "props/BonusWalls": {
+    "theme": "fortificacao",
+    "tags": [
+      "muralha",
+      "ameias",
+      "arenito"
+    ],
+    "desc": "Segmentos modulares de muralha de arenito com ameias.",
+    "confidence": "alta"
+  },
+  "buildings/CastleStone": {
+    "theme": "castelo",
+    "tags": [
+      "torres",
+      "portões",
+      "muralhas",
+      "fortaleza"
+    ],
+    "desc": "Castelos, torres, portões e muralhas de pedra clara com telhados escuros.",
+    "confidence": "alta"
+  },
+  "buildings/MageTowerSpriteSheet": {
+    "theme": "templo",
+    "tags": [
+      "torre de mago",
+      "arcano",
+      "poções",
+      "mobília"
+    ],
+    "desc": "Torres de mago com telhados azuis e itens arcanos: círculo mágico, poções, velas, estantes e mobília.",
+    "confidence": "media"
+  },
+  "buildings/TentSprites": {
+    "theme": "vila",
+    "tags": [
+      "tendas",
+      "acampamento",
+      "mercado"
+    ],
+    "desc": "Tendas de acampamento e barracas de mercado em cores variadas.",
+    "confidence": "alta"
+  },
+  "tiles/TilesFantasyLands_Fall": {
+    "theme": "outono",
+    "tags": [
+      "grama seca",
+      "terra",
+      "dourado"
+    ],
+    "desc": "Tiles de terreno outonal dourado-laranja com manchas de terra e pedras.",
+    "confidence": "alta"
+  },
+  "tiles/TileLava": {
+    "theme": "vulcanico",
+    "tags": [
+      "lava",
+      "magma",
+      "bordas"
+    ],
+    "desc": "Tiles de lava incandescente com bordas de transição para terreno.",
+    "confidence": "alta"
+  },
+  "tiles/TileSnow": {
+    "theme": "neve",
+    "tags": [
+      "neve",
+      "gelo",
+      "rocha nevada"
+    ],
+    "desc": "Tiles de neve branca com poças de gelo azul, rochas e tufos de grama.",
+    "confidence": "alta"
+  },
+  "wang/sand-stones": {
+    "theme": "deserto",
+    "tags": [
+      "areia",
+      "pedras",
+      "transição"
+    ],
+    "desc": "Tileset wang de transição entre areia clara e pedras arredondadas cinzentas.",
+    "confidence": "alta"
+  },
+  "wang/stone-grass": {
+    "theme": "floresta",
+    "tags": [
+      "grama",
+      "pedra",
+      "transição"
+    ],
+    "desc": "Tileset wang de transição entre grama verde vibrante e pedra escura.",
+    "confidence": "media"
+  },
+  "buildings/Dungeon": {
+    "theme": "masmorra",
+    "tags": [
+      "tortura",
+      "altar",
+      "estátuas",
+      "ossos"
+    ],
+    "desc": "Props de interior de masmorra em pedra escura: tronos, altares com sangue, estátuas, portas de ferro, caveiras e blocos de pedra.",
+    "confidence": "alta"
+  },
+  "props/TreeAndStoneSprites": {
+    "theme": "floresta",
+    "tags": [
+      "árvores",
+      "tocos",
+      "rochas",
+      "pinheiros"
+    ],
+    "desc": "Árvores verdes, tocos, galhos secos, pinheiros e rochas para cenários de floresta.",
+    "confidence": "alta"
+  },
+  "buildings/EvilEnvironmentElements": {
+    "theme": "cemiterio",
+    "tags": [
+      "ossos",
+      "tortura",
+      "caldeirão",
+      "ritual"
+    ],
+    "desc": "Elementos de acampamento maligno: forcas, caldeirões verdes, caveiras, ossos, carne e apetrechos de ritual/tortura — não é lava.",
+    "confidence": "alta"
+  },
+  "scenery/StoneAndRoadsSpriteSheet": {
+    "theme": "estrada",
+    "tags": [
+      "neve",
+      "gelo",
+      "cristais",
+      "rochas"
+    ],
+    "desc": "Segmentos de estrada de pedra cobertos de neve (retas, curvas, cruzamentos) com cristais de gelo e rochas nevadas.",
+    "confidence": "media"
+  },
+  "props/Palisade": {
+    "theme": "fortificacao",
+    "tags": [
+      "paliçada",
+      "madeira",
+      "torre de vigia",
+      "escadas"
+    ],
+    "desc": "Paliçadas de madeira modulares com estacas, portões, torres de vigia, plataformas e escadas.",
+    "confidence": "alta"
+  },
+  "buildings/DestroyedHouseSprites": {
+    "theme": "ruinas",
+    "tags": [
+      "casa destruída",
+      "troncos",
+      "cadáveres",
+      "árvore seca"
+    ],
+    "desc": "Cabana em ruínas, troncos caídos, árvore morta, montes de terra e cadáveres — destroços de assentamento destruído.",
+    "confidence": "media"
+  },
+  "buildings/MonasterySprites": {
+    "theme": "templo",
+    "tags": [
+      "mosteiro",
+      "igreja",
+      "torres",
+      "muros"
+    ],
+    "desc": "Mosteiro de pedra clara com telhados azuis: capela com cruz, torres e segmentos de muro.",
+    "confidence": "alta"
+  },
+  "buildings/Towers": {
+    "theme": "castelo",
+    "tags": [
+      "torres",
+      "defesa",
+      "pedra",
+      "batalha"
+    ],
+    "desc": "Torres defensivas de pedra em variações intactas e danificadas, com soldados caídos e marcas de batalha.",
+    "confidence": "alta"
+  },
+  "tiles/DesertTiles": {
+    "theme": "deserto",
+    "tags": [
+      "areia",
+      "dunas",
+      "bordas"
+    ],
+    "desc": "Tiles de areia do deserto com dunas, pedras e bordas de transição.",
+    "confidence": "alta"
+  },
+  "tiles/TilesEvilLands": {
+    "theme": "vulcanico",
+    "tags": [
+      "terra corrompida",
+      "rachaduras",
+      "pedra escura"
+    ],
+    "desc": "Tiles de terra maligna escura e rachada com poças de corrupção — terreno corrompido sem lava visível.",
+    "confidence": "alta"
+  },
+  "tiles/TileSnowCliffs": {
+    "theme": "neve",
+    "tags": [
+      "falésias",
+      "penhascos",
+      "gelo"
+    ],
+    "desc": "Tiles de falésias e penhascos rochosos cobertos de neve com bordas de transição.",
+    "confidence": "alta"
+  },
+  "wang/dirt-flagstone": {
+    "theme": "masmorra",
+    "tags": [
+      "terra",
+      "lajota",
+      "transição",
+      "piso"
+    ],
+    "desc": "Wang tile de transição entre terra batida e piso de lajotas de pedra cinza, estilo interior de masmorra.",
+    "confidence": "media"
+  },
+  "wang/basalt-monochrome": {
+    "theme": "vulcanico",
+    "tags": [
+      "basalto",
+      "pedra roxa",
+      "transição"
+    ],
+    "desc": "Wang tile de blocos de basalto roxo-escuro sobre vazio escuro, para terreno vulcânico/maligno.",
+    "confidence": "media"
+  },
+  "buildings/Dungeon2": {
+    "theme": "masmorra",
+    "tags": [
+      "pilares",
+      "colunas",
+      "pedra escura"
+    ],
+    "desc": "Pilares e colunas verticais de pedra escura para interiores de masmorra.",
+    "confidence": "media"
+  },
+  "props/Trees": {
+    "theme": "floresta",
+    "tags": [
+      "árvores",
+      "tocos",
+      "troncos",
+      "árvores mortas"
+    ],
+    "desc": "Grande variedade de árvores verdes, pinheiros, tocos, troncos caídos e árvores secas.",
+    "confidence": "alta"
+  },
+  "scenery/RoadsEvilSpriteSheet": {
+    "theme": "estrada",
+    "tags": [
+      "caminhos sombrios",
+      "ossos",
+      "caveira",
+      "grama seca"
+    ],
+    "desc": "Peças de trilhas e caminhos de terra escura com decoração macabra de ossos, caveira e tufos de capim seco.",
+    "confidence": "alta"
+  },
+  "scenery/Swamp": {
+    "theme": "decoracao",
+    "tags": [
+      "pântano",
+      "rochas de lama",
+      "árvores mortas",
+      "esqueleto de peixe"
+    ],
+    "desc": "Props de pântano: montes de lama e rocha, galhos e árvores mortas, pedras e esqueleto de peixe.",
+    "confidence": "media"
+  },
+  "props/StatueandFenceSpriteSheet": {
+    "theme": "neve",
+    "tags": [
+      "cercas nevadas",
+      "estátuas",
+      "totens",
+      "pedras"
+    ],
+    "desc": "Cercas de madeira, postes, pedras e estátuas/totens todos cobertos de neve.",
+    "confidence": "media"
+  },
+  "buildings/DragonsTreasure": {
+    "theme": "tesouro",
+    "tags": [
+      "ouro",
+      "moedas",
+      "ovos de dragão",
+      "ninho"
+    ],
+    "desc": "Pilhas de ouro e moedas, ovos de dragão e ninho — tesouro de covil de dragão.",
+    "confidence": "alta"
+  },
+  "buildings/PremadeBuildingsBrick": {
+    "theme": "vila",
+    "tags": [
+      "casas de tijolo",
+      "torres",
+      "telhados",
+      "muros"
+    ],
+    "desc": "Edifícios prontos de tijolo vermelho: casas, torres e fachadas de assentamento.",
+    "confidence": "alta"
+  },
+  "buildings/TownSprites": {
+    "theme": "vila",
+    "tags": [
+      "casas de madeira",
+      "enxaimel",
+      "cidade medieval"
+    ],
+    "desc": "Casas e construções medievais de madeira e enxaimel para cidade/vila.",
+    "confidence": "alta"
+  },
+  "tiles/TileDungeon": {
+    "theme": "masmorra",
+    "tags": [
+      "pedra escura",
+      "cobblestone",
+      "piso"
+    ],
+    "desc": "Tiles de piso de pedra escura irregular estilo caverna/masmorra.",
+    "confidence": "alta"
+  },
+  "tiles/TilesEvilTile": {
+    "theme": "estrada",
+    "tags": [
+      "lajes de pedra",
+      "piso rachado",
+      "pavimento"
+    ],
+    "desc": "Quatro tiles de lajes de pedra clara desgastada e rachada formando pavimento no chão.",
+    "confidence": "baixa"
+  },
+  "buildings/ModularBonusRoofElements": {
+    "theme": "fortificacao",
+    "tags": [
+      "telhados modulares",
+      "telhas",
+      "marrom",
+      "roxo"
+    ],
+    "desc": "Grande conjunto modular de peças de telhado (bordas, cumeeiras, cantos) em variações marrom, roxa e azul.",
+    "confidence": "alta"
+  },
+  "wang/slate-gravel": {
+    "theme": "masmorra",
+    "tags": [
+      "ardósia",
+      "cascalho",
+      "transição de terreno"
+    ],
+    "desc": "Tileset wang de transição entre cascalho claro e rocha de ardósia escura com bordas em relevo.",
+    "confidence": "media"
+  },
+  "wang/obsidian-gold": {
+    "theme": "vulcanico",
+    "tags": [
+      "obsidiana",
+      "veios dourados",
+      "cristais vermelhos",
+      "corrompido"
+    ],
+    "desc": "Tileset wang de rocha de obsidiana escura com veios dourados e cristais vermelhos malignos.",
+    "confidence": "alta"
+  },
+  "buildings/MineSprites": {
+    "theme": "masmorra",
+    "tags": [
+      "mina",
+      "rochas",
+      "minério",
+      "cristais"
+    ],
+    "desc": "Entrada de mina, rochas e veios de minério com cristais roxos, mais mesas de madeira de mineração.",
+    "confidence": "alta"
+  },
+  "scenery/GreenPuddle": {
+    "theme": "agua",
+    "tags": [
+      "poça",
+      "gosma",
+      "veneno",
+      "pântano"
+    ],
+    "desc": "Poças verdes de gosma/líquido viscoso em vários formatos, estilo pântano ou veneno.",
+    "confidence": "media"
+  },
+  "scenery/MountainsAndRoads": {
+    "theme": "montanha",
+    "tags": [
+      "platôs",
+      "pedras",
+      "trilhas",
+      "estrada"
+    ],
+    "desc": "Platôs rochosos de terra e trilhas de pedrinhas formando caminhos.",
+    "confidence": "media"
+  },
+  "buildings/BuildingsSnowSpriteSheet": {
+    "theme": "castelo",
+    "tags": [
+      "neve",
+      "muralhas",
+      "torres",
+      "casas"
+    ],
+    "desc": "Torres, muralhas, portões e casas cobertos de neve, dominado por peças de castelo nevado.",
+    "confidence": "media"
+  },
+  "props/WoodenElements": {
+    "theme": "decoracao",
+    "tags": [
+      "estandartes",
+      "armas",
+      "caixas",
+      "barris"
+    ],
+    "desc": "Estandartes e bandeiras, armas (arcos, flechas, besta), caixas, prateleiras e baldes de madeira.",
+    "confidence": "media"
+  },
+  "buildings/ElvenBarracks": {
+    "theme": "interior",
+    "tags": [
+      "camas",
+      "mesas",
+      "quartel",
+      "fogueira"
+    ],
+    "desc": "Móveis de interior de quartel: camas de palha, mesas, bancos, escadas, fogueira e peles.",
+    "confidence": "alta"
+  },
+  "buildings/PremadeBuildingsStone": {
+    "theme": "vila",
+    "tags": [
+      "casas",
+      "pedra",
+      "telhado vermelho"
+    ],
+    "desc": "Casas prontas de pedra com telhados vermelhos, estilo assentamento medieval.",
+    "confidence": "alta"
+  },
+  "buildings/VillageBuildingSprites": {
+    "theme": "vila",
+    "tags": [
+      "casas",
+      "torres",
+      "oficinas"
+    ],
+    "desc": "Casas de vila variadas, oficinas e pequenas torres de pedra e madeira.",
+    "confidence": "alta"
+  },
+  "tiles/TileDungeon_Cliff": {
+    "theme": "masmorra",
+    "tags": [
+      "pedra escura",
+      "grades",
+      "espinhos",
+      "parede"
+    ],
+    "desc": "Tiles de parede e piso de pedra escura de masmorra com grades e espinhos.",
+    "confidence": "alta"
+  },
+  "tiles/TileCliff": {
+    "theme": "montanha",
+    "tags": [
+      "falésia",
+      "penhasco",
+      "grama",
+      "escadas"
+    ],
+    "desc": "Tiles de falésia de rocha cinza com bordas de grama e escadas de pedra.",
+    "confidence": "alta"
+  },
+  "buildings/ModularStoneElements": {
+    "theme": "fortificacao",
+    "tags": [
+      "muros",
+      "tijolos",
+      "telhado",
+      "arcos"
+    ],
+    "desc": "Peças modulares de construção em pedra e tijolo: muros, arcos, vigas e telhados soltos.",
+    "confidence": "alta"
+  },
+  "wang/slate-marble": {
+    "theme": "masmorra",
+    "tags": [
+      "ardósia",
+      "mármore",
+      "piso",
+      "transição"
+    ],
+    "desc": "Tileset wang de transição entre piso de ardósia escura e mármore claro, estilo interior de masmorra.",
+    "confidence": "media"
+  },
+  "wang/stone-cinnabar": {
+    "theme": "vulcanico",
+    "tags": [
+      "lava",
+      "cinábrio",
+      "pedra",
+      "transição"
+    ],
+    "desc": "Tileset wang de transição entre piso de pedra clara e terreno vermelho de cinábrio/lava.",
+    "confidence": "media"
+  },
+  "buildings/Ruins": {
+    "theme": "ruinas",
+    "tags": [
+      "muro quebrado",
+      "arco de pedra",
+      "entulho",
+      "grade"
+    ],
+    "desc": "Estruturas de pedra escura arruinadas: arcos, torres, muros quebrados, pedregulhos e portão com grade.",
+    "confidence": "media"
+  },
+  "buildings/ShadowsB": {
+    "theme": "sombra",
+    "tags": [
+      "sombra",
+      "overlay"
+    ],
+    "desc": "Overlays de sombra pretos para posicionar sob objetos.",
+    "confidence": "alta"
+  },
+  "scenery/Roads": {
+    "theme": "estrada",
+    "tags": [
+      "trilha de terra",
+      "grama",
+      "flores",
+      "cerca"
+    ],
+    "desc": "Trilhas e caminhos de terra com curvas e cruzamentos, mais tufos de grama, flores e uma cerca.",
+    "confidence": "alta"
+  },
+  "props/PalisadeSnow": {
+    "theme": "fortificacao",
+    "tags": [
+      "paliçada",
+      "madeira",
+      "neve"
+    ],
+    "desc": "Segmentos de paliçada de troncos de madeira com topos cobertos de neve.",
+    "confidence": "alta"
+  },
+  "props/WoodenElements2": {
+    "theme": "decoracao",
+    "tags": [
+      "carroça",
+      "tábuas",
+      "barco",
+      "tocha"
+    ],
+    "desc": "Props de madeira variados: carroça, tábuas e vigas, barco, tocha e estacas com caveira.",
+    "confidence": "media"
+  },
+  "buildings/ElvenBuildings_Village": {
+    "theme": "vila",
+    "tags": [
+      "casas",
+      "enxaimel",
+      "vigas",
+      "cercas"
+    ],
+    "desc": "Casas medievais de madeira e pedra com telhados variados, vigas, cercas e muros de assentamento.",
+    "confidence": "alta"
+  },
+  "buildings/PremadeBuildingsStoneWood": {
+    "theme": "vila",
+    "tags": [
+      "casas",
+      "pedra",
+      "madeira",
+      "portão"
+    ],
+    "desc": "Construções prontas de pedra e madeira: casas, portões e estruturas de assentamento medieval.",
+    "confidence": "alta"
+  },
+  "props/StoneCastleBonus": {
+    "theme": "castelo",
+    "tags": [
+      "muralha",
+      "portão",
+      "torre"
+    ],
+    "desc": "Segmentos de muralha e portões de pedra com portas de madeira, estilo castelo/forte.",
+    "confidence": "media"
+  },
+  "tiles/TileDungeonBonus": {
+    "theme": "masmorra",
+    "tags": [
+      "pedra escura",
+      "piso",
+      "entulho"
+    ],
+    "desc": "Tiles de piso de pedra escura de masmorra com bordas e pedras soltas.",
+    "confidence": "alta"
+  },
+  "tiles/TileCliffMountains": {
+    "theme": "montanha",
+    "tags": [
+      "penhasco",
+      "rocha",
+      "grama no topo"
+    ],
+    "desc": "Tiles de falésias de rocha cinza com vegetação verde-musgo no topo.",
+    "confidence": "alta"
+  },
+  "buildings/ModularWoodenElements": {
+    "theme": "fortificacao",
+    "tags": [
+      "madeira",
+      "telhado",
+      "pisos",
+      "modular"
+    ],
+    "desc": "Elementos modulares de construção: pisos e paredes de madeira, telhados triangulares, pedra e escada.",
+    "confidence": "alta"
+  },
+  "wang/cherry-petals": {
+    "theme": "floresta",
+    "tags": [
+      "pétalas",
+      "cerejeira",
+      "rosa"
+    ],
+    "desc": "Wang tile de chão coberto de pétalas rosa de cerejeira sobre fundo escuro.",
+    "confidence": "baixa"
+  },
+  "wang/frost-snow": {
+    "theme": "neve",
+    "tags": [
+      "gelo",
+      "frost",
+      "azul"
+    ],
+    "desc": "Wang tile de gelo/neve com padrão azul de frost e bordas congeladas.",
+    "confidence": "alta"
+  },
+  "buildings/TortureChamber": {
+    "theme": "cemiterio",
+    "tags": [
+      "tortura",
+      "jaulas",
+      "correntes",
+      "ossos"
+    ],
+    "desc": "Jaulas de ferro, correntes, esqueletos e instrumentos de tortura para câmaras sombrias.",
+    "confidence": "media"
+  },
+  "props/ObstacleAndPropsSprites": {
+    "theme": "decoracao",
+    "tags": [
+      "barris",
+      "caixas",
+      "sangue",
+      "bigorna"
+    ],
+    "desc": "Props variados de obstáculo: barris, caixas, poças de sangue, ossos, carroça e forja.",
+    "confidence": "alta"
+  },
+  "scenery/RoadsAndGrassSprites": {
+    "theme": "estrada",
+    "tags": [
+      "caminho",
+      "terra",
+      "arbustos",
+      "feno"
+    ],
+    "desc": "Trilhas de terra em várias junções com bordas de grama, arbustos e montes de feno.",
+    "confidence": "alta"
+  },
+  "props/SnowPile": {
+    "theme": "neve",
+    "tags": [
+      "neve",
+      "montes"
+    ],
+    "desc": "Pequenos montes de neve para decorar terreno nevado.",
+    "confidence": "alta"
+  },
+  "props/WoodenElementsSpriteSheet": {
+    "theme": "fortificacao",
+    "tags": [
+      "madeira",
+      "placas",
+      "telhado",
+      "potes"
+    ],
+    "desc": "Elementos modulares de madeira e pedra: pisos, telhados, placas de loja, escadas e potes.",
+    "confidence": "media"
+  },
+  "buildings/ElvenChest": {
+    "theme": "tesouro",
+    "tags": [
+      "baús",
+      "armários",
+      "móveis"
+    ],
+    "desc": "Baús e armários de madeira em vários estilos e estados de abertura.",
+    "confidence": "media"
+  },
+  "buildings/PremadeBuildingsWood": {
+    "theme": "vila",
+    "tags": [
+      "casas",
+      "madeira",
+      "celeiros"
+    ],
+    "desc": "Casas e construções de madeira pré-montadas para assentamentos.",
+    "confidence": "alta"
+  },
+  "scenery/BoatWaves": {
+    "theme": "agua",
+    "tags": [
+      "barcos",
+      "ondas",
+      "troncos"
+    ],
+    "desc": "Barcos, ondulações circulares na água e troncos flutuantes.",
+    "confidence": "alta"
+  },
+  "tiles/TileGrass": {
+    "theme": "floresta",
+    "tags": [
+      "grama",
+      "terra",
+      "transições"
+    ],
+    "desc": "Tiles de grama verde e terra com transições entre os dois terrenos.",
+    "confidence": "alta"
+  },
+  "tiles/TileFantasyCliffs": {
+    "theme": "montanha",
+    "tags": [
+      "penhascos",
+      "rocha",
+      "falésias"
+    ],
+    "desc": "Tiles de penhascos e paredões de rocha clara com bordas e transições.",
+    "confidence": "alta"
+  },
+  "tiles/TileDarkWaterAnimated": {
+    "theme": "agua",
+    "tags": [
+      "água escura",
+      "ondas",
+      "animado"
+    ],
+    "desc": "Tiles animados de água escura com linhas de ondulação e bordas.",
+    "confidence": "alta"
+  },
+  "wang/clay-jade": {
+    "theme": "estrada",
+    "tags": [
+      "barro",
+      "grama",
+      "transição",
+      "bordas de pedra"
+    ],
+    "desc": "Wang tileset de transição entre piso de barro com bordas de pedra e terreno verde estilizado.",
+    "confidence": "baixa"
+  },
+  "wang/wood-bronze": {
+    "theme": "fortificacao",
+    "tags": [
+      "tábuas",
+      "tijolos",
+      "piso",
+      "transição"
+    ],
+    "desc": "Wang tileset de piso de tábuas de madeira com blocos de tijolo bronze nas bordas.",
+    "confidence": "media"
+  }
+}

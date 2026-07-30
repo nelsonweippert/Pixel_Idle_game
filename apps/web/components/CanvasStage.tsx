@@ -2,15 +2,17 @@
 
 import { useEffect, useRef } from "react";
 import { REGION_BY_ID } from "@pixel-idle/shared";
-import type { MockEngine } from "@/game/MockEngine";
+import type { HuntEngine } from "@/game/NetClient";
 import type { HuntScene } from "@/game/HuntScene";
 
 export function CanvasStage({
   engine,
   regionId,
+  sceneUrl,
 }: {
-  engine: MockEngine;
+  engine: HuntEngine;
   regionId: string;
+  sceneUrl?: string;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HuntScene | null>(null);
@@ -32,14 +34,26 @@ export function CanvasStage({
         return;
       }
       sceneRef.current = scene;
+      // aplica a cena inicial (a montagem é async → o efeito de sceneUrl já rodou vazio
+      // antes de sceneRef existir; sem isto, ficaria na cena default do loadTileset).
+      if (sceneUrl) scene.setScene(sceneUrl);
       unsub = engine.on((ev) => scene.handleEvent(ev));
 
       let last = performance.now();
+      let lastPiecesKey = "";
       const loop = (t: number) => {
         const dt = t - last;
         last = t;
         engine.tick(dt);
         scene.sync(engine.heroes, engine.monsters);
+        // veste o herói conforme as PEÇAS equipadas (só quando o combo muda) — cada
+        // peça de armadura aparece no personagem (paper-doll em camadas)
+        const pieces = engine.heroPieces?.() ?? null;
+        const key = pieces ? JSON.stringify(pieces) : "none";
+        if (key !== lastPiecesKey) {
+          lastPiecesKey = key;
+          void scene.setHeroPieces(pieces);
+        }
         raf = requestAnimationFrame(loop);
       };
       raf = requestAnimationFrame(loop);
@@ -60,6 +74,11 @@ export function CanvasStage({
     const region = REGION_BY_ID[regionId];
     if (region) sceneRef.current?.setRegion(region);
   }, [regionId]);
+
+  // troca de CENÁRIO (seletor do HUD) → carrega a cena escolhida ao vivo
+  useEffect(() => {
+    if (sceneUrl) sceneRef.current?.setScene(sceneUrl);
+  }, [sceneUrl]);
 
   return <div ref={hostRef} className="pixel-canvas h-full w-full" />;
 }

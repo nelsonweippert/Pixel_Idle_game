@@ -1,0 +1,1501 @@
+{
+  "Bronze#0": {
+    "name": "Bronze",
+    "number": 0,
+    "classes": [
+      "dk",
+      "dl"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7168,
+        "model": "HelmMale01.bmd",
+        "name": "Bronze Helm"
+      },
+      "armor": {
+        "id": 8192,
+        "model": "ArmorMale01.bmd",
+        "name": "Bronze Armor"
+      },
+      "pants": {
+        "id": 9216,
+        "model": "PantMale01.bmd",
+        "name": "Bronze Pants"
+      },
+      "gloves": {
+        "id": 10240,
+        "model": "GloveMale01.bmd",
+        "name": "Bronze Gloves"
+      },
+      "boots": {
+        "id": 11264,
+        "model": "BootMale01.bmd",
+        "name": "Bronze Boots"
+      }
+    }
+  },
+  "Dragon#1": {
+    "name": "Dragon",
+    "number": 1,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7169,
+        "model": "HelmMale02.bmd",
+        "name": "Dragon Helm"
+      },
+      "armor": {
+        "id": 8193,
+        "model": "ArmorMale02.bmd",
+        "name": "Dragon Armor"
+      },
+      "pants": {
+        "id": 9217,
+        "model": "PantMale02.bmd",
+        "name": "Dragon Pants"
+      },
+      "gloves": {
+        "id": 10241,
+        "model": "GloveMale02.bmd",
+        "name": "Dragon Gloves"
+      },
+      "boots": {
+        "id": 11265,
+        "model": "BootMale02.bmd",
+        "name": "Dragon Boots"
+      }
+    }
+  },
+  "Pad#2": {
+    "name": "Pad",
+    "number": 2,
+    "classes": [
+      "dw"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7170,
+        "model": "HelmMale03.bmd",
+        "name": "Pad Helm"
+      },
+      "armor": {
+        "id": 8194,
+        "model": "ArmorMale03.bmd",
+        "name": "Pad Armor"
+      },
+      "pants": {
+        "id": 9218,
+        "model": "PantMale03.bmd",
+        "name": "Pad Pants"
+      },
+      "gloves": {
+        "id": 10242,
+        "model": "GloveMale03.bmd",
+        "name": "Pad Gloves"
+      },
+      "boots": {
+        "id": 11266,
+        "model": "BootMale03.bmd",
+        "name": "Pad Boots"
+      }
+    }
+  },
+  "Legendary#3": {
+    "name": "Legendary",
+    "number": 3,
+    "classes": [
+      "dw"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7171,
+        "model": "HelmMale04.bmd",
+        "name": "Legendary Helm"
+      },
+      "armor": {
+        "id": 8195,
+        "model": "ArmorMale04.bmd",
+        "name": "Legendary Armor"
+      },
+      "pants": {
+        "id": 9219,
+        "model": "PantMale04.bmd",
+        "name": "Legendary Pants"
+      },
+      "gloves": {
+        "id": 10243,
+        "model": "GloveMale04.bmd",
+        "name": "Legendary Gloves"
+      },
+      "boots": {
+        "id": 11267,
+        "model": "BootMale04.bmd",
+        "name": "Legendary Boots"
+      }
+    }
+  },
+  "Bone#4": {
+    "name": "Bone",
+    "number": 4,
+    "classes": [
+      "dw"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7172,
+        "model": "HelmMale05.bmd",
+        "name": "Bone Helm"
+      },
+      "armor": {
+        "id": 8196,
+        "model": "ArmorMale05.bmd",
+        "name": "Bone Armor"
+      },
+      "pants": {
+        "id": 9220,
+        "model": "PantMale05.bmd",
+        "name": "Bone Pants"
+      },
+      "gloves": {
+        "id": 10244,
+        "model": "GloveMale05.bmd",
+        "name": "Bone Gloves"
+      },
+      "boots": {
+        "id": 11268,
+        "model": "BootMale05.bmd",
+        "name": "Bone Boots"
+      }
+    }
+  },
+  "Leather#5": {
+    "name": "Leather",
+    "number": 5,
+    "classes": [
+      "dk",
+      "dl"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7173,
+        "model": "HelmMale06.bmd",
+        "name": "Leather Helm"
+      },
+      "armor": {
+        "id": 8197,
+        "model": "ArmorMale06.bmd",
+        "name": "Leather Armor"
+      },
+      "pants": {
+        "id": 9221,
+        "model": "PantMale06.bmd",
+        "name": "Leather Pants"
+      },
+      "gloves": {
+        "id": 10245,
+        "model": "GloveMale06.bmd",
+        "name": "Leather Gloves"
+      },
+      "boots": {
+        "id": 11269,
+        "model": "BootMale06.bmd",
+        "name": "Leather Boots"
+      }
+    }
+  },
+  "Scale#6": {
+    "name": "Scale",
+    "number": 6,
+    "classes": [
+      "dk",
+      "dl"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7174,
+        "model": "HelmMale07.bmd",
+        "name": "Scale Helm"
+      },
+      "armor": {
+        "id": 8198,
+        "model": "ArmorMale07.bmd",
+        "name": "Scale Armor"
+      },
+      "pants": {
+        "id": 9222,
+        "model": "PantMale07.bmd",
+        "name": "Scale Pants"
+      },
+      "gloves": {
+        "id": 10246,
+        "model": "GloveMale07.bmd",
+        "name": "Scale Gloves"
+      },
+      "boots": {
+        "id": 11270,
+        "model": "BootMale07.bmd",
+        "name": "Scale Boots"
+      }
+    }
+  },
+  "Sphinx#7": {
+    "name": "Sphinx",
+    "number": 7,
+    "classes": [
+      "dw"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7175,
+        "model": "HelmMale08.bmd",
+        "name": "Sphinx Mask"
+      },
+      "armor": {
+        "id": 8199,
+        "model": "ArmorMale08.bmd",
+        "name": "Sphinx Armor"
+      },
+      "pants": {
+        "id": 9223,
+        "model": "PantMale08.bmd",
+        "name": "Sphinx Pants"
+      },
+      "gloves": {
+        "id": 10247,
+        "model": "GloveMale08.bmd",
+        "name": "Sphinx Gloves"
+      },
+      "boots": {
+        "id": 11271,
+        "model": "BootMale08.bmd",
+        "name": "Sphinx Boots"
+      }
+    }
+  },
+  "Brass#8": {
+    "name": "Brass",
+    "number": 8,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7176,
+        "model": "HelmMale09.bmd",
+        "name": "Brass Helm"
+      },
+      "armor": {
+        "id": 8200,
+        "model": "ArmorMale09.bmd",
+        "name": "Brass Armor"
+      },
+      "pants": {
+        "id": 9224,
+        "model": "PantMale09.bmd",
+        "name": "Brass Pants"
+      },
+      "gloves": {
+        "id": 10248,
+        "model": "GloveMale09.bmd",
+        "name": "Brass Gloves"
+      },
+      "boots": {
+        "id": 11272,
+        "model": "BootMale09.bmd",
+        "name": "Brass Boots"
+      }
+    }
+  },
+  "Plate#9": {
+    "name": "Plate",
+    "number": 9,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7177,
+        "model": "HelmMale10.bmd",
+        "name": "Plate Helm"
+      },
+      "armor": {
+        "id": 8201,
+        "model": "ArmorMale10.bmd",
+        "name": "Plate Armor"
+      },
+      "pants": {
+        "id": 9225,
+        "model": "PantMale10.bmd",
+        "name": "Plate Pants"
+      },
+      "gloves": {
+        "id": 10249,
+        "model": "GloveMale10.bmd",
+        "name": "Plate Gloves"
+      },
+      "boots": {
+        "id": 11273,
+        "model": "BootMale10.bmd",
+        "name": "Plate Boots"
+      }
+    }
+  },
+  "Vine#10": {
+    "name": "Vine",
+    "number": 10,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7178,
+        "model": "HelmElf01.bmd",
+        "name": "Vine Helm"
+      },
+      "armor": {
+        "id": 8202,
+        "model": "ArmorElf01.bmd",
+        "name": "Vine Armor"
+      },
+      "pants": {
+        "id": 9226,
+        "model": "PantElf01.bmd",
+        "name": "Vine Pants"
+      },
+      "gloves": {
+        "id": 10250,
+        "model": "GloveElf01.bmd",
+        "name": "Vine Gloves"
+      },
+      "boots": {
+        "id": 11274,
+        "model": "BootElf01.bmd",
+        "name": "Vine Boots"
+      }
+    }
+  },
+  "Silk#11": {
+    "name": "Silk",
+    "number": 11,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7179,
+        "model": "HelmElf02.bmd",
+        "name": "Silk Helm"
+      },
+      "armor": {
+        "id": 8203,
+        "model": "ArmorElf02.bmd",
+        "name": "Silk Armor"
+      },
+      "pants": {
+        "id": 9227,
+        "model": "PantElf02.bmd",
+        "name": "Silk Pants"
+      },
+      "gloves": {
+        "id": 10251,
+        "model": "GloveElf02.bmd",
+        "name": "Silk Gloves"
+      },
+      "boots": {
+        "id": 11275,
+        "model": "BootElf02.bmd",
+        "name": "Silk Boots"
+      }
+    }
+  },
+  "Wind#12": {
+    "name": "Wind",
+    "number": 12,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7180,
+        "model": "HelmElf03.bmd",
+        "name": "Wind Helm"
+      },
+      "armor": {
+        "id": 8204,
+        "model": "ArmorElf03.bmd",
+        "name": "Wind Armor"
+      },
+      "pants": {
+        "id": 9228,
+        "model": "PantElf03.bmd",
+        "name": "Wind Pants"
+      },
+      "gloves": {
+        "id": 10252,
+        "model": "GloveElf03.bmd",
+        "name": "Wind Gloves"
+      },
+      "boots": {
+        "id": 11276,
+        "model": "BootElf03.bmd",
+        "name": "Wind Boots"
+      }
+    }
+  },
+  "Spirit#13": {
+    "name": "Spirit",
+    "number": 13,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7181,
+        "model": "HelmElf04.bmd",
+        "name": "Spirit Helm"
+      },
+      "armor": {
+        "id": 8205,
+        "model": "ArmorElf04.bmd",
+        "name": "Spirit Armor"
+      },
+      "pants": {
+        "id": 9229,
+        "model": "PantElf04.bmd",
+        "name": "Spirit Pants"
+      },
+      "gloves": {
+        "id": 10253,
+        "model": "GloveElf04.bmd",
+        "name": "Spirit Gloves"
+      },
+      "boots": {
+        "id": 11277,
+        "model": "BootElf04.bmd",
+        "name": "Spirit Boots"
+      }
+    }
+  },
+  "Guardian#14": {
+    "name": "Guardian",
+    "number": 14,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7182,
+        "model": "HelmElf05.bmd",
+        "name": "Guardian Helm"
+      },
+      "armor": {
+        "id": 8206,
+        "model": "ArmorElf05.bmd",
+        "name": "Guardian Armor"
+      },
+      "pants": {
+        "id": 9230,
+        "model": "PantElf05.bmd",
+        "name": "Guardian Pants"
+      },
+      "gloves": {
+        "id": 10254,
+        "model": "GloveElf05.bmd",
+        "name": "Guardian Gloves"
+      },
+      "boots": {
+        "id": 11278,
+        "model": "BootElf05.bmd",
+        "name": "Guardian Boots"
+      }
+    }
+  },
+  "Black Dragon#16": {
+    "name": "Black Dragon",
+    "number": 16,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7184,
+        "model": "HelmMale17.bmd",
+        "name": "Black Dragon Helm"
+      },
+      "armor": {
+        "id": 8208,
+        "model": "ArmorMale17.bmd",
+        "name": "Black Dragon Armor"
+      },
+      "pants": {
+        "id": 9232,
+        "model": "PantMale17.bmd",
+        "name": "Black Dragon Pants"
+      },
+      "gloves": {
+        "id": 10256,
+        "model": "GloveMale17.bmd",
+        "name": "Black Dragon Gloves"
+      },
+      "boots": {
+        "id": 11280,
+        "model": "BootMale17.bmd",
+        "name": "Black Dragon Boots"
+      }
+    }
+  },
+  "Dark Phoenix#17": {
+    "name": "Dark Phoenix",
+    "number": 17,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7185,
+        "model": "HelmMale18.bmd",
+        "name": "Dark Phoenix Helm"
+      },
+      "armor": {
+        "id": 8209,
+        "model": "ArmorMale18.bmd",
+        "name": "Dark Phoenix Armor"
+      },
+      "pants": {
+        "id": 9233,
+        "model": "PantMale18.bmd",
+        "name": "Dark Phoenix Pants"
+      },
+      "gloves": {
+        "id": 10257,
+        "model": "GloveMale18.bmd",
+        "name": "Dark Phoenix Gloves"
+      },
+      "boots": {
+        "id": 11281,
+        "model": "BootMale18.bmd",
+        "name": "Dark Phoenix Boots"
+      }
+    }
+  },
+  "Grand Soul#18": {
+    "name": "Grand Soul",
+    "number": 18,
+    "classes": [
+      "dw"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7186,
+        "model": "HelmMale19.bmd",
+        "name": "Grand Soul Helm"
+      },
+      "armor": {
+        "id": 8210,
+        "model": "ArmorMale19.bmd",
+        "name": "Grand Soul Armor"
+      },
+      "pants": {
+        "id": 9234,
+        "model": "t_PantMale19.bmd",
+        "name": "Grand Soul Pants"
+      },
+      "gloves": {
+        "id": 10258,
+        "model": "GloveMale19.bmd",
+        "name": "Grand Soul Gloves"
+      },
+      "boots": {
+        "id": 11282,
+        "model": "BootMale19.bmd",
+        "name": "Grand Soul Boots"
+      }
+    }
+  },
+  "Divine#19": {
+    "name": "Divine",
+    "number": 19,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7187,
+        "model": "HelmMaleTest20.bmd",
+        "name": "Divine Helm"
+      },
+      "armor": {
+        "id": 8211,
+        "model": "ArmorMaleTest20.bmd",
+        "name": "Divine Armor"
+      },
+      "pants": {
+        "id": 9235,
+        "model": "PantMaleTest20.bmd",
+        "name": "Divine Pants"
+      },
+      "gloves": {
+        "id": 10259,
+        "model": "GloveMaleTest20.bmd",
+        "name": "Divine Gloves"
+      },
+      "boots": {
+        "id": 11283,
+        "model": "BootMaleTest20.bmd",
+        "name": "Divine Boots"
+      }
+    }
+  },
+  "Great Dragon#21": {
+    "name": "Great Dragon",
+    "number": 21,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7189,
+        "model": "HelmMale22.bmd",
+        "name": "Great Dragon Helm"
+      },
+      "armor": {
+        "id": 8213,
+        "model": "ArmorMale22.bmd",
+        "name": "Great Dragon Armor"
+      },
+      "pants": {
+        "id": 9237,
+        "model": "PantMale22.bmd",
+        "name": "Great Dragon Pants"
+      },
+      "gloves": {
+        "id": 10261,
+        "model": "GloveMale22.bmd",
+        "name": "Great Dragon Gloves"
+      },
+      "boots": {
+        "id": 11285,
+        "model": "BootMale22.bmd",
+        "name": "Great Dragon Boots"
+      }
+    }
+  },
+  "Dark Soul#22": {
+    "name": "Dark Soul",
+    "number": 22,
+    "classes": [
+      "dw"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7190,
+        "model": "HelmMale23.bmd",
+        "name": "Dark Soul Helm"
+      },
+      "armor": {
+        "id": 8214,
+        "model": "ArmorMale23.bmd",
+        "name": "Dark Soul Armor"
+      },
+      "pants": {
+        "id": 9238,
+        "model": "PantMale23.bmd",
+        "name": "Dark Soul Pants"
+      },
+      "gloves": {
+        "id": 10262,
+        "model": "GloveMale23.bmd",
+        "name": "Dark Soul Gloves"
+      },
+      "boots": {
+        "id": 11286,
+        "model": "BootMale23.bmd",
+        "name": "Dark Soul Boots"
+      }
+    }
+  },
+  "Light Plate#25": {
+    "name": "Light Plate",
+    "number": 25,
+    "classes": [
+      "dl"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7193,
+        "model": "HelmMale26.bmd",
+        "name": "Light Plate Mask"
+      },
+      "armor": {
+        "id": 8217,
+        "model": "ArmorMale26.bmd",
+        "name": "Light Plate Armor"
+      },
+      "pants": {
+        "id": 9241,
+        "model": "PantMale26.bmd",
+        "name": "Light Plate Pants"
+      },
+      "gloves": {
+        "id": 10265,
+        "model": "GloveMale26.bmd",
+        "name": "Light Plate Gloves"
+      },
+      "boots": {
+        "id": 11289,
+        "model": "BootMale26.bmd",
+        "name": "Light Plate Boots"
+      }
+    }
+  },
+  "Adamantine#26": {
+    "name": "Adamantine",
+    "number": 26,
+    "classes": [
+      "dl"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7194,
+        "model": "HelmMale27.bmd",
+        "name": "Adamantine Mask"
+      },
+      "armor": {
+        "id": 8218,
+        "model": "ArmorMale27.bmd",
+        "name": "Adamantine Armor"
+      },
+      "pants": {
+        "id": 9242,
+        "model": "PantMale27.bmd",
+        "name": "Adamantine Pants"
+      },
+      "gloves": {
+        "id": 10266,
+        "model": "GloveMale27.bmd",
+        "name": "Adamantine Gloves"
+      },
+      "boots": {
+        "id": 11290,
+        "model": "BootMale27.bmd",
+        "name": "Adamantine Boots"
+      }
+    }
+  },
+  "Dark Steel#27": {
+    "name": "Dark Steel",
+    "number": 27,
+    "classes": [
+      "dl"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7195,
+        "model": "HelmMale28.bmd",
+        "name": "Dark Steel Mask"
+      },
+      "armor": {
+        "id": 8219,
+        "model": "ArmorMale28.bmd",
+        "name": "Dark Steel Armor"
+      },
+      "pants": {
+        "id": 9243,
+        "model": "PantMale28.bmd",
+        "name": "Dark Steel Pants"
+      },
+      "gloves": {
+        "id": 10267,
+        "model": "GloveMale28.bmd",
+        "name": "Dark Steel Gloves"
+      },
+      "boots": {
+        "id": 11291,
+        "model": "BootMale28.bmd",
+        "name": "Dark Steel Boots"
+      }
+    }
+  },
+  "Dark Master#28": {
+    "name": "Dark Master",
+    "number": 28,
+    "classes": [
+      "dl"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7196,
+        "model": "HelmMale29.bmd",
+        "name": "Dark Master Mask"
+      },
+      "armor": {
+        "id": 8220,
+        "model": "ArmorMale29.bmd",
+        "name": "Dark Master Armor"
+      },
+      "pants": {
+        "id": 9244,
+        "model": "PantMale29.bmd",
+        "name": "Dark Master Pants"
+      },
+      "gloves": {
+        "id": 10268,
+        "model": "GloveMale29.bmd",
+        "name": "Dark Master Gloves"
+      },
+      "boots": {
+        "id": 11292,
+        "model": "BootMale29.bmd",
+        "name": "Dark Master Boots"
+      }
+    }
+  },
+  "Dragon Knight#29": {
+    "name": "Dragon Knight",
+    "number": 29,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7197,
+        "model": "HDK_HelmMale01.bmd",
+        "name": "Dragon Knight Helm"
+      },
+      "armor": {
+        "id": 8221,
+        "model": "HDK_ArmorMale01.bmd",
+        "name": "Dragon Knight Armor"
+      },
+      "pants": {
+        "id": 9245,
+        "model": "HDK_PantMale01.bmd",
+        "name": "Dragon Knight Pants"
+      },
+      "gloves": {
+        "id": 10269,
+        "model": "HDK_GloveMale01.bmd",
+        "name": "Dragon Knight Gloves"
+      },
+      "boots": {
+        "id": 11293,
+        "model": "HDK_BootMale01.bmd",
+        "name": "Dragon Knight Boots"
+      }
+    }
+  },
+  "Venom Mist#30": {
+    "name": "Venom Mist",
+    "number": 30,
+    "classes": [
+      "dw"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7198,
+        "model": "HDK_HelmMale02.bmd",
+        "name": "Venom Mist Helm"
+      },
+      "armor": {
+        "id": 8222,
+        "model": "HDK_ArmorMale02.bmd",
+        "name": "Venom Mist Armor"
+      },
+      "pants": {
+        "id": 9246,
+        "model": "HDK_PantMale02.bmd",
+        "name": "Venom Mist Pants"
+      },
+      "gloves": {
+        "id": 10270,
+        "model": "HDK_GloveMale02.bmd",
+        "name": "Venom Mist Gloves"
+      },
+      "boots": {
+        "id": 11294,
+        "model": "HDK_BootMale02.bmd",
+        "name": "Venom Mist Boots"
+      }
+    }
+  },
+  "Sylphid Ray#31": {
+    "name": "Sylphid Ray",
+    "number": 31,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7199,
+        "model": "HDK_HelmMale03.bmd",
+        "name": "Sylphid Ray Helm"
+      },
+      "armor": {
+        "id": 8223,
+        "model": "HDK_ArmorMale03.bmd",
+        "name": "Sylphid Ray Armor"
+      },
+      "pants": {
+        "id": 9247,
+        "model": "HDK_PantMale03.bmd",
+        "name": "Sylphid Ray Pants"
+      },
+      "gloves": {
+        "id": 10271,
+        "model": "HDK_GloveMale03.bmd",
+        "name": "Sylphid Ray Gloves"
+      },
+      "boots": {
+        "id": 11295,
+        "model": "HDK_BootMale03.bmd",
+        "name": "Sylphid Ray Boots"
+      }
+    }
+  },
+  "Sunlight#33": {
+    "name": "Sunlight",
+    "number": 33,
+    "classes": [
+      "dl"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7201,
+        "model": "HDK_HelmMale05.bmd",
+        "name": "Sunlight Mask"
+      },
+      "armor": {
+        "id": 8225,
+        "model": "HDK_ArmorMale05.bmd",
+        "name": "Sunlight Armor"
+      },
+      "pants": {
+        "id": 9249,
+        "model": "HDK_PantMale05.bmd",
+        "name": "Sunlight Pants"
+      },
+      "gloves": {
+        "id": 10273,
+        "model": "HDK_GloveMale05.bmd",
+        "name": "Sunlight Gloves"
+      },
+      "boots": {
+        "id": 11297,
+        "model": "HDK_BootMale05.bmd",
+        "name": "Sunlight Boots"
+      }
+    }
+  },
+  "Ashcrow#34": {
+    "name": "Ashcrow",
+    "number": 34,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7202,
+        "model": "CW_HelmMale01.bmd",
+        "name": "Ashcrow Helm"
+      },
+      "armor": {
+        "id": 8226,
+        "model": "CW_ArmorMale01.bmd",
+        "name": "Ashcrow Armor"
+      },
+      "pants": {
+        "id": 9250,
+        "model": "CW_PantMale01.bmd",
+        "name": "Ashcrow Pants"
+      },
+      "gloves": {
+        "id": 10274,
+        "model": "CW_GloveMale01.bmd",
+        "name": "Ashcrow Gloves"
+      },
+      "boots": {
+        "id": 11298,
+        "model": "CW_BootMale01.bmd",
+        "name": "Ashcrow Boots"
+      }
+    }
+  },
+  "Eclipse#35": {
+    "name": "Eclipse",
+    "number": 35,
+    "classes": [
+      "dw"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7203,
+        "model": "CW_HelmMale02.bmd",
+        "name": "Eclipse Helm"
+      },
+      "armor": {
+        "id": 8227,
+        "model": "CW_ArmorMale02.bmd",
+        "name": "Eclipse Armor"
+      },
+      "pants": {
+        "id": 9251,
+        "model": "CW_PantMale02.bmd",
+        "name": "Eclipse Pants"
+      },
+      "gloves": {
+        "id": 10275,
+        "model": "CW_GloveMale02.bmd",
+        "name": "Eclipse Gloves"
+      },
+      "boots": {
+        "id": 11299,
+        "model": "CW_BootMale02.bmd",
+        "name": "Eclipse Boots"
+      }
+    }
+  },
+  "Iris#36": {
+    "name": "Iris",
+    "number": 36,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7204,
+        "model": "CW_HelmMale03.bmd",
+        "name": "Iris Helm"
+      },
+      "armor": {
+        "id": 8228,
+        "model": "CW_ArmorMale03.bmd",
+        "name": "Iris Armor"
+      },
+      "pants": {
+        "id": 9252,
+        "model": "CW_PantMale03.bmd",
+        "name": "Iris Pants"
+      },
+      "gloves": {
+        "id": 10276,
+        "model": "CW_GloveMale03.bmd",
+        "name": "Iris Gloves"
+      },
+      "boots": {
+        "id": 11300,
+        "model": "CW_BootMale03.bmd",
+        "name": "Iris Boots"
+      }
+    }
+  },
+  "Glorious#38": {
+    "name": "Glorious",
+    "number": 38,
+    "classes": [
+      "dl"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7206,
+        "model": "CW_HelmMale05.bmd",
+        "name": "Glorious Mask"
+      },
+      "armor": {
+        "id": 8230,
+        "model": "CW_ArmorMale05.bmd",
+        "name": "Glorious Armor"
+      },
+      "pants": {
+        "id": 9254,
+        "model": "CW_PantMale05.bmd",
+        "name": "Glorious Pants"
+      },
+      "gloves": {
+        "id": 10278,
+        "model": "CW_GloveMale05.bmd",
+        "name": "Glorious Gloves"
+      },
+      "boots": {
+        "id": 11302,
+        "model": "CW_BootMale05.bmd",
+        "name": "Glorious Boots"
+      }
+    }
+  },
+  "Mistery#39": {
+    "name": "Mistery",
+    "number": 39,
+    "classes": [
+      "sum"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7207,
+        "model": "HelmMale40.bmd",
+        "name": "Mistery Helm"
+      },
+      "armor": {
+        "id": 8231,
+        "model": "ArmorMale40.bmd",
+        "name": "Mistery Armor"
+      },
+      "pants": {
+        "id": 9255,
+        "model": "PantMale40.bmd",
+        "name": "Mistery Pants"
+      },
+      "gloves": {
+        "id": 10279,
+        "model": "GloveMale40.bmd",
+        "name": "Mistery Gloves"
+      },
+      "boots": {
+        "id": 11303,
+        "model": "BootMale40.bmd",
+        "name": "Mistery Boots"
+      }
+    }
+  },
+  "Red Wing#40": {
+    "name": "Red Wing",
+    "number": 40,
+    "classes": [
+      "sum"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7208,
+        "model": "HelmMale41.bmd",
+        "name": "Red Wing Helm"
+      },
+      "armor": {
+        "id": 8232,
+        "model": "ArmorMale41.bmd",
+        "name": "Red Wing Armor"
+      },
+      "pants": {
+        "id": 9256,
+        "model": "PantMale41.bmd",
+        "name": "Red Wing Pants"
+      },
+      "gloves": {
+        "id": 10280,
+        "model": "GloveMale41.bmd",
+        "name": "Red Wing Gloves"
+      },
+      "boots": {
+        "id": 11304,
+        "model": "BootMale41.bmd",
+        "name": "Red Wing Boots"
+      }
+    }
+  },
+  "Ancient#41": {
+    "name": "Ancient",
+    "number": 41,
+    "classes": [
+      "sum"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7209,
+        "model": "HelmMale42.bmd",
+        "name": "Ancient Helm"
+      },
+      "armor": {
+        "id": 8233,
+        "model": "ArmorMale42.bmd",
+        "name": "Ancient Armor"
+      },
+      "pants": {
+        "id": 9257,
+        "model": "PantMale42.bmd",
+        "name": "Ancient Pants"
+      },
+      "gloves": {
+        "id": 10281,
+        "model": "GloveMale42.bmd",
+        "name": "Ancient Gloves"
+      },
+      "boots": {
+        "id": 11305,
+        "model": "BootMale42.bmd",
+        "name": "Ancient Boots"
+      }
+    }
+  },
+  "Black Rose#42": {
+    "name": "Black Rose",
+    "number": 42,
+    "classes": [
+      "sum"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7210,
+        "model": "HelmMale43.bmd",
+        "name": "Black Rose Helm"
+      },
+      "armor": {
+        "id": 8234,
+        "model": "ArmorMale43.bmd",
+        "name": "Black Rose Armor"
+      },
+      "pants": {
+        "id": 9258,
+        "model": "PantMale43.bmd",
+        "name": "Black Rose Pants"
+      },
+      "gloves": {
+        "id": 10282,
+        "model": "GloveMale43.bmd",
+        "name": "Black Rose Gloves"
+      },
+      "boots": {
+        "id": 11306,
+        "model": "BootMale43.bmd",
+        "name": "Black Rose Boots"
+      }
+    }
+  },
+  "Aura#43": {
+    "name": "Aura",
+    "number": 43,
+    "classes": [
+      "sum"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7211,
+        "model": "HelmMale44.bmd",
+        "name": "Aura Helm"
+      },
+      "armor": {
+        "id": 8235,
+        "model": "ArmorMale44.bmd",
+        "name": "Aura Armor"
+      },
+      "pants": {
+        "id": 9259,
+        "model": "PantMale44.bmd",
+        "name": "Aura Pants"
+      },
+      "gloves": {
+        "id": 10283,
+        "model": "GloveMale44.bmd",
+        "name": "Aura Gloves"
+      },
+      "boots": {
+        "id": 11307,
+        "model": "BootMale44.bmd",
+        "name": "Aura Boots"
+      }
+    }
+  },
+  "Lilium#44": {
+    "name": "Lilium",
+    "number": 44,
+    "classes": [
+      "sum"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7212,
+        "model": "HelmMale45.bmd",
+        "name": "Lilium Helm"
+      },
+      "armor": {
+        "id": 8236,
+        "model": "ArmorMale45.bmd",
+        "name": "Lilium Armor"
+      },
+      "pants": {
+        "id": 9260,
+        "model": "PantMale45.bmd",
+        "name": "Lilium Pants"
+      },
+      "gloves": {
+        "id": 10284,
+        "model": "GloveMale45.bmd",
+        "name": "Lilium Gloves"
+      },
+      "boots": {
+        "id": 11308,
+        "model": "BootMale45.bmd",
+        "name": "Lilium Boots"
+      }
+    }
+  },
+  "Titan#45": {
+    "name": "Titan",
+    "number": 45,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7213,
+        "model": "HelmMale46.bmd",
+        "name": "Titan Helm"
+      },
+      "armor": {
+        "id": 8237,
+        "model": "ArmorMale46.bmd",
+        "name": "Titan Armor"
+      },
+      "pants": {
+        "id": 9261,
+        "model": "PantMale46.bmd",
+        "name": "Titan Pants"
+      },
+      "gloves": {
+        "id": 10285,
+        "model": "GloveMale46.bmd",
+        "name": "Titan Gloves"
+      },
+      "boots": {
+        "id": 11309,
+        "model": "BootMale46.bmd",
+        "name": "Titan Boots"
+      }
+    }
+  },
+  "Brave#46": {
+    "name": "Brave",
+    "number": 46,
+    "classes": [
+      "dk"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7214,
+        "model": "HelmMale47.bmd",
+        "name": "Brave Helm"
+      },
+      "armor": {
+        "id": 8238,
+        "model": "ArmorMale47.bmd",
+        "name": "Brave Armor"
+      },
+      "pants": {
+        "id": 9262,
+        "model": "PantMale47.bmd",
+        "name": "Brave Pants"
+      },
+      "gloves": {
+        "id": 10286,
+        "model": "GloveMale47.bmd",
+        "name": "Brave Gloves"
+      },
+      "boots": {
+        "id": 11310,
+        "model": "BootMale47.bmd",
+        "name": "Brave Boots"
+      }
+    }
+  },
+  "Seraphim#49": {
+    "name": "Seraphim",
+    "number": 49,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7217,
+        "model": "HelmMale50.bmd",
+        "name": "Seraphim Helm"
+      },
+      "armor": {
+        "id": 8241,
+        "model": "ArmorMale50.bmd",
+        "name": "Seraphim Armor"
+      },
+      "pants": {
+        "id": 9265,
+        "model": "PantMale50.bmd",
+        "name": "Seraphim Pants"
+      },
+      "gloves": {
+        "id": 10289,
+        "model": "GloveMale50.bmd",
+        "name": "Seraphim Gloves"
+      },
+      "boots": {
+        "id": 11313,
+        "model": "BootMale50.bmd",
+        "name": "Seraphim Boots"
+      }
+    }
+  },
+  "Faith#50": {
+    "name": "Faith",
+    "number": 50,
+    "classes": [
+      "elf"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7218,
+        "model": "HelmMale51.bmd",
+        "name": "Faith Helm"
+      },
+      "armor": {
+        "id": 8242,
+        "model": "ArmorMale51.bmd",
+        "name": "Faith Armor"
+      },
+      "pants": {
+        "id": 9266,
+        "model": "PantMale51.bmd",
+        "name": "Faith Pants"
+      },
+      "gloves": {
+        "id": 10290,
+        "model": "GloveMale51.bmd",
+        "name": "Faith Gloves"
+      },
+      "boots": {
+        "id": 11314,
+        "model": "BootMale51.bmd",
+        "name": "Faith Boots"
+      }
+    }
+  },
+  "Hades#52": {
+    "name": "Hades",
+    "number": 52,
+    "classes": [
+      "dw"
+    ],
+    "pieces": {
+      "helm": {
+        "id": 7220,
+        "model": "HelmMale53.bmd",
+        "name": "Hades Helm"
+      },
+      "armor": {
+        "id": 8244,
+        "model": "ArmorMale53.bmd",
+        "name": "Hades Armor"
+      },
+      "pants": {
+        "id": 9268,
+        "model": "PantMale53.bmd",
+        "name": "Hades Pants"
+      },
+      "gloves": {
+        "id": 10292,
+        "model": "GloveMale53.bmd",
+        "name": "Hades Gloves"
+      },
+      "boots": {
+        "id": 11316,
+        "model": "BootMale53.bmd",
+        "name": "Hades Boots"
+      }
+    }
+  }
+}

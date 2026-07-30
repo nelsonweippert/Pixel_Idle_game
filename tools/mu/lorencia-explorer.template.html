@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lorência — Explorador de Spots</title>
+<style>
+  :root{ --bg:#0c0b0f; --panel:#15131b; --edge:#2a2534; --edge2:#39323f; --gold:#c8a24a; --gold-soft:#e6c877; --parch:#ddd2ba; --muted:#8b8271; --ink:#ece6d8; }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{ background:radial-gradient(1400px 800px at 50% -20%, #1a1524 0%, var(--bg) 60%), var(--bg); color:var(--ink); font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; padding:22px clamp(12px,3vw,34px) 44px; }
+  header{max-width:1400px; margin:0 auto 16px; display:flex; align-items:flex-end; justify-content:space-between; gap:18px; flex-wrap:wrap}
+  h1{margin:0; font-size:clamp(23px,3.5vw,37px); font-weight:600; letter-spacing:.05em; color:var(--gold-soft); text-shadow:0 2px 0 #000,0 0 26px rgba(200,162,74,.22)}
+  .sub{margin:5px 0 0; color:var(--muted); font-size:14px} .sub b{color:var(--parch); font-weight:600}
+  .prov{font-family:ui-monospace,Consolas,monospace; font-size:11px; line-height:1.55; color:var(--muted); text-align:right; border-left:2px solid var(--edge); padding-left:12px} .prov b{color:var(--gold)}
+  .wrap{max-width:1400px; margin:0 auto}
+  /* MAPA */
+  .grid{display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:20px; align-items:start} @media(max-width:920px){.grid{grid-template-columns:1fr}}
+  .mapwrap{position:relative; border:1px solid var(--edge2); border-radius:12px; overflow:hidden; background:#000; box-shadow:0 24px 60px -22px rgba(0,0,0,.85)}
+  .mapwrap img{display:block; width:100%; height:auto; image-rendering:pixelated} .mapwrap svg{position:absolute; inset:0; width:100%; height:100%}
+  .zone{cursor:pointer} .zoneFill{opacity:.16; transition:opacity .15s} .zone:hover .zoneFill,.zone.active .zoneFill{opacity:.44}
+  .zoneStroke{fill:none; stroke-width:2.5; opacity:.8} .zone:hover .zoneStroke{stroke-width:4}
+  .zoneLabel{font-weight:600; fill:#fff; paint-order:stroke; stroke:#000; stroke-width:3px; stroke-linejoin:round; pointer-events:none}
+  .zoneLv{font-family:ui-monospace,monospace; fill:#e6c877; paint-order:stroke; stroke:#000; stroke-width:3px; pointer-events:none}
+  .townDot{fill:var(--gold-soft); stroke:#000; stroke-width:2} .townLabel{font-weight:600; fill:var(--gold-soft); paint-order:stroke; stroke:#000; stroke-width:3px; pointer-events:none}
+  .panel{display:flex; flex-direction:column; gap:11px} .phead{color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.14em; margin:2px 2px 0}
+  .card{background:var(--panel); border:1px solid var(--edge); border-left-width:4px; border-radius:10px; padding:11px 13px; cursor:pointer; transition:background .15s, transform .1s}
+  .card:hover,.card.active{background:#1c1926; transform:translateX(-2px)}
+  .card h3{margin:0 0 2px; font-size:16px; font-weight:600; color:var(--parch); display:flex; align-items:center; gap:8px}
+  .chip{width:11px;height:11px;border-radius:3px;box-shadow:0 0 8px currentColor;flex:none}
+  .coord{font-family:ui-monospace,monospace; font-size:11px; color:var(--muted)}
+  .mob{display:flex; align-items:baseline; gap:8px; margin-top:6px; font-size:13.5px} .mob .mn{color:var(--ink); flex:1} .mob .lv{font-family:ui-monospace,monospace; color:var(--gold-soft); font-size:12px} .mob .meta{font-family:ui-monospace,monospace; color:var(--muted); font-size:11px}
+  .enter{margin-top:9px; font-family:ui-monospace,monospace; font-size:11px; color:var(--gold); letter-spacing:.06em}
+  /* CENA */
+  #sceneView{display:none}
+  .sbar{display:flex; align-items:center; gap:14px; margin-bottom:12px}
+  .back{cursor:pointer; background:var(--panel); border:1px solid var(--edge2); color:var(--parch); font-family:inherit; font-size:14px; padding:8px 15px; border-radius:9px; transition:background .15s}
+  .back:hover{background:#221d2c; color:var(--gold-soft)}
+  .stitle{font-size:22px; font-weight:600; color:var(--gold-soft)} .ssub{color:var(--muted); font-size:13px}
+  .stage{position:relative; border:1px solid var(--edge2); border-radius:12px; overflow:hidden; background:#000; box-shadow:0 24px 60px -22px rgba(0,0,0,.85)}
+  .stage::after{content:""; position:absolute; inset:0; border-radius:12px; pointer-events:none; box-shadow:inset 0 0 0 1px rgba(200,162,74,.14), inset 0 0 90px rgba(0,0,0,.6)}
+  canvas{display:block; width:100%; height:auto; image-rendering:pixelated}
+  .slegend{display:flex; gap:18px; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:13px; margin-top:11px} .slegend .k{display:inline-flex; align-items:center; gap:7px} .dot{width:9px;height:9px;border-radius:50%;box-shadow:0 0 8px currentColor}
+  .foot{max-width:1400px; margin:16px auto 0; color:var(--muted); font-size:12px; font-family:ui-monospace,monospace; line-height:1.6} .foot b{color:var(--gold-soft)}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1 id="htitle">Lorência — Explorador de Spots</h1>
+    <p class="sub" id="hsub">Mapa <b>real</b> do World1 · clique num <b>spot</b> pra entrar na caçada naquele terreno</p>
+  </div>
+  <div class="prov">terreno <b>EncTerrain1</b> · spawns <b>OpenMU S6</b><br>modelos <b>MonsterNN.bmd</b> + player rig<br>pipeline MU→pixel · <b>Forja · R&amp;D</b></div>
+</header>
+
+<div class="wrap">
+  <!-- MAPA -->
+  <div id="mapView" class="grid">
+    <div class="mapwrap" id="mapwrap"><img id="mapimg" alt="Mapa de Lorência"><svg id="ov" preserveAspectRatio="none"></svg></div>
+    <div class="panel" id="panel"><div class="phead">Spots de caçada · nível ↑</div></div>
+  </div>
+  <!-- CENA -->
+  <div id="sceneView">
+    <div class="sbar">
+      <button class="back" id="back">← Mapa</button>
+      <div><div class="stitle" id="stitle"></div><div class="ssub" id="ssub"></div></div>
+    </div>
+    <div class="stage"><canvas id="c" width="960" height="600"></canvas></div>
+    <div class="slegend" id="slegend"></div>
+  </div>
+</div>
+<div class="foot" id="foot">Cada spot é uma área de spawn real de Lorência; a cena roda no <b>terreno real</b> daquele ponto. Sprites de modelos 3D do MU S6 (câmera ~32°, 4 direções). Prova de motor — arte de launch será original/licenciada.</div>
+
+<script>
+const DATA = /*__DATA__*/;
+// ---------- utilidades ----------
+const rnd=(a,b)=>a+Math.random()*(b-a), clamp=(v,a,b)=>v<a?a:v>b?b:v;
+function dirOf(dx,dy){ if(Math.abs(dx)>Math.abs(dy)) return dx>0?3:1; return dy>0?0:2; }
+function loadImg(src){ return new Promise(r=>{ const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(i); i.src=src; }); }
+function tint(img,color,amt){ const c=document.createElement('canvas'); c.width=img.width||1; c.height=img.height||1; const g=c.getContext('2d'); g.drawImage(img,0,0); g.globalCompositeOperation='source-atop'; g.globalAlpha=amt; g.fillStyle=color; g.fillRect(0,0,c.width,c.height); return c; }
+async function loadActor(a){ const anims={}; for(const [n,dirs] of Object.entries(a.anims)) anims[n]=await Promise.all(dirs.map(fr=>Promise.all(fr.map(loadImg)))); return {w:a.w,h:a.h,anims}; }
+function tintActor(act,color,amt){ const anims={}; for(const [n,dirs] of Object.entries(act.anims)) anims[n]=dirs.map(fr=>fr.map(im=>tint(im,color,amt))); return {w:act.w,h:act.h,anims}; }
+
+// ---------- carga de atores ----------
+const ACT={}; // key -> {w,h,anims}
+async function boot(){
+  ACT.dk = await loadActor(DATA.actors.dk);
+  for(const [key,a] of Object.entries(DATA.actors)){ if(key==='dk') continue; ACT[key]=await loadActor(a); }
+  // elite = bull tingido
+  const em = Object.entries(DATA.mobs).find(([k,m])=>m.alias);
+  if(em){ const [ek,mob]=em; ACT[ek]=tintActor(ACT[mob.alias], mob.tint||'#d24a34', 0.4); }
+  buildMap();
+}
+
+// ---------- MAPA ----------
+const ov=document.getElementById('ov'), panel=document.getElementById('panel');
+const svgNS="http://www.w3.org/2000/svg", el=(t,a)=>{const e=document.createElementNS(svgNS,t); for(const k in a)e.setAttribute(k,a[k]); return e;};
+const zonesSorted=[...DATA.zones].sort((a,b)=>Math.min(...a.mobs.map(k=>DATA.mobs[k].lv))-Math.min(...b.mobs.map(k=>DATA.mobs[k].lv)));
+function setActive(key,on){ document.querySelectorAll(`[data-k="${key}"]`).forEach(n=>n.classList.toggle('active',on)); }
+function buildMap(){
+  document.getElementById('mapimg').src=DATA.map;
+  ov.setAttribute('viewBox',`0 0 ${DATA.mapW} ${DATA.mapH}`); const CP=DATA.cellpx;
+  for(const z of zonesSorted){
+    const x=z.x1*CP, y=z.y1*CP, w=(z.x2-z.x1+1)*CP, h=(z.y2-z.y1+1)*CP;
+    const g=el('g',{class:'zone','data-k':z.key}); g.style.cursor='pointer';
+    g.appendChild(el('rect',{x,y,width:w,height:h,rx:6,class:'zoneFill',fill:z.color}));
+    g.appendChild(el('rect',{x,y,width:w,height:h,rx:6,class:'zoneStroke',stroke:z.color}));
+    const cx=x+w/2, cy=y+h/2, lvs=z.mobs.map(k=>DATA.mobs[k].lv), lvr=Math.min(...lvs)===Math.max(...lvs)?`Lv ${lvs[0]}`:`Lv ${Math.min(...lvs)}–${Math.max(...lvs)}`;
+    const t1=el('text',{x:cx,y:cy-6,'text-anchor':'middle',class:'zoneLabel','font-size':30}); t1.textContent=z.name;
+    const t2=el('text',{x:cx,y:cy+24,'text-anchor':'middle',class:'zoneLv','font-size':24}); t2.textContent=lvr;
+    g.appendChild(t1); g.appendChild(t2);
+    g.addEventListener('mouseenter',()=>setActive(z.key,true)); g.addEventListener('mouseleave',()=>setActive(z.key,false));
+    g.addEventListener('click',()=>showScene(z.key));
+    ov.appendChild(g);
+  }
+  const tx=DATA.town.x*CP, ty=DATA.town.y*CP;
+  ov.appendChild(el('circle',{cx:tx,cy:ty,r:9,class:'townDot'}));
+  const tl=el('text',{x:tx+14,y:ty+6,class:'townLabel','font-size':26}); tl.textContent='Lorência (cidade)'; ov.appendChild(tl);
+  for(const z of zonesSorted){
+    const card=document.createElement('div'); card.className='card'; card.dataset.k=z.key; card.style.borderLeftColor=z.color;
+    const mobs=z.mobs.map(k=>{const m=DATA.mobs[k]; return `<div class="mob"><span class="mn">${m.name}</span><span class="lv">Lv ${m.lv}</span><span class="meta">${m.hp} HP</span></div>`;}).join('');
+    card.innerHTML=`<h3><span class="chip" style="color:${z.color};background:${z.color}"></span>${z.name}</h3><div class="coord">x ${z.x1}–${z.x2} · y ${z.y1}–${z.y2}</div>${mobs}<div class="enter">▶ entrar na caçada</div>`;
+    card.addEventListener('mouseenter',()=>setActive(z.key,true)); card.addEventListener('mouseleave',()=>setActive(z.key,false));
+    card.addEventListener('click',()=>showScene(z.key));
+    panel.appendChild(card);
+  }
+}
+
+// ---------- CENA ----------
+const cv=document.getElementById('c'), ctx=cv.getContext('2d'); ctx.imageSmoothingEnabled=false;
+let W,H,CELLPX,WALK,FLOORCANVAS,ARENA,ZONE, bulls=[], dk, dmgs=[], kills=0, running=false, dkTarget=null, dkSwing=false, last=0;
+
+function buildFloor(img){ const fc=document.createElement('canvas'); fc.width=W; fc.height=H; const g=fc.getContext('2d'); g.imageSmoothingEnabled=false;
+  // piso já tem iluminação REAL assada (lightmap) → overlay bem leve só pra assentar o mood
+  g.drawImage(img,0,0,W,H); g.fillStyle="rgba(8,8,14,0.10)"; g.fillRect(0,0,W,H);
+  const dg=g.createLinearGradient(0,0,0,H); dg.addColorStop(0,"rgba(4,5,8,0.20)"); dg.addColorStop(0.5,"rgba(6,6,10,0.0)"); dg.addColorStop(1,"rgba(4,4,7,0.14)"); g.fillStyle=dg; g.fillRect(0,0,W,H);
+  g.fillStyle="rgba(28,18,40,0.06)"; g.fillRect(0,0,W,H); FLOORCANVAS=fc; }
+function drawArena(g){ const {cx,cy,rx,ry}=ARENA; g.save();
+  g.fillStyle="rgba(8,6,12,0.30)"; g.beginPath(); g.ellipse(cx,cy,rx,ry,0,0,7); g.fill();
+  g.strokeStyle="rgba(200,162,74,0.30)"; g.lineWidth=2; g.beginPath(); g.ellipse(cx,cy,rx,ry,0,0,7); g.stroke();
+  g.strokeStyle="rgba(200,162,74,0.12)"; g.lineWidth=1; g.beginPath(); g.ellipse(cx,cy,rx-7,ry-6,0,0,7); g.stroke(); g.restore(); }
+
+class Actor{ constructor(sp,x,y){ this.sp=sp; this.x=x; this.y=y; this.dir=0; this.state='idle'; this.t=0; this.frame=0; this.fps={idle:6,walk:10,attack:13}; this.flash=0; }
+  setState(s){ if(this.state!==s){ this.state=s; this.t=0; this.frame=0; } }
+  frames(){ return (this.sp.anims[this.state]||this.sp.anims.idle)[this.dir]; }
+  tick(dt){ this.t+=dt; this.flash=Math.max(0,this.flash-dt*4); const fr=this.frames(), fps=this.fps[this.state]||8; this.frame=Math.floor(this.t*fps);
+    if(this.state==='attack'){ if(this.frame>=fr.length){ this.frame=fr.length-1; this._done=true; } } else this.frame%=fr.length; }
+  draw(g,scale=1,alpha=1){ const fr=this.frames(), img=fr[clamp(this.frame,0,fr.length-1)]; if(!img) return; const w=this.sp.w*scale, h=this.sp.h*scale;
+    g.globalAlpha=alpha; g.drawImage(img,Math.round(this.x-w/2),Math.round(this.y-h),w,h);
+    if(this.flash>0){ g.save(); g.globalAlpha=alpha*this.flash*0.8; g.globalCompositeOperation='lighter'; g.drawImage(img,Math.round(this.x-w/2),Math.round(this.y-h),w,h); g.restore(); } g.globalAlpha=1; } }
+class Mob extends Actor{ constructor(key){ const sp=ACT[key], m=DATA.mobs[key]; super(sp,0,0); this.key=key; this.maxhp=m.hp; this.hp=m.hp; this.name=m.name; this.spawnT=0; this.dieT=-1; }
+  place(x,y){ this.x=x; this.y=y; return this; }
+  update(dt){ this.spawnT+=dt; if(this.dieT>=0){ this.dieT+=dt; this.setState('idle'); this.tick(dt); return; }
+    const dx=dk.x-this.x, dy=dk.y-this.y; if(Math.hypot(dx,dy)<200) this.dir=dirOf(dx,dy); this.setState('idle'); this.tick(dt); }
+  hit(d){ this.hp-=d; this.flash=1; if(this.hp<=0 && this.dieT<0) this.dieT=0; }
+  draw(g){ if(this.spawnT<0.6){ const p=this.spawnT/0.6, r=6+p*34; g.save(); g.strokeStyle="rgba(230,200,119,"+((1-p)*0.9).toFixed(2)+")"; g.lineWidth=2.4; g.beginPath(); g.ellipse(this.x,this.y,r,r*0.4,0,0,7); g.stroke(); g.restore(); super.draw(g,0.4+p*0.6,Math.min(1,p*1.4)); return; }
+    if(this.dieT>=0){ const p=clamp(this.dieT/0.7,0,1); g.save(); g.translate(0,p*6); super.draw(g,1-p*0.15,1-p); g.restore(); return; }
+    super.draw(g); const bw=Math.max(26,this.sp.w*0.6), bh=4, bx=this.x-bw/2, by=this.y-this.sp.h-8;
+    g.fillStyle="rgba(0,0,0,.6)"; g.fillRect(bx-1,by-1,bw+2,bh+2); g.fillStyle="#3a1414"; g.fillRect(bx,by,bw,bh); g.fillStyle="#c0402f"; g.fillRect(bx,by,bw*clamp(this.hp/this.maxhp,0,1),bh); } }
+
+function walkableAt(px,py){ const cx=Math.floor(px/CELLPX), cy=Math.floor(py/CELLPX); return WALK?.[cy]?.[cx]===1; }
+function randArenaPoint(){ for(let k=0;k<40;k++){ const a=rnd(0,7), r=Math.sqrt(rnd(0,1)); const x=ARENA.cx+Math.cos(a)*ARENA.rx*r*0.9, y=ARENA.cy+Math.sin(a)*ARENA.ry*r*0.9; if(walkableAt(x,y)) return [x,y]; } return [ARENA.cx+rnd(-30,30),ARENA.cy+rnd(-20,20)]; }
+function spawnMob(){ const key=ZONE.mobs[Math.floor(rnd(0,ZONE.mobs.length))]; const [x,y]=randArenaPoint(); bulls.push(new Mob(key).place(x,y)); }
+function nearest(){ let best=null,bd=1e9; for(const b of bulls){ if(b.dieT>=0||b.spawnT<0.4) continue; const d=Math.hypot(b.x-dk.x,b.y-dk.y); if(d<bd){bd=d;best=b;} } return best; }
+function popDmg(x,y,v,crit){ dmgs.push({x,y,v,crit,t:0,vx:rnd(-14,14)}); }
+
+function updateDK(dt){ const tgt=(dkTarget&&dkTarget.dieT<0&&bulls.includes(dkTarget))?dkTarget:nearest(); dkTarget=tgt;
+  if(!tgt){ dk.setState('idle'); dk.tick(dt); return; }
+  const dx=tgt.x-dk.x, dy=tgt.y-dk.y, dist=Math.hypot(dx,dy), RANGE=70;
+  if(dk.state!=='attack') dk.dir=dirOf(dx,dy);
+  if(dist>RANGE){ dk.setState('walk'); dk.dir=dirOf(dx,dy); const sp=92*dt; dk.x+=dx/dist*sp; dk.y+=dy/dist*sp; dk.tick(dt); }
+  else { if(dk.state!=='attack'){ dk.setState('attack'); dkSwing=false; dk._done=false; } dk.tick(dt);
+    const strike=Math.floor(dk.frames().length*0.55);
+    if(!dkSwing && dk.frame>=strike){ dkSwing=true; const crit=Math.random()<0.22; let d=Math.round(rnd(14,22))*(crit?2:1); tgt.hit(d); popDmg(tgt.x,tgt.y-tgt.sp.h-6,d,crit); if(tgt.hp<=0){ kills++; document.getElementById('kc').textContent=kills; } }
+    if(dk._done){ dk.t=0; dk.frame=0; dk._done=false; dkSwing=false; } } }
+
+function frame(ts){ if(!running) return; const dt=Math.min(0.05,(ts-last)/1000||0); last=ts;
+  const alive=bulls.filter(b=>b.dieT<0).length; if(alive<5) spawnMob();
+  updateDK(dt); for(const b of bulls) b.update(dt);
+  for(let i=0;i<bulls.length;i++)for(let j=i+1;j<bulls.length;j++){ const a=bulls[i],c=bulls[j]; if(a.dieT>=0||c.dieT>=0)continue; let dx=c.x-a.x,dy=(c.y-a.y)*1.6,d=Math.hypot(dx,dy)||1; const MIN=42; if(d<MIN){const p=(MIN-d)/d*0.5; dx*=p; dy*=p/1.6; a.x-=dx;a.y-=dy;c.x+=dx;c.y+=dy;} }
+  for(const b of bulls){ const dx=(b.x-ARENA.cx)/ARENA.rx, dy=(b.y-ARENA.cy)/ARENA.ry, d=Math.hypot(dx,dy); if(d>1){ b.x=ARENA.cx+dx/d*ARENA.rx; b.y=ARENA.cy+dy/d*ARENA.ry; } }
+  dk.x=clamp(dk.x,40,W-40); dk.y=clamp(dk.y,60,H-24);
+  for(let i=bulls.length-1;i>=0;i--) if(bulls[i].dieT>0.7) bulls.splice(i,1);
+  for(const d of dmgs){ d.t+=dt; d.y-=26*dt; d.x+=d.vx*dt; } for(let i=dmgs.length-1;i>=0;i--) if(dmgs[i].t>1) dmgs.splice(i,1);
+  // render
+  ctx.clearRect(0,0,W,H); ctx.drawImage(FLOORCANVAS,0,0); drawArena(ctx);
+  const ents=[...bulls,dk].sort((a,b)=>a.y-b.y);
+  for(const e of ents){ ctx.save(); ctx.globalAlpha=0.32; ctx.fillStyle="#000"; ctx.beginPath(); ctx.ellipse(e.x,e.y-2,e.sp.w*0.30,6,0,0,7); ctx.fill(); ctx.restore(); }
+  for(const e of ents) e.draw(ctx);
+  ctx.textAlign='center';
+  for(const d of dmgs){ const a=clamp(1.4-d.t*1.2,0,1); ctx.globalAlpha=a; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.85)"; ctx.fillStyle=d.crit?"#ffcf4d":"#f2ece0"; const s=d.crit?18:15; ctx.font=`bold ${s}px ui-monospace,monospace`; ctx.strokeText(d.v+(d.crit?"!":""),d.x,d.y); ctx.fillText(d.v+(d.crit?"!":""),d.x,d.y); }
+  ctx.globalAlpha=1;
+  const vg=ctx.createRadialGradient(W/2,H*0.42,H*0.24,W/2,H*0.5,H*0.9); vg.addColorStop(0,"rgba(0,0,0,0)"); vg.addColorStop(1,"rgba(0,0,0,0.38)"); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
+  requestAnimationFrame(frame);
+}
+
+async function showScene(key){
+  ZONE=DATA.zones.find(z=>z.key===key); const fl=ZONE.floor;
+  const img=await loadImg(fl.png); W=fl.w; H=fl.h; CELLPX=fl.cellpx; WALK=fl.walkable; cv.width=W; cv.height=H;
+  ARENA={cx:W*0.5, cy:H*0.56, rx:W*0.38, ry:H*0.36}; buildFloor(img);
+  bulls=[]; dmgs=[]; kills=0; dkTarget=null; dkSwing=false;
+  dk=new Actor(ACT.dk, ARENA.cx-ARENA.rx*0.9, ARENA.cy); dk.fps={idle:6,walk:11,attack:13};
+  for(let i=0;i<4;i++) spawnMob();
+  // header + legenda
+  document.getElementById('stitle').textContent=ZONE.name;
+  const lvs=ZONE.mobs.map(k=>DATA.mobs[k].lv);
+  document.getElementById('ssub').textContent=`x ${ZONE.x1}–${ZONE.x2} · y ${ZONE.y1}–${ZONE.y2} · Lv ${Math.min(...lvs)}–${Math.max(...lvs)}`;
+  const leg=[`<span class="k"><span class="dot" style="color:#c8a24a"></span>Dark Knight</span>`]
+    .concat(ZONE.mobs.map(k=>`<span class="k"><span class="dot" style="color:${ZONE.color}"></span>${DATA.mobs[k].name}</span>`))
+    .concat([`<span class="k">abates: <b style="color:#d9cdb4;margin-left:4px" id="kc">0</b></span>`]);
+  document.getElementById('slegend').innerHTML=leg.join('');
+  document.getElementById('mapView').style.display='none'; document.getElementById('sceneView').style.display='block';
+  document.getElementById('hsub').innerHTML='Caçada em <b>'+ZONE.name+'</b> · terreno real de Lorência';
+  if(!running){ running=true; requestAnimationFrame(frame); }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('back').addEventListener('click',()=>{ running=false; document.getElementById('sceneView').style.display='none'; document.getElementById('mapView').style.display='grid'; document.getElementById('hsub').innerHTML='Mapa <b>real</b> do World1 · clique num <b>spot</b> pra entrar na caçada naquele terreno'; });
+
+boot();
+</script>
+</body>
+</html>

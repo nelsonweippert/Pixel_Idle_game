@@ -1,0 +1,17 @@
+{
+  "name": "Bosque Leste",
+  "tileW": 64,
+  "tileH": 64,
+  "width": 47,
+  "height": 30,
+  "baked": "floor.jpg",
+  "pxW": 3008,
+  "pxH": 1920,
+  "battle": {
+    "x": 4,
+    "y": 2,
+    "w": 39,
+    "h": 26
+  },
+  "smooth": true
+}

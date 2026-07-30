@@ -7,7 +7,11 @@
  * servidor autoritativo passa a ser a fonte de verdade.
  */
 
+import vocationsJson from "../content/vocations.json";
+import gameJson from "../content/game.json";
+
 export * from "./world";
+export * from "./mu";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Classes / Vocações  (Tank · Healer · Mage · Archer)
@@ -46,52 +50,11 @@ export interface VocationDef {
   skills: string[];
 }
 
-export const VOCATIONS: Record<VocationId, VocationDef> = {
-  knight: {
-    id: "knight",
-    name: "Knight",
-    role: "tank",
-    tagline: "Segura a linha de frente e a aggro.",
-    color: 0x5b8fd6,
-    accent: "#5b8fd6",
-    row: "front",
-    base: { hp: 900, attack: 45, defense: 60, magic: 0, attackSpeedMs: 1400, range: 1 },
-    skills: ["Brutal Strike", "Fierce Berserk", "Taunt", "Shield Wall"],
-  },
-  cleric: {
-    id: "cleric",
-    name: "Cleric",
-    role: "healer",
-    tagline: "Mantém o grupo vivo com luz sagrada.",
-    color: 0xf2c14e,
-    accent: "#f2c14e",
-    row: "back",
-    base: { hp: 520, attack: 20, defense: 25, magic: 55, attackSpeedMs: 1600, range: 4 },
-    skills: ["Healing Light", "Mass Heal", "Divine Blessing", "Cleanse"],
-  },
-  sorcerer: {
-    id: "sorcerer",
-    name: "Sorcerer",
-    role: "mage",
-    tagline: "Devastação mágica em área. Frágil.",
-    color: 0xa06cd5,
-    accent: "#a06cd5",
-    row: "back",
-    base: { hp: 460, attack: 18, defense: 18, magic: 80, attackSpeedMs: 1800, range: 5 },
-    skills: ["Fireball", "Chain Lightning", "Energy Wave", "Ice Nova"],
-  },
-  ranger: {
-    id: "ranger",
-    name: "Ranger",
-    role: "archer",
-    tagline: "DPS físico à distância, foco em bosses.",
-    color: 0x6fbf73,
-    accent: "#6fbf73",
-    row: "back",
-    base: { hp: 560, attack: 62, defense: 28, magic: 10, attackSpeedMs: 1100, range: 5 },
-    skills: ["Precise Shot", "Volley", "Piercing Arrow", "Hunter's Focus"],
-  },
-};
+// dados canônicos em ../content/vocations.json (balancear sem tocar código)
+export const VOCATIONS: Record<VocationId, VocationDef> = vocationsJson as unknown as Record<
+  VocationId,
+  VocationDef
+>;
 
 export const VOCATION_LIST: VocationDef[] = [
   VOCATIONS.knight,
@@ -99,6 +62,15 @@ export const VOCATION_LIST: VocationDef[] = [
   VOCATIONS.sorcerer,
   VOCATIONS.ranger,
 ];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tabelas de loot + curva de XP (dados canônicos em ../content/game.json)
+// ─────────────────────────────────────────────────────────────────────────────
+export const LOOT_TABLE = gameJson.loot as unknown as {
+  names: Record<Rarity, string[]>;
+  rarityWeights: ReadonlyArray<readonly [Rarity, number]>;
+};
+export const XP_CURVE = gameJson.xpCurve as { base: number; exp: number };
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Combate (entidades que a cena Pixi desenha)

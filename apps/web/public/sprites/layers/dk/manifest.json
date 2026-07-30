@@ -1,0 +1,20 @@
+{
+  "cellW": 137,
+  "cellH": 128,
+  "targetH": 100,
+  "layers": [
+    "base-armor",
+    "base-boots",
+    "base-gloves",
+    "base-helm",
+    "base-pants",
+    "set1-armor",
+    "set1-boots",
+    "set1-gloves",
+    "set1-helm",
+    "set1-pants",
+    "wpn-0",
+    "wpn-1",
+    "wpn-6144"
+  ]
+}

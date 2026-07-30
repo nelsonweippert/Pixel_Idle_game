@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lorência — Mapa & Spots de Caçada</title>
+<style>
+  :root{
+    --bg:#0c0b0f; --panel:#15131b; --edge:#2a2534; --edge2:#39323f;
+    --gold:#c8a24a; --gold-soft:#e6c877; --parch:#ddd2ba; --muted:#8b8271; --ink:#ece6d8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:radial-gradient(1400px 800px at 50% -20%, #1a1524 0%, var(--bg) 60%), var(--bg);
+    color:var(--ink); font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    padding:22px clamp(12px,3vw,34px) 46px;
+  }
+  header{max-width:1400px; margin:0 auto 16px; display:flex; align-items:flex-end; justify-content:space-between; gap:18px; flex-wrap:wrap}
+  h1{margin:0; font-size:clamp(24px,3.6vw,38px); font-weight:600; letter-spacing:.05em; color:var(--gold-soft); text-shadow:0 2px 0 #000,0 0 26px rgba(200,162,74,.22)}
+  .sub{margin:5px 0 0; color:var(--muted); font-size:14px}
+  .sub b{color:var(--parch); font-weight:600}
+  .prov{font-family:ui-monospace,Consolas,monospace; font-size:11px; line-height:1.55; color:var(--muted); text-align:right; border-left:2px solid var(--edge); padding-left:12px}
+  .prov b{color:var(--gold)}
+  .grid{max-width:1400px; margin:0 auto; display:grid; grid-template-columns:minmax(0,1fr) 348px; gap:20px; align-items:start}
+  @media(max-width:920px){ .grid{grid-template-columns:1fr} }
+  /* mapa */
+  .mapwrap{position:relative; border:1px solid var(--edge2); border-radius:12px; overflow:hidden; background:#000; box-shadow:0 24px 60px -22px rgba(0,0,0,.85)}
+  .mapwrap img{display:block; width:100%; height:auto; image-rendering:pixelated}
+  .mapwrap svg{position:absolute; inset:0; width:100%; height:100%}
+  .zone{cursor:pointer; transition:opacity .15s}
+  .zoneFill{opacity:.16; transition:opacity .15s}
+  .zone:hover .zoneFill, .zone.active .zoneFill{opacity:.42}
+  .zoneStroke{fill:none; stroke-width:2.5; opacity:.75}
+  .zoneLabel{font-family:"Iowan Old Style",Georgia,serif; font-weight:600; fill:#fff; paint-order:stroke; stroke:#000; stroke-width:3px; stroke-linejoin:round}
+  .zoneLv{font-family:ui-monospace,monospace; fill:#e6c877; paint-order:stroke; stroke:#000; stroke-width:3px}
+  .townDot{fill:var(--gold-soft); stroke:#000; stroke-width:2}
+  .townLabel{font-family:"Iowan Old Style",Georgia,serif; font-weight:600; fill:var(--gold-soft); paint-order:stroke; stroke:#000; stroke-width:3px}
+  /* painel */
+  .panel{display:flex; flex-direction:column; gap:11px}
+  .phead{color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.14em; margin:2px 2px 0}
+  .card{background:var(--panel); border:1px solid var(--edge); border-left-width:4px; border-radius:10px; padding:11px 13px; cursor:pointer; transition:border-color .15s, transform .1s, background .15s}
+  .card:hover, .card.active{background:#1c1926; transform:translateX(-2px)}
+  .card h3{margin:0 0 2px; font-size:16px; font-weight:600; color:var(--parch); display:flex; align-items:center; gap:8px}
+  .chip{width:11px;height:11px;border-radius:3px;box-shadow:0 0 8px currentColor;flex:none}
+  .coord{font-family:ui-monospace,monospace; font-size:11px; color:var(--muted)}
+  .mob{display:flex; align-items:baseline; gap:8px; margin-top:7px; font-size:13.5px}
+  .mob .mn{color:var(--ink); flex:1}
+  .mob .lv{font-family:ui-monospace,monospace; color:var(--gold-soft); font-size:12px}
+  .mob .meta{font-family:ui-monospace,monospace; color:var(--muted); font-size:11px}
+  .foot{max-width:1400px; margin:16px auto 0; color:var(--muted); font-size:12px; font-family:ui-monospace,monospace; line-height:1.6}
+  .foot b{color:var(--gold-soft)}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Lorência — Mapa &amp; Spots de Caçada</h1>
+    <p class="sub">Mapa <b>real</b> do World1 (MU S6) · <b>5 spots idle</b> = áreas de spawn de monstros extraídas do OpenMU</p>
+  </div>
+  <div class="prov">terreno <b>EncTerrain1.map/.att</b> (decodificado)<br>spawns <b>OpenMU S6</b> · Lorencia.cs<br>pipeline MU→pixel · <b>Forja · R&amp;D</b></div>
+</header>
+
+<div class="grid">
+  <div class="mapwrap" id="mapwrap">
+    <img id="mapimg" alt="Mapa de Lorência">
+    <svg id="ov" preserveAspectRatio="none"></svg>
+  </div>
+  <div class="panel" id="panel">
+    <div class="phead">Spots de caçada · nível ↑</div>
+  </div>
+</div>
+<div class="foot">Cada <b>spot</b> é uma área de spawn real de Lorência — vira uma zona idle no jogo. Coordenadas em células (0–255) do grid do MU; retângulos = <b>x1–x2, y1–y2</b>. Quantidade = população simultânea de mobs na área. Chão e layout são o mapa real; arte de launch será original/licenciada.</div>
+
+<script>
+const DATA = /*__DATA__*/;
+const ov = document.getElementById('ov'), panel = document.getElementById('panel');
+document.getElementById('mapimg').src = DATA.map;
+ov.setAttribute('viewBox', `0 0 ${DATA.W} ${DATA.H}`);
+const CP = DATA.cellpx;
+const svgNS = "http://www.w3.org/2000/svg";
+const el = (t, a) => { const e = document.createElementNS(svgNS, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+// zonas ordenadas por nível mínimo (fácil → difícil)
+const zones = [...DATA.zones].sort((a, b) => Math.min(...a.mobs.map(m => m.lv)) - Math.min(...b.mobs.map(m => m.lv)));
+
+function setActive(key, on){
+  document.querySelectorAll(`[data-k="${key}"]`).forEach(n => n.classList.toggle('active', on));
+}
+
+for (const z of zones) {
+  const x = z.x1 * CP, y = z.y1 * CP, w = (z.x2 - z.x1 + 1) * CP, h = (z.y2 - z.y1 + 1) * CP;
+  const g = el('g', { class: 'zone', 'data-k': z.key });
+  g.appendChild(el('rect', { x, y, width: w, height: h, rx: 6, class: 'zoneFill', fill: z.color }));
+  g.appendChild(el('rect', { x, y, width: w, height: h, rx: 6, class: 'zoneStroke', stroke: z.color }));
+  const cx = x + w / 2, cy = y + h / 2;
+  const lvs = z.mobs.map(m => m.lv); const lvr = Math.min(...lvs) === Math.max(...lvs) ? `Lv ${lvs[0]}` : `Lv ${Math.min(...lvs)}–${Math.max(...lvs)}`;
+  const t1 = el('text', { x: cx, y: cy - 6, 'text-anchor': 'middle', class: 'zoneLabel', 'font-size': 30 }); t1.textContent = z.name;
+  const t2 = el('text', { x: cx, y: cy + 24, 'text-anchor': 'middle', class: 'zoneLv', 'font-size': 24 }); t2.textContent = lvr;
+  g.appendChild(t1); g.appendChild(t2);
+  g.addEventListener('mouseenter', () => setActive(z.key, true));
+  g.addEventListener('mouseleave', () => setActive(z.key, false));
+  ov.appendChild(g);
+}
+
+// marca da cidade
+const tx = DATA.town.x * CP, ty = DATA.town.y * CP;
+ov.appendChild(el('circle', { cx: tx, cy: ty, r: 9, class: 'townDot' }));
+const tl = el('text', { x: tx + 14, y: ty + 6, class: 'townLabel', 'font-size': 26 }); tl.textContent = 'Lorência (cidade)'; ov.appendChild(tl);
+
+// painel
+for (const z of zones) {
+  const card = document.createElement('div'); card.className = 'card'; card.dataset.k = z.key;
+  card.style.borderLeftColor = z.color;
+  const mobs = z.mobs.map(m => `<div class="mob"><span class="mn">${m.n}</span><span class="lv">Lv ${m.lv}</span><span class="meta">${m.hp} HP · ×${m.q}</span></div>`).join('');
+  card.innerHTML = `<h3><span class="chip" style="color:${z.color};background:${z.color}"></span>${z.name}</h3>`
+    + `<div class="coord">x ${z.x1}–${z.x2} · y ${z.y1}–${z.y2}</div>${mobs}`;
+  card.addEventListener('mouseenter', () => setActive(z.key, true));
+  card.addEventListener('mouseleave', () => setActive(z.key, false));
+  panel.appendChild(card);
+}
+</script>
+</body>
+</html>

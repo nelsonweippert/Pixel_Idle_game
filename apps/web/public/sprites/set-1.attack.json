@@ -1,0 +1,576 @@
+{
+  "frames": {
+    "attack.south.0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.south.1": {
+      "frame": {
+        "x": 69,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.south.2": {
+      "frame": {
+        "x": 138,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.south.3": {
+      "frame": {
+        "x": 207,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.south.4": {
+      "frame": {
+        "x": 276,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.south.5": {
+      "frame": {
+        "x": 345,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.north.0": {
+      "frame": {
+        "x": 0,
+        "y": 100,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.north.1": {
+      "frame": {
+        "x": 69,
+        "y": 100,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.north.2": {
+      "frame": {
+        "x": 138,
+        "y": 100,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.north.3": {
+      "frame": {
+        "x": 207,
+        "y": 100,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.north.4": {
+      "frame": {
+        "x": 276,
+        "y": 100,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.north.5": {
+      "frame": {
+        "x": 345,
+        "y": 100,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.east.0": {
+      "frame": {
+        "x": 0,
+        "y": 200,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.east.1": {
+      "frame": {
+        "x": 69,
+        "y": 200,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.east.2": {
+      "frame": {
+        "x": 138,
+        "y": 200,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.east.3": {
+      "frame": {
+        "x": 207,
+        "y": 200,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.east.4": {
+      "frame": {
+        "x": 276,
+        "y": 200,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.east.5": {
+      "frame": {
+        "x": 345,
+        "y": 200,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.west.0": {
+      "frame": {
+        "x": 0,
+        "y": 300,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.west.1": {
+      "frame": {
+        "x": 69,
+        "y": 300,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.west.2": {
+      "frame": {
+        "x": 138,
+        "y": 300,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.west.3": {
+      "frame": {
+        "x": 207,
+        "y": 300,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.west.4": {
+      "frame": {
+        "x": 276,
+        "y": 300,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "attack.west.5": {
+      "frame": {
+        "x": 345,
+        "y": 300,
+        "w": 69,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 69,
+        "h": 100
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 69,
+        "h": 100
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "animations": {
+    "south": [
+      "attack.south.0",
+      "attack.south.1",
+      "attack.south.2",
+      "attack.south.3",
+      "attack.south.4",
+      "attack.south.5"
+    ],
+    "north": [
+      "attack.north.0",
+      "attack.north.1",
+      "attack.north.2",
+      "attack.north.3",
+      "attack.north.4",
+      "attack.north.5"
+    ],
+    "east": [
+      "attack.east.0",
+      "attack.east.1",
+      "attack.east.2",
+      "attack.east.3",
+      "attack.east.4",
+      "attack.east.5"
+    ],
+    "west": [
+      "attack.west.0",
+      "attack.west.1",
+      "attack.west.2",
+      "attack.west.3",
+      "attack.west.4",
+      "attack.west.5"
+    ]
+  },
+  "meta": {
+    "image": "set-1.attack.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 414,
+      "h": 400
+    },
+    "scale": 1,
+    "fps": 12
+  }
+}

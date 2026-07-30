@@ -46,10 +46,16 @@ export const TILE = 32;
 export const MASTER_PALETTE = PALETTE_NAME;
 
 // animação NÍVEL TIBIA: básica de propósito. idle + walk + attack curtos.
+// Tetos subidos em 2026-07-12 pra caber a SÉRIE ÂNCORA (CraftPix swordsman,
+// padrão comprovado do knight em produção): idle 12f, walk 6f (Walk_Attack),
+// attack 7f. Subimos o PORTÃO, não contornamos — os mínimos continuam baixos
+// pra aceitar a arte Pixellab (animate-v3 gera 4f).
 const CHAR_ANIMS: AnimRule[] = [
-  { name: "idle", minFrames: 1, maxFrames: 2, directions: 4, fps: 2 },
-  { name: "walk", minFrames: 3, maxFrames: 4, directions: 4, fps: 8 },
-  { name: "attack", minFrames: 2, maxFrames: 4, directions: 4, fps: 10 }, // maxFrames 4: animate-v3 exige frame_count≥4
+  { name: "idle", minFrames: 1, maxFrames: 12, directions: 4, fps: 2 },
+  { name: "walk", minFrames: 3, maxFrames: 8, directions: 4, fps: 8 },
+  { name: "attack", minFrames: 2, maxFrames: 10, directions: 4, fps: 10 }, // 10: skeleton attack=9f (swordsman=7f)
+  { name: "hurt", minFrames: 1, maxFrames: 6, directions: 4, fps: 8, optional: true },
+  { name: "death", minFrames: 1, maxFrames: 8, directions: 4, fps: 10, optional: true },
 ];
 
 const CREATURE_ANIMS: AnimRule[] = [
@@ -71,11 +77,11 @@ export const ART_SPEC: Record<AssetType, TypeSpec> = {
   character: {
     type: "character",
     sizes: [{ w: 64, h: 64 }],
-    maxColors: 40,
+    maxColors: 96,
     requireTransparency: true,
     anchor: "bottom-center",
     animations: CHAR_ANIMS,
-    note: "Heróis/humanoides, 64×64 (subido de 48 em 2026-07-11: PRO gera master ~112px e o downscale nearest→64 fica legível; 48 ficava rústico). 4 direções. maxColors 40 (subido de 24→32→40 em 2026-07-11 por dado empírico: idle 23c, walk 26c, attack 33c snapados na Resurrect 64. O teto existe pra pegar arte NÃO-processada (milhares de cores), não pra orçamento artístico apertado; 40 dá folga e ainda pega o caso cru dramaticamente).",
+    note: "Heróis/humanoides, 64×64 (subido de 48 em 2026-07-11: PRO gera master ~112px e o downscale nearest→64 fica legível; 48 ficava rústico). 4 direções. maxColors 96 (subido de 64 em 2026-07-12 por dado empírico da série âncora CraftPix: knight walk 85c, attack 87c — arte artesanal coesa, sem snap. O teto existe pra pegar arte NÃO-processada de IA com milhares de cores, não pra limitar arte curada; 96 dá folga e ainda pega o caso cru dramaticamente).",
   },
   creature: {
     type: "creature",
@@ -86,11 +92,11 @@ export const ART_SPEC: Record<AssetType, TypeSpec> = {
       { w: 96, h: 96 },
       { w: 128, h: 128 }, // bosses (respeita o cap PRO do Pixellab)
     ],
-    maxColors: 24,
     requireTransparency: true,
     anchor: "bottom-center",
     animations: CREATURE_ANIMS,
-    note: "Monstros/bosses. Tamanho por classe: 32 pequeno … 128 boss. walk/attack opcionais.",
+    maxColors: 64,
+    note: "Monstros/bosses. Tamanho por classe: 32 pequeno … 128 boss. walk/attack opcionais. maxColors 64 (nivelado com character em 2026-07-11: o pixflux com highly-detailed-shading gera arte rica que, pós-snap na Resurrect 64, usa até 64 cores — que é o teto natural do snap. O cap pega arte CRUA não-processada, não é orçamento artístico apertado).",
   },
   prop: {
     type: "prop",

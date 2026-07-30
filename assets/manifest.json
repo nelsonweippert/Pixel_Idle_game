@@ -19,11 +19,11 @@
         "x": 0.5,
         "y": 1
       },
-      "colors": 19,
+      "colors": 30,
       "pixelScale": 1,
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\bandit.idle.png",
-      "validatedAt": "2026-07-12T01:46:33.364Z"
+      "validatedAt": "2026-07-12T02:51:16.551Z"
     },
     {
       "id": "cave-rat",
@@ -42,11 +42,34 @@
         "x": 0.5,
         "y": 1
       },
-      "colors": 24,
+      "colors": 37,
       "pixelScale": 1,
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\cave-rat.idle.png",
-      "validatedAt": "2026-07-12T01:39:37.757Z"
+      "validatedAt": "2026-07-12T02:48:14.151Z"
+    },
+    {
+      "id": "cleric",
+      "type": "character",
+      "anim": "attack",
+      "path": "sprites/cleric.attack.png",
+      "sheet": "sprites/cleric.attack.json",
+      "width": 256,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 4,
+      "directions": 4,
+      "fps": 10,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 45,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\cleric.attack.png",
+      "validatedAt": "2026-07-12T02:54:36.318Z"
     },
     {
       "id": "cleric",
@@ -65,11 +88,11 @@
         "x": 0.5,
         "y": 1
       },
-      "colors": 31,
+      "colors": 33,
       "pixelScale": 1,
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\cleric.idle.png",
-      "validatedAt": "2026-07-12T01:30:54.410Z"
+      "validatedAt": "2026-07-12T02:54:36.250Z"
     },
     {
       "id": "giant-spider",
@@ -88,11 +111,11 @@
         "x": 0.5,
         "y": 1
       },
-      "colors": 21,
+      "colors": 11,
       "pixelScale": 1,
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\giant-spider.idle.png",
-      "validatedAt": "2026-07-12T01:49:37.447Z"
+      "validatedAt": "2026-07-12T02:51:46.392Z"
     },
     {
       "id": "grey-wolf",
@@ -111,11 +134,11 @@
         "x": 0.5,
         "y": 1
       },
-      "colors": 13,
+      "colors": 41,
       "pixelScale": 1,
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\grey-wolf.idle.png",
-      "validatedAt": "2026-07-12T01:42:59.488Z"
+      "validatedAt": "2026-07-12T02:50:19.058Z"
     },
     {
       "id": "knight",
@@ -123,6 +146,75 @@
       "anim": "attack",
       "path": "sprites/knight.attack.png",
       "sheet": "sprites/knight.attack.json",
+      "width": 448,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 7,
+      "directions": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 87,
+      "pixelScale": 1,
+      "partialAlpha": 0.0146,
+      "source": "assets\\_packs\\top-down-sprites\\swordsman-level-4-6-pixel-character-top-down-sprite-pack\\Tiled_files\\Swordsman_lvl4\\lvl4_attack_without_shadow.png",
+      "validatedAt": "2026-07-12T17:56:51.675Z"
+    },
+    {
+      "id": "knight",
+      "type": "character",
+      "anim": "idle",
+      "path": "sprites/knight.idle.png",
+      "sheet": "sprites/knight.idle.json",
+      "width": 768,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 12,
+      "directions": 4,
+      "fps": 6,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 48,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "assets\\_packs\\top-down-sprites\\swordsman-level-4-6-pixel-character-top-down-sprite-pack\\Tiled_files\\Swordsman_lvl4\\lvl4_Idle_without_shadow.png",
+      "validatedAt": "2026-07-12T17:56:51.637Z"
+    },
+    {
+      "id": "knight",
+      "type": "character",
+      "anim": "walk",
+      "path": "sprites/knight.walk.png",
+      "sheet": "sprites/knight.walk.json",
+      "width": 384,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 6,
+      "directions": 4,
+      "fps": 10,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 85,
+      "pixelScale": 1,
+      "partialAlpha": 0.0169,
+      "source": "assets\\_packs\\top-down-sprites\\swordsman-level-4-6-pixel-character-top-down-sprite-pack\\Tiled_files\\Swordsman_lvl4\\lvl4_Walk_Attack_without_shadow.png",
+      "validatedAt": "2026-07-12T17:56:51.659Z"
+    },
+    {
+      "id": "ranger",
+      "type": "character",
+      "anim": "attack",
+      "path": "sprites/ranger.attack.png",
+      "sheet": "sprites/ranger.attack.json",
       "width": 256,
       "height": 256,
       "frameW": 64,
@@ -134,57 +226,11 @@
         "x": 0.5,
         "y": 1
       },
-      "colors": 33,
+      "colors": 42,
       "pixelScale": 1,
       "partialAlpha": 0,
-      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\knight.attack.png",
-      "validatedAt": "2026-07-12T00:49:47.748Z"
-    },
-    {
-      "id": "knight",
-      "type": "character",
-      "anim": "idle",
-      "path": "sprites/knight.idle.png",
-      "sheet": "sprites/knight.idle.json",
-      "width": 64,
-      "height": 256,
-      "frameW": 64,
-      "frameH": 64,
-      "frames": 1,
-      "directions": 4,
-      "fps": 2,
-      "anchor": {
-        "x": 0.5,
-        "y": 1
-      },
-      "colors": 18,
-      "pixelScale": 1,
-      "partialAlpha": 0,
-      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\knight.idle.png",
-      "validatedAt": "2026-07-12T01:20:47.251Z"
-    },
-    {
-      "id": "knight",
-      "type": "character",
-      "anim": "walk",
-      "path": "sprites/knight.walk.png",
-      "sheet": "sprites/knight.walk.json",
-      "width": 256,
-      "height": 256,
-      "frameW": 64,
-      "frameH": 64,
-      "frames": 4,
-      "directions": 4,
-      "fps": 8,
-      "anchor": {
-        "x": 0.5,
-        "y": 1
-      },
-      "colors": 26,
-      "pixelScale": 1,
-      "partialAlpha": 0,
-      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\knight.walk.png",
-      "validatedAt": "2026-07-12T00:49:47.660Z"
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\ranger.attack.png",
+      "validatedAt": "2026-07-12T02:55:59.916Z"
     },
     {
       "id": "ranger",
@@ -203,11 +249,149 @@
         "x": 0.5,
         "y": 1
       },
-      "colors": 24,
+      "colors": 31,
       "pixelScale": 1,
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\ranger.idle.png",
-      "validatedAt": "2026-07-12T01:26:04.572Z"
+      "validatedAt": "2026-07-12T02:55:59.819Z"
+    },
+    {
+      "id": "skeleton",
+      "type": "character",
+      "anim": "attack",
+      "path": "sprites/skeleton.attack.png",
+      "sheet": "sprites/skeleton.attack.json",
+      "width": 576,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 9,
+      "directions": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 16,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "assets\\_packs\\top-down-sprites\\top-down-pixel-skeletons-character-sprite-pack\\Tiled_files\\Skeleton1_Attack_without_shadow.png",
+      "validatedAt": "2026-07-12T18:14:29.497Z"
+    },
+    {
+      "id": "skeleton",
+      "type": "character",
+      "anim": "death",
+      "path": "sprites/skeleton.death.png",
+      "sheet": "sprites/skeleton.death.json",
+      "width": 384,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 6,
+      "directions": 4,
+      "fps": 10,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 14,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "assets\\_packs\\top-down-sprites\\top-down-pixel-skeletons-character-sprite-pack\\Tiled_files\\Skeleton1_Death_without_shadow.png",
+      "validatedAt": "2026-07-12T18:14:29.519Z"
+    },
+    {
+      "id": "skeleton",
+      "type": "character",
+      "anim": "hurt",
+      "path": "sprites/skeleton.hurt.png",
+      "sheet": "sprites/skeleton.hurt.json",
+      "width": 256,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 4,
+      "directions": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 42,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "assets\\_packs\\top-down-sprites\\top-down-pixel-skeletons-character-sprite-pack\\Tiled_files\\Skeleton1_Hurt_without_shadow.png",
+      "validatedAt": "2026-07-12T18:14:29.508Z"
+    },
+    {
+      "id": "skeleton",
+      "type": "character",
+      "anim": "idle",
+      "path": "sprites/skeleton.idle.png",
+      "sheet": "sprites/skeleton.idle.json",
+      "width": 256,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 4,
+      "directions": 4,
+      "fps": 6,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 14,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "assets\\_packs\\top-down-sprites\\top-down-pixel-skeletons-character-sprite-pack\\Tiled_files\\Skeleton1_Idle_without_shadow.png",
+      "validatedAt": "2026-07-12T18:14:29.462Z"
+    },
+    {
+      "id": "skeleton",
+      "type": "character",
+      "anim": "walk",
+      "path": "sprites/skeleton.walk.png",
+      "sheet": "sprites/skeleton.walk.json",
+      "width": 384,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 6,
+      "directions": 4,
+      "fps": 10,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 14,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "assets\\_packs\\top-down-sprites\\top-down-pixel-skeletons-character-sprite-pack\\Tiled_files\\Skeleton1_Walk_without_shadow.png",
+      "validatedAt": "2026-07-12T18:14:29.482Z"
+    },
+    {
+      "id": "sorcerer",
+      "type": "character",
+      "anim": "attack",
+      "path": "sprites/sorcerer.attack.png",
+      "sheet": "sprites/sorcerer.attack.json",
+      "width": 256,
+      "height": 256,
+      "frameW": 64,
+      "frameH": 64,
+      "frames": 4,
+      "directions": 4,
+      "fps": 10,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "colors": 53,
+      "pixelScale": 1,
+      "partialAlpha": 0,
+      "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\sorcerer.attack.png",
+      "validatedAt": "2026-07-12T02:57:05.445Z"
     },
     {
       "id": "sorcerer",
@@ -226,11 +410,11 @@
         "x": 0.5,
         "y": 1
       },
-      "colors": 34,
+      "colors": 38,
       "pixelScale": 1,
       "partialAlpha": 0,
       "source": "C:\\Users\\Storming\\Desktop\\GItHubs\\Pixel_Idle_game\\assets\\_incoming\\sorcerer.idle.png",
-      "validatedAt": "2026-07-12T02:12:32.969Z"
+      "validatedAt": "2026-07-12T02:57:05.352Z"
     }
   ]
 }

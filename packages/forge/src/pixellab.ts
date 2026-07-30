@@ -65,6 +65,36 @@ export async function createCharacter8dPro(o: {
   return { jobId: r.json.background_job_id, characterId: r.json.character_id };
 }
 
+/**
+ * IMAGEM ÚNICA de alta fidelidade (modelo Pixflux). Síncrono (sem job), 1 generation,
+ * respeita image_size (32–400px). Controles de estilo (outline/shading/detail) fazem
+ * o acabamento "desenhado à mão" que o 8d não dá — é a fonte de qualidade do jogo.
+ * Testado empiricamente: 8d gasta capacidade em rotação; pixflux gasta em detalhe.
+ */
+export async function createImagePixflux(o: {
+  description: string;
+  size: number;
+  direction?: string;
+  view?: string;
+}): Promise<PlImage> {
+  const r = await plFetch("POST", "/create-image-pixflux", {
+    description: o.description,
+    image_size: { width: o.size, height: o.size },
+    negative_description:
+      "blurry, soft, anti-aliased, smooth gradient, photorealistic, 3d render, watermark, drop shadow, ground shadow",
+    text_guidance_scale: 9,
+    outline: "selective outline", // contorno colorido/seletivo (não preto chapado)
+    shading: "highly detailed shading", // cel-shade de vários tons
+    detail: "highly detailed",
+    view: o.view ?? "low top-down",
+    direction: o.direction ?? "south",
+    no_background: true,
+  });
+  if (r.status >= 400 || !r.json.image?.base64)
+    throw new Error(`create-image-pixflux falhou (${r.status}): ${JSON.stringify(r.json).slice(0, 300)}`);
+  return { dir: o.direction ?? "south", b64: r.json.image.base64, width: o.size, height: o.size };
+}
+
 export async function animateV3(o: {
   firstFrameB64: string;
   action: string;

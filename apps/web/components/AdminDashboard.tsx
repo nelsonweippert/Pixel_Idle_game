@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { REGIONS, VOCATION_LIST } from "@pixel-idle/shared";
+import { SceneBuilder } from "./SceneBuilder";
 
 const RES = [
   "#2e222f", "#3e3546", "#625565", "#966c6c", "#ab947a", "#694f62", "#7f708a", "#9babb2",
@@ -18,6 +19,7 @@ const RES = [
 const TABS = [
   ["overview", "Visão geral"],
   ["forja", "A Forja"],
+  ["montador", "Montador"],
   ["classes", "Classes"],
   ["mundo", "Mundo"],
   ["combate", "Combate"],
@@ -71,16 +73,21 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         </nav>
       </div>
 
-      <div className="lg-wrap">
-        {tab === "overview" && <Overview />}
-        {tab === "forja" && <Forja />}
-        {tab === "classes" && <Classes />}
-        {tab === "mundo" && <Mundo />}
-        {tab === "combate" && <Combate />}
-        {tab === "arte" && <Arte />}
-        {tab === "arq" && <Arq />}
-        {tab === "economia" && <Economia />}
-      </div>
+      {/* Montador = editor de tela cheia (fora do .lg-wrap, gerencia o próprio scroll) */}
+      {tab === "montador" ? (
+        <SceneBuilder />
+      ) : (
+        <div className="lg-wrap">
+          {tab === "overview" && <Overview />}
+          {tab === "forja" && <Forja />}
+          {tab === "classes" && <Classes />}
+          {tab === "mundo" && <Mundo />}
+          {tab === "combate" && <Combate />}
+          {tab === "arte" && <Arte />}
+          {tab === "arq" && <Arq />}
+          {tab === "economia" && <Economia />}
+        </div>
+      )}
     </div>
   );
 }
@@ -322,7 +329,7 @@ function Combate() {
       <div className="lg-grid lg-g3">
         {[
           ["HuntScene · Pixi", "A cena", "Piso em tiles, heróis em formação, monstros, HP. Render puro por eventos."],
-          ["MockEngine → servidor", "A simulação", "A fonte de verdade. Trocável por WebSocket do servidor sem tocar no render."],
+          ["game-core → servidor", "A simulação", "Sim pura e determinística (PCG32, passo fixo). NetClient a dirige hoje; vira WebSocket sem tocar no render."],
           ["React", "A HUD", "Party, skills, caçada, loot feed, chat. 90% do jogo é DOM comum."],
         ].map(([k, h, p]) => (
           <div className="lg-card" key={h}>

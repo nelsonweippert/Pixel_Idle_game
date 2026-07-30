@@ -1,0 +1,25 @@
+{
+  "name": "@pixel-idle/game-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A simulação de hunt: pura, sem I/O, 100% determinística. Online (tick 1Hz) e offline (fast-forward) com o mesmo advance().",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pixel-idle/shared": "*",
+    "@pixel-idle/game-protocol": "*"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0",
+    "typescript": "^5.9.0",
+    "@types/node": "^22.10.0"
+  }
+}

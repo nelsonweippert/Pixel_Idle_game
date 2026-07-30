@@ -1,0 +1,94 @@
+{
+  "knight": {
+    "id": "knight",
+    "name": "Knight",
+    "role": "tank",
+    "tagline": "Segura a linha de frente e a aggro.",
+    "color": 6000598,
+    "accent": "#5b8fd6",
+    "row": "front",
+    "base": {
+      "hp": 900,
+      "attack": 45,
+      "defense": 60,
+      "magic": 0,
+      "attackSpeedMs": 1400,
+      "range": 1
+    },
+    "skills": [
+      "Brutal Strike",
+      "Fierce Berserk",
+      "Taunt",
+      "Shield Wall"
+    ]
+  },
+  "cleric": {
+    "id": "cleric",
+    "name": "Cleric",
+    "role": "healer",
+    "tagline": "Mantém o grupo vivo com luz sagrada.",
+    "color": 15909198,
+    "accent": "#f2c14e",
+    "row": "back",
+    "base": {
+      "hp": 520,
+      "attack": 20,
+      "defense": 25,
+      "magic": 55,
+      "attackSpeedMs": 1600,
+      "range": 4
+    },
+    "skills": [
+      "Healing Light",
+      "Mass Heal",
+      "Divine Blessing",
+      "Cleanse"
+    ]
+  },
+  "sorcerer": {
+    "id": "sorcerer",
+    "name": "Sorcerer",
+    "role": "mage",
+    "tagline": "Devastação mágica em área. Frágil.",
+    "color": 10513621,
+    "accent": "#a06cd5",
+    "row": "back",
+    "base": {
+      "hp": 460,
+      "attack": 18,
+      "defense": 18,
+      "magic": 80,
+      "attackSpeedMs": 1800,
+      "range": 5
+    },
+    "skills": [
+      "Fireball",
+      "Chain Lightning",
+      "Energy Wave",
+      "Ice Nova"
+    ]
+  },
+  "ranger": {
+    "id": "ranger",
+    "name": "Ranger",
+    "role": "archer",
+    "tagline": "DPS físico à distância, foco em bosses.",
+    "color": 7323507,
+    "accent": "#6fbf73",
+    "row": "back",
+    "base": {
+      "hp": 560,
+      "attack": 62,
+      "defense": 28,
+      "magic": 10,
+      "attackSpeedMs": 1100,
+      "range": 5
+    },
+    "skills": [
+      "Precise Shot",
+      "Volley",
+      "Piercing Arrow",
+      "Hunter's Focus"
+    ]
+  }
+}

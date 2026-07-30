@@ -1,0 +1,545 @@
+[
+  {
+    "id": "lorencia-east",
+    "name": "Bosque Leste",
+    "biome": "Bosque / Lorência",
+    "city": "Lorência",
+    "levelRange": [
+      1,
+      5
+    ],
+    "palette": {
+      "bg": 1317394,
+      "floorA": 2832932,
+      "floorB": 3491628,
+      "accent": 8376458
+    },
+    "creatures": [
+      {
+        "id": 303,
+        "name": "Spider",
+        "level": 2,
+        "hp": 30,
+        "attack": 5,
+        "xp": 16,
+        "color": 4868693
+      },
+      {
+        "id": 302,
+        "name": "Budge Dragon",
+        "level": 4,
+        "hp": 60,
+        "attack": 11,
+        "xp": 33,
+        "color": 12600111
+      }
+    ],
+    "index": 1
+  },
+  {
+    "id": "lorencia-north",
+    "name": "Campo Norte",
+    "biome": "Campo / Lorência",
+    "city": "Lorência",
+    "levelRange": [
+      4,
+      8
+    ],
+    "palette": {
+      "bg": 1709840,
+      "floorA": 3814432,
+      "floorB": 4669484,
+      "accent": 14725711
+    },
+    "creatures": [
+      {
+        "id": 300,
+        "name": "Bull Fighter",
+        "level": 6,
+        "hp": 100,
+        "attack": 18,
+        "xp": 51,
+        "color": 9071162
+      },
+      {
+        "id": 302,
+        "name": "Budge Dragon",
+        "level": 4,
+        "hp": 60,
+        "attack": 11,
+        "xp": 33,
+        "color": 12600111
+      }
+    ],
+    "index": 2
+  },
+  {
+    "id": "lorencia-west",
+    "name": "Planície Oeste",
+    "biome": "Planície / Lorência",
+    "city": "Lorência",
+    "levelRange": [
+      8,
+      13
+    ],
+    "palette": {
+      "bg": 1053720,
+      "floorA": 2371898,
+      "floorB": 2898759,
+      "accent": 5746902
+    },
+    "creatures": [
+      {
+        "id": 301,
+        "name": "Hound",
+        "level": 9,
+        "hp": 140,
+        "attack": 24,
+        "xp": 75,
+        "color": 6978186
+      },
+      {
+        "id": 300,
+        "name": "Bull Fighter",
+        "level": 12,
+        "hp": 190,
+        "attack": 30,
+        "xp": 100,
+        "color": 13781556
+      }
+    ],
+    "index": 3
+  },
+  {
+    "id": "lorencia-south",
+    "name": "Necrópole Sul",
+    "biome": "Necrópole / Lorência",
+    "city": "Lorência",
+    "levelRange": [
+      13,
+      19
+    ],
+    "palette": {
+      "bg": 1314842,
+      "floorA": 3089472,
+      "floorB": 3877959,
+      "accent": 11108310
+    },
+    "creatures": [
+      {
+        "id": 306,
+        "name": "Lich",
+        "level": 14,
+        "hp": 255,
+        "attack": 43,
+        "xp": 122,
+        "color": 10119880
+      },
+      {
+        "id": 314,
+        "name": "Skeleton Warrior",
+        "level": 19,
+        "hp": 525,
+        "attack": 65,
+        "xp": 193,
+        "color": 14277081
+      }
+    ],
+    "index": 4
+  },
+  {
+    "id": "lorencia-nw",
+    "name": "Ermo Noroeste",
+    "biome": "Ermo / Lorência",
+    "city": "Lorência",
+    "levelRange": [
+      16,
+      22
+    ],
+    "palette": {
+      "bg": 1708560,
+      "floorA": 3810336,
+      "floorB": 4664364,
+      "accent": 14705743
+    },
+    "creatures": [
+      {
+        "id": 307,
+        "name": "Giant",
+        "level": 17,
+        "hp": 400,
+        "attack": 59,
+        "xp": 162,
+        "color": 8022602
+      }
+    ],
+    "index": 5
+  },
+  {
+    "id": "greenfields",
+    "index": 6,
+    "name": "Campos de Rivenwatch",
+    "biome": "Campos / vilarejo",
+    "city": "Rivenwatch",
+    "levelRange": [
+      1,
+      20
+    ],
+    "palette": {
+      "bg": 3095076,
+      "floorA": 4149552,
+      "floorB": 4676151,
+      "accent": 7043658
+    },
+    "creatures": [
+      {
+        "id": 105,
+        "name": "Skeleton",
+        "level": 8,
+        "hp": 200,
+        "attack": 22,
+        "xp": 45,
+        "color": 13617589
+      }
+    ],
+    "boss": {
+      "id": 199,
+      "name": "Bandit Warlord",
+      "level": 20,
+      "hp": 1400,
+      "attack": 55,
+      "xp": 600,
+      "color": 13716282
+    }
+  },
+  {
+    "id": "duskwood",
+    "index": 7,
+    "name": "Floresta de Duskwood",
+    "biome": "Floresta densa",
+    "city": "Thornhollow",
+    "levelRange": [
+      20,
+      40
+    ],
+    "palette": {
+      "bg": 2042396,
+      "floorA": 2898468,
+      "floorB": 3359272,
+      "accent": 4872756
+    },
+    "creatures": [
+      {
+        "id": 201,
+        "name": "Goblin Scout",
+        "level": 24,
+        "hp": 480,
+        "attack": 44,
+        "xp": 150,
+        "color": 7315287
+      },
+      {
+        "id": 202,
+        "name": "Forest Treant",
+        "level": 32,
+        "hp": 900,
+        "attack": 58,
+        "xp": 280,
+        "color": 5929530
+      },
+      {
+        "id": 203,
+        "name": "Venom Spider",
+        "level": 38,
+        "hp": 700,
+        "attack": 72,
+        "xp": 340,
+        "color": 8014474
+      }
+    ],
+    "boss": {
+      "id": 299,
+      "name": "Elder Treant",
+      "level": 40,
+      "hp": 3200,
+      "attack": 90,
+      "xp": 1500,
+      "color": 4156202
+    }
+  },
+  {
+    "id": "mirelands",
+    "index": 8,
+    "name": "Pântano de Mireland",
+    "biome": "Pântano",
+    "city": "Sedgemoor",
+    "levelRange": [
+      40,
+      70
+    ],
+    "palette": {
+      "bg": 1844768,
+      "floorA": 2635051,
+      "floorB": 3095857,
+      "accent": 4610111
+    },
+    "creatures": [
+      {
+        "id": 301,
+        "name": "Bog Slime",
+        "level": 46,
+        "hp": 1200,
+        "attack": 80,
+        "xp": 460,
+        "color": 6986330
+      },
+      {
+        "id": 302,
+        "name": "Marsh Serpent",
+        "level": 55,
+        "hp": 1600,
+        "attack": 105,
+        "xp": 620,
+        "color": 4881002
+      },
+      {
+        "id": 303,
+        "name": "Swamp Witch",
+        "level": 66,
+        "hp": 2100,
+        "attack": 140,
+        "xp": 880,
+        "color": 9067162
+      }
+    ],
+    "boss": {
+      "id": 399,
+      "name": "The Bog Hag",
+      "level": 70,
+      "hp": 7000,
+      "attack": 180,
+      "xp": 3400,
+      "color": 5933642
+    }
+  },
+  {
+    "id": "sunscar",
+    "index": 9,
+    "name": "Deserto de Sunscar",
+    "biome": "Deserto / ruínas",
+    "city": "Karsh",
+    "levelRange": [
+      70,
+      110
+    ],
+    "palette": {
+      "bg": 3813148,
+      "floorA": 5917228,
+      "floorB": 6969398,
+      "accent": 9073478
+    },
+    "creatures": [
+      {
+        "id": 401,
+        "name": "Scarab Swarm",
+        "level": 76,
+        "hp": 2600,
+        "attack": 165,
+        "xp": 1100,
+        "color": 9075258
+      },
+      {
+        "id": 402,
+        "name": "Tomb Mummy",
+        "level": 90,
+        "hp": 3800,
+        "attack": 210,
+        "xp": 1600,
+        "color": 11575408
+      },
+      {
+        "id": 403,
+        "name": "Tomb Guardian",
+        "level": 105,
+        "hp": 5200,
+        "attack": 270,
+        "xp": 2300,
+        "color": 13083210
+      }
+    ],
+    "boss": {
+      "id": 499,
+      "name": "Pharaoh Undying",
+      "level": 110,
+      "hp": 16000,
+      "attack": 340,
+      "xp": 8000,
+      "color": 13938487
+    }
+  },
+  {
+    "id": "frostpeak",
+    "index": 10,
+    "name": "Montanhas de Frostpeak",
+    "biome": "Montanhas geladas",
+    "city": "Holdenfrost",
+    "levelRange": [
+      110,
+      160
+    ],
+    "palette": {
+      "bg": 2240570,
+      "floorA": 3821148,
+      "floorB": 4544874,
+      "accent": 6980246
+    },
+    "creatures": [
+      {
+        "id": 501,
+        "name": "Frost Wolf",
+        "level": 118,
+        "hp": 6000,
+        "attack": 320,
+        "xp": 3000,
+        "color": 11060438
+      },
+      {
+        "id": 502,
+        "name": "Ice Elemental",
+        "level": 140,
+        "hp": 8500,
+        "attack": 420,
+        "xp": 4400,
+        "color": 8042198
+      },
+      {
+        "id": 503,
+        "name": "Yeti",
+        "level": 158,
+        "hp": 11000,
+        "attack": 520,
+        "xp": 6000,
+        "color": 14082794
+      }
+    ],
+    "boss": {
+      "id": 599,
+      "name": "Jarl of the Deep Ice",
+      "level": 160,
+      "hp": 34000,
+      "attack": 640,
+      "xp": 18000,
+      "color": 10473702
+    }
+  },
+  {
+    "id": "emberfall",
+    "index": 11,
+    "name": "Terras de Emberfall",
+    "biome": "Terras vulcânicas",
+    "city": "Cinderhold",
+    "levelRange": [
+      160,
+      220
+    ],
+    "palette": {
+      "bg": 3151898,
+      "floorA": 4858404,
+      "floorB": 5909030,
+      "accent": 9058858
+    },
+    "creatures": [
+      {
+        "id": 601,
+        "name": "Hellhound",
+        "level": 170,
+        "hp": 14000,
+        "attack": 640,
+        "xp": 8000,
+        "color": 13720106
+      },
+      {
+        "id": 602,
+        "name": "Fire Elemental",
+        "level": 195,
+        "hp": 19000,
+        "attack": 800,
+        "xp": 11000,
+        "color": 14711338
+      },
+      {
+        "id": 603,
+        "name": "Lesser Demon",
+        "level": 218,
+        "hp": 26000,
+        "attack": 980,
+        "xp": 15000,
+        "color": 11550762
+      }
+    ],
+    "boss": {
+      "id": 699,
+      "name": "Balgor the Infernal",
+      "level": 220,
+      "hp": 90000,
+      "attack": 1300,
+      "xp": 46000,
+      "color": 16734762
+    }
+  },
+  {
+    "id": "abyss",
+    "index": 12,
+    "name": "Criptas do Abismo",
+    "biome": "Criptas / abismo",
+    "city": "Nethergate",
+    "levelRange": [
+      220,
+      999
+    ],
+    "palette": {
+      "bg": 1578015,
+      "floorA": 2366768,
+      "floorB": 2827064,
+      "accent": 4864618
+    },
+    "creatures": [
+      {
+        "id": 701,
+        "name": "Wraith",
+        "level": 230,
+        "hp": 34000,
+        "attack": 1200,
+        "xp": 20000,
+        "color": 9071317
+      },
+      {
+        "id": 702,
+        "name": "Bone Lich",
+        "level": 260,
+        "hp": 52000,
+        "attack": 1600,
+        "xp": 30000,
+        "color": 13086944
+      },
+      {
+        "id": 703,
+        "name": "Ancient Dragon",
+        "level": 300,
+        "hp": 120000,
+        "attack": 2400,
+        "xp": 60000,
+        "color": 10107498
+      }
+    ],
+    "boss": {
+      "id": 799,
+      "name": "The Abyssal Sovereign",
+      "level": 350,
+      "hp": 500000,
+      "attack": 4000,
+      "xp": 250000,
+      "color": 13716433
+    }
+  }
+]

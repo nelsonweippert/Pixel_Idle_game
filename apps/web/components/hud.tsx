@@ -8,20 +8,31 @@ import {
   type CombatEntity,
   type VocationId,
 } from "@pixel-idle/shared";
-import type { EngineSnapshot } from "@/game/MockEngine";
+import type { EngineSnapshot } from "@/game/NetClient";
 
 const hex = (n: number) => "#" + n.toString(16).padStart(6, "0");
 const fmt = (n: number) =>
   n >= 1e6 ? (n / 1e6).toFixed(2) + "M" : n >= 1e3 ? (n / 1e3).toFixed(1) + "k" : String(Math.floor(n));
 
+// classe MU (do motor) → nome exibido
+const CLASS_LABEL: Record<string, string> = {
+  dk: "Dark Knight",
+  dw: "Dark Wizard",
+  elf: "Fairy Elf",
+  mg: "Magic Gladiator",
+  dl: "Dark Lord",
+  sum: "Summoner",
+};
+
 // ─── Top bar ─────────────────────────────────────────────────────────────────
 export function TopBar({ snap, you }: { snap: EngineSnapshot; you: VocationId }) {
   const { levelInfo, region } = snap;
   const voc = VOCATIONS[you];
+  const className = snap.sheet ? CLASS_LABEL[snap.sheet.muClass] ?? voc.name : voc.name;
   const xpPct = Math.min(100, (levelInfo.xp / levelInfo.xpToNext) * 100);
   return (
-    <header className="flex items-center gap-4 border-b border-[var(--hud-line)] bg-[#171309] px-4 py-2">
-      <div className="font-fantasy text-lg text-[var(--hud-gold)]">Pixel Idle</div>
+    <header className="hud-topbar flex items-center gap-4 px-4 py-2">
+      <div className="font-fantasy text-lg text-[var(--hud-gold)]">Loots &amp; Glory</div>
       <div className="mx-2 h-8 w-px bg-[var(--hud-line)]" />
 
       {/* personagem */}
@@ -34,9 +45,9 @@ export function TopBar({ snap, you }: { snap: EngineSnapshot; you: VocationId })
           {voc.name[0]}
         </div>
         <div className="leading-tight">
-          <div className="text-sm font-semibold">Ashen</div>
+          <div className="text-sm font-semibold">{className}</div>
           <div className="text-[10px] uppercase tracking-wider text-neutral-400">
-            {voc.name} · nv {levelInfo.level}
+            nível {levelInfo.level} · {region.city}
           </div>
         </div>
       </div>
@@ -79,7 +90,7 @@ function Stat({ label, value, color }: { label: string; value: string; color: st
 export function PartyPanel({ snap, you }: { snap: EngineSnapshot; you: VocationId }) {
   return (
     <section className="panel flex flex-col">
-      <div className="panel-header px-3 py-1.5">Grupo · 4/4</div>
+      <div className="panel-header px-3 py-1.5">Grupo · {snap.heroes.length}/4</div>
       <div className="flex flex-col gap-1 p-2">
         {snap.heroes.map((h) => (
           <PartyMember key={h.id} hero={h} isYou={h.vocation === you} />
@@ -150,6 +161,49 @@ export function SkillBar({ you }: { you: VocationId }) {
   );
 }
 
+// ─── Scene picker (troca entre os cenários JÁ construídos) ───────────────────
+export interface SceneOption {
+  id: string;
+  name: string;
+  icon: string;
+  url: string;
+}
+export function ScenePicker({
+  scenes,
+  current,
+  onPick,
+}: {
+  scenes: SceneOption[];
+  current: string;
+  onPick: (url: string) => void;
+}) {
+  return (
+    <section className="panel">
+      <div className="panel-header px-3 py-1.5">Cenários</div>
+      <div className="flex flex-col gap-0.5 p-2">
+        {scenes.map((s) => {
+          const active = s.url === current;
+          return (
+            <button
+              key={s.id}
+              onClick={() => onPick(s.url)}
+              className={`flex items-center gap-2 rounded-sm px-2 py-1.5 text-left text-[11px] transition ${
+                active
+                  ? "bg-[#2a2314] text-[var(--hud-gold)] ring-1 ring-[var(--hud-gold)]/40"
+                  : "text-neutral-300 hover:bg-white/5"
+              }`}
+            >
+              <span className="text-sm leading-none">{s.icon}</span>
+              <span className="truncate">{s.name}</span>
+              {active && <span className="ml-auto text-[9px] text-[var(--hud-gold)]">●</span>}
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 // ─── Hunt panel (região + start/stop + loot) ─────────────────────────────────
 export function HuntPanel({
   snap,
@@ -177,10 +231,10 @@ export function HuntPanel({
         </button>
       </div>
 
-      {/* seletor de região */}
-      <div className="px-2 pb-1 text-[10px] uppercase tracking-wider text-neutral-400">Regiões</div>
+      {/* seletor de caçada — só as áreas MU de Lorência (visão atual) */}
+      <div className="px-2 pb-1 text-[10px] uppercase tracking-wider text-neutral-400">Lorência</div>
       <div className="flex flex-col gap-0.5 overflow-y-auto px-2" style={{ maxHeight: 148 }}>
-        {REGIONS.map((r) => {
+        {REGIONS.filter((r) => r.city === "Lorência").map((r) => {
           const active = r.id === snap.region.id;
           const locked = snap.levelInfo.level < r.levelRange[0];
           return (
@@ -192,7 +246,7 @@ export function HuntPanel({
               }`}
             >
               <span className="truncate">
-                <span className="text-neutral-500">{r.index}.</span> {r.city}
+                <span className="text-neutral-500">{r.index}.</span> {r.name}
               </span>
               <span className={`tabular text-[9px] ${locked ? "text-[#d14b3a]" : "text-neutral-500"}`}>
                 {locked ? "🔒 " : ""}

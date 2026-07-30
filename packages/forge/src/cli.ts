@@ -19,6 +19,9 @@ import { buildPixiSheet } from "./atlas";
 import { ASSETS_DIR, readManifest, register } from "./manifest";
 import { generate, type Brief, type AnimName } from "./generate";
 import { importEffectDir, readIndex, applyFamilies } from "./library";
+import { buildCatalog, readCatalog, findPacks, type FindQuery } from "./packs";
+import { promote } from "./promote";
+import { exportScene } from "./tmx";
 
 const C = {
   red: (s: string) => `\x1b[31m${s}\x1b[0m`,
@@ -252,7 +255,9 @@ async function cmdGenerate(pos: string[], flags: Record<string, string | boolean
     .map((s) => s.trim())
     .filter(Boolean) as AnimName[];
 
-  const brief: Brief = { id, subject, size, view: flags.view as string | undefined, anims };
+  const dirs = flags.dirs ? String(flags.dirs).split(",").map((s) => s.trim()).filter(Boolean) : undefined;
+  const engine = flags.engine === "8d" ? "8d" : undefined; // default pixflux
+  const brief: Brief = { id, subject, size, view: flags.view as string | undefined, anims, dirs, engine };
   console.log(C.bold(`\n  Forja · generate  ${C.gold(id)}  ${C.dim(type + " · " + size + "px · " + anims.join("+"))}`));
   console.log(C.dim(`  "${subject}"\n`));
 
@@ -336,6 +341,59 @@ async function cmdLibrary(pos: string[], flags: Record<string, string | boolean>
   );
 }
 
+/**
+ * `forge packs <catalog|stats|find>` — o FILTRO DE CLASSIFICAÇÃO do pool de packs
+ * de terceiros (assets/_packs). catalog = classifica tudo; stats = panorama por
+ * faceta; find = filtra pra compor mapas/cenas.
+ */
+async function cmdPacks(pos: string[], flags: Record<string, string | boolean>) {
+  const sub = pos[0] ?? "stats";
+  if (sub === "catalog") {
+    const cat = await buildCatalog({ nowIso: new Date().toISOString(), log: (m) => console.log(C.dim("  " + m)) });
+    printCatalogStats(cat);
+    return;
+  }
+  const cat = await readCatalog();
+  if (!cat) {
+    console.error("sem catálogo — rode `forge packs catalog` primeiro.");
+    process.exit(2);
+  }
+  if (sub === "stats") return printCatalogStats(cat);
+  if (sub === "find") {
+    const q: FindQuery = {
+      kind: flags.kind as string | undefined,
+      theme: flags.theme as string | undefined,
+      perspective: flags.perspective as string | undefined,
+      style: flags.style as string | undefined,
+      tag: flags.tag as string | undefined,
+      animated: flags.animated === true ? true : flags.animated === "false" ? false : undefined,
+      usable: flags.usable === true ? true : flags.usable === "false" ? false : undefined,
+    };
+    const hits = findPacks(cat, q);
+    const facets = Object.entries(q).filter(([, v]) => v !== undefined).map(([k, v]) => `${k}=${v}`).join(" · ") || "(sem filtro)";
+    console.log(C.bold(`\n  packs · ${facets} → ${hits.length} resultado(s)\n`));
+    for (const e of hits.slice(0, 200)) {
+      const badges = C.dim(`${e.kind}/${e.theme}/${e.perspective}/${e.style}${e.animated ? "/anim" : ""}`);
+      console.log(`  ${C.gold(e.slug)}  ${badges}  ${C.dim(e.sample ? e.sample.w + "×" + e.sample.h + " " + e.sample.colors + "c" : "")}`);
+    }
+    if (hits.length > 200) console.log(C.dim(`  … +${hits.length - 200}`));
+    console.log("");
+    return;
+  }
+  console.error("uso: forge packs <catalog|stats|find> [--kind --theme --perspective --style --tag --animated]");
+  process.exit(2);
+}
+
+function printCatalogStats(cat: { count: number; animatedCount: number; usableCount: number; byKind: Record<string, string[]>; byTheme: Record<string, string[]>; byPerspective: Record<string, string[]>; byStyle: Record<string, string[]> }) {
+  const line = (m: Record<string, string[]>) => Object.entries(m).sort((a, b) => b[1].length - a[1].length).map(([k, v]) => `${k}(${v.length})`).join(" · ");
+  console.log(C.bold(`\n  catálogo de packs — ${cat.count} packs · ${cat.animatedCount} animados · ${C.green(cat.usableCount + " no Padrão Knight")}`));
+  console.log(C.dim(`  kind:        `) + line(cat.byKind));
+  console.log(C.dim(`  theme:       `) + line(cat.byTheme));
+  console.log(C.dim(`  perspective: `) + line(cat.byPerspective));
+  console.log(C.dim(`  style:       `) + line(cat.byStyle));
+  console.log(C.dim(`\n  filtre: forge packs find --kind creature --theme graveyard --style pixel --animated\n`));
+}
+
 async function cmdList() {
   const m = await readManifest();
   console.log(C.bold(`\n  manifesto — ${m.assets.length} asset(s) · paleta ${C.gold(m.palette)}\n`));
@@ -346,6 +404,56 @@ async function cmdList() {
     console.log(`  ${C.gold(a.id)}  ${C.dim(a.type + (a.anim ? "/" + a.anim : ""))}  ${g}${sheet}`);
   }
   console.log("");
+}
+
+async function cmdPromote(pos: string[], flags: Record<string, string | boolean>) {
+  const packDir = pos[0];
+  if (!packDir) {
+    console.error("uso: forge promote <pack-dir> --id <id> [--level N] [--anims idle,walk,attack]");
+    process.exit(2);
+  }
+  const id = typeof flags.id === "string" ? flags.id : "";
+  if (!id) {
+    console.error("faltou --id <id>");
+    process.exit(2);
+  }
+  const level = typeof flags.level === "string" ? Number(flags.level) : undefined;
+  const variant = typeof flags.variant === "string" ? flags.variant : undefined;
+  const anims =
+    typeof flags.anims === "string"
+      ? flags.anims.split(",").map((s) => s.trim()).filter(Boolean)
+      : undefined;
+  const results = await promote({ packDir, id, level, variant, anims, log: (m) => console.log(m) });
+  const ok = results.filter((r) => r.ok).length;
+  console.log(`\n${ok}/${results.length} anims promovidas pra '${id}'`);
+  if (ok < results.length) process.exitCode = 1;
+}
+
+/**
+ * forge tmx-export <mapa.tmx> --name <cena> --out <dir> [--crop x,y,w,h]
+ * Exporta um mapa COMPOSTO PELO ARTISTA (Tiled) pro formato do jogo:
+ * scene.json + PNGs de tileset usados. Crop em coords normalizadas (tiles).
+ * ex: forge tmx-export assets/_packs/.../Dungeon3.tmx --name crypt \
+ *       --out apps/web/public/tilesets/crypt --crop 5,7,30,18
+ */
+async function cmdTmxExport(pos: string[], flags: Record<string, string | boolean>) {
+  const tmxPath = pos[0];
+  if (!tmxPath) throw new Error("uso: forge tmx-export <mapa.tmx> --name <cena> --out <dir> [--crop x,y,w,h]");
+  const name = typeof flags.name === "string" ? flags.name : path.basename(tmxPath, ".tmx").toLowerCase();
+  const outDir = typeof flags.out === "string" ? flags.out : path.join("apps/web/public/tilesets", name);
+  let crop: { x: number; y: number; w: number; h: number } | undefined;
+  if (typeof flags.crop === "string") {
+    const [x, y, w, h] = flags.crop.split(",").map(Number);
+    if ([x, y, w, h].some((n) => !Number.isFinite(n))) throw new Error("--crop precisa ser x,y,w,h numéricos");
+    crop = { x, y, w, h };
+  }
+  const { doc, warnings } = await exportScene(tmxPath, { name, outDir, crop });
+  for (const w of new Set(warnings)) console.log(C.gold("aviso: ") + w);
+  const placements = doc.layers.reduce((s, l) => s + l.tiles.length / 3, 0);
+  console.log(
+    `${C.green("ok")} cena '${name}': ${doc.width}x${doc.height} tiles @${doc.tileW}px, ` +
+      `${doc.layers.length} layers, ${doc.tilesets.length} tilesets, ${placements} tiles → ${outDir}`,
+  );
 }
 
 async function main() {
@@ -362,10 +470,16 @@ async function main() {
       return cmdGenerate(pos, flags);
     case "library":
       return cmdLibrary(pos, flags);
+    case "packs":
+      return cmdPacks(pos, flags);
+    case "promote":
+      return cmdPromote(pos, flags);
+    case "tmx-export":
+      return cmdTmxExport(pos, flags);
     case "list":
       return cmdList();
     default:
-      console.log("comandos: spec · validate · ingest · generate · library · list");
+      console.log("comandos: spec · validate · ingest · generate · library · packs · promote · tmx-export · list");
       console.log("ex: forge ingest hero.png --type character --id knight --anim walk --size 48");
       process.exit(cmd ? 2 : 0);
   }

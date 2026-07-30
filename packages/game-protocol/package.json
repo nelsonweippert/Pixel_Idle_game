@@ -1,0 +1,24 @@
+{
+  "name": "@pixel-idle/game-protocol",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "O contrato: comandos do client, eventos da sim, snapshot e erros — validados por zod dos dois lados. É o ÚNICO pacote que o client teatral importa.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0",
+    "typescript": "^5.9.0",
+    "@types/node": "^22.10.0"
+  }
+}

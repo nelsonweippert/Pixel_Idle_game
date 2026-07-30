@@ -1,0 +1,32 @@
+{
+  "name": "@pixel-idle/game-server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Runtime autoritativo: WS gateway (protocolo zod), tick 1Hz, offline fast-forward, ledger. Store e auth abstraídos (in-memory hoje; Postgres/Drizzle + better-auth = alvo de produção).",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "start": "tsx src/main.ts",
+    "test": "vitest run",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pixel-idle/game-core": "*",
+    "@pixel-idle/game-protocol": "*",
+    "@pixel-idle/shared": "*",
+    "fastify": "^5.2.0",
+    "ws": "^8.18.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0",
+    "typescript": "^5.9.0",
+    "tsx": "^4.23.0",
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.5.0"
+  }
+}

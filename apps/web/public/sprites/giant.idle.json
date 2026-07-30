@@ -1,0 +1,392 @@
+{
+  "frames": {
+    "idle.south.0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.south.1": {
+      "frame": {
+        "x": 84,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.south.2": {
+      "frame": {
+        "x": 168,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.south.3": {
+      "frame": {
+        "x": 252,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.north.0": {
+      "frame": {
+        "x": 0,
+        "y": 113,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.north.1": {
+      "frame": {
+        "x": 84,
+        "y": 113,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.north.2": {
+      "frame": {
+        "x": 168,
+        "y": 113,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.north.3": {
+      "frame": {
+        "x": 252,
+        "y": 113,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.east.0": {
+      "frame": {
+        "x": 0,
+        "y": 226,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.east.1": {
+      "frame": {
+        "x": 84,
+        "y": 226,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.east.2": {
+      "frame": {
+        "x": 168,
+        "y": 226,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.east.3": {
+      "frame": {
+        "x": 252,
+        "y": 226,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.west.0": {
+      "frame": {
+        "x": 0,
+        "y": 339,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.west.1": {
+      "frame": {
+        "x": 84,
+        "y": 339,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.west.2": {
+      "frame": {
+        "x": 168,
+        "y": 339,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "idle.west.3": {
+      "frame": {
+        "x": 252,
+        "y": 339,
+        "w": 84,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 113
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 113
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "animations": {
+    "south": [
+      "idle.south.0",
+      "idle.south.1",
+      "idle.south.2",
+      "idle.south.3"
+    ],
+    "north": [
+      "idle.north.0",
+      "idle.north.1",
+      "idle.north.2",
+      "idle.north.3"
+    ],
+    "east": [
+      "idle.east.0",
+      "idle.east.1",
+      "idle.east.2",
+      "idle.east.3"
+    ],
+    "west": [
+      "idle.west.0",
+      "idle.west.1",
+      "idle.west.2",
+      "idle.west.3"
+    ]
+  },
+  "meta": {
+    "image": "giant.idle.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 336,
+      "h": 452
+    },
+    "scale": 1,
+    "fps": 6
+  }
+}

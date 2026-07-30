@@ -1,0 +1,177 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>MU render harness</title></head>
+<body style="margin:0;background:#111">
+<script type="module">
+import * as THREE from './three.module.min.js';
+window.THREE = THREE;
+const FPS = 24;
+
+// monta o esqueleto+meshes (ordem do viewer), constrói clips das actions, e renderiza
+// cada (action × direção × frame amostrado) com ENQUADRAMENTO FIXO (esfera do bind).
+window.renderBMD = async function (model, textures, opts) {
+  const S = opts.size || 512;
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setSize(S, S); renderer.setClearColor(0x000000, 0); renderer.outputColorSpace = THREE.SRGBColorSpace;
+  const scene = new THREE.Scene();
+
+  // texturas
+  const texCache = {};
+  async function loadTex(name) {
+    if (texCache[name] !== undefined) return texCache[name];
+    const url = textures[name] || textures[name.toLowerCase()];
+    if (!url) { texCache[name] = null; return null; }
+    const img = new Image(); img.src = url; await img.decode().catch(() => {});
+    const t = new THREE.Texture(img); t.needsUpdate = true; t.flipY = false;
+    t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.magFilter = THREE.NearestFilter; t.minFilter = THREE.LinearMipmapLinearFilter;
+    texCache[name] = t; return t;
+  }
+
+  // ossos (default) → hierarquia → skeleton → meshes bind → (mixer poseia)
+  // ESTRUTURA-PIVÔ: bones+meshes vão num `content` (centralizado no seu centróide) dentro
+  // do `group` (rotation.x=-PI/2 + rotation.z=direção). Assim girar direção NÃO orbita.
+  const bones = model.bones.map((b, i) => { const bn = new THREE.Bone(); bn.name = 'b' + i + '_' + b.name.replace(/[^a-zA-Z0-9]/g, ''); return bn; });
+  const content = new THREE.Group();
+  let skeletonBones;
+  if (model.armature) {
+    const arm = new THREE.Bone(); arm.name = 'Armature';
+    model.bones.forEach((b, i) => { if (b.parent >= 0 && b.parent < bones.length) bones[b.parent].add(bones[i]); else arm.add(bones[i]); });
+    content.add(arm); skeletonBones = [arm, ...bones];
+  } else {
+    model.bones.forEach((b, i) => { if (b.parent >= 0 && b.parent < bones.length) bones[b.parent].add(bones[i]); else content.add(bones[i]); });
+    skeletonBones = bones;
+  }
+  const skeleton = new THREE.Skeleton(skeletonBones);
+  const group = new THREE.Group();
+
+  for (const mesh of model.meshes) {
+    const g = new THREE.BufferGeometry();
+    const n = mesh.positions.length / 3;
+    g.setAttribute('position', new THREE.Float32BufferAttribute(mesh.positions, 3));
+    g.setAttribute('normal', new THREE.Float32BufferAttribute(mesh.normals, 3));
+    g.setAttribute('uv', new THREE.Float32BufferAttribute(mesh.uvs, 2));
+    const si = new Uint16Array(n * 4), sw = new Float32Array(n * 4);
+    for (let i = 0; i < n; i++) { si[i * 4] = mesh.skinIndex[i]; sw[i * 4] = 1; }
+    g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(si, 4));
+    g.setAttribute('skinWeight', new THREE.Float32BufferAttribute(sw, 4));
+    const tex = await loadTex(mesh.texturePath);
+    const mat = new THREE.MeshBasicMaterial({ map: tex || null, color: tex ? 0xffffff : 0xaaaaaa, side: THREE.DoubleSide, transparent: true, alphaTest: 0.45 });
+    const sm = new THREE.SkinnedMesh(g, mat); sm.bind(skeleton); content.add(sm);
+  }
+  // ── ATTACHMENTS (model.attachments): sub-modelos presos a um OSSO do esqueleto
+  // principal (armas/escudos na mão — bone 42 = mão direita, 33 = esquerda, como no
+  // viewer do xulek). Cada attachment tem seus próprios bones/meshes em bind pose,
+  // parentado ao osso em transform identidade → segue a animação da mão.
+  for (const att of model.attachments || []) {
+    const aBones = att.bones.map((b, i) => { const bn = new THREE.Bone(); bn.name = 'att' + i; return bn; });
+    const aRoot = new THREE.Group();
+    att.bones.forEach((b, i) => {
+      if (b.parent >= 0 && b.parent < aBones.length) aBones[b.parent].add(aBones[i]); else aRoot.add(aBones[i]);
+      aBones[i].position.set(b.bindPos[0], b.bindPos[1], b.bindPos[2]);
+      aBones[i].quaternion.set(b.bindQuat[0], b.bindQuat[1], b.bindQuat[2], b.bindQuat[3]);
+    });
+    const aSkel = new THREE.Skeleton(aBones);
+    for (const mesh of att.meshes) {
+      const g = new THREE.BufferGeometry();
+      const n = mesh.positions.length / 3;
+      g.setAttribute('position', new THREE.Float32BufferAttribute(mesh.positions, 3));
+      g.setAttribute('normal', new THREE.Float32BufferAttribute(mesh.normals, 3));
+      g.setAttribute('uv', new THREE.Float32BufferAttribute(mesh.uvs, 2));
+      const si = new Uint16Array(n * 4), sw = new Float32Array(n * 4);
+      for (let i = 0; i < n; i++) { si[i * 4] = mesh.skinIndex[i]; sw[i * 4] = 1; }
+      g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(si, 4));
+      g.setAttribute('skinWeight', new THREE.Float32BufferAttribute(sw, 4));
+      const tex = await loadTex(mesh.texturePath);
+      const mat = new THREE.MeshBasicMaterial({ map: tex || null, color: tex ? 0xffffff : 0xaaaaaa, side: THREE.DoubleSide, transparent: true, alphaTest: 0.45 });
+      const sm = new THREE.SkinnedMesh(g, mat); sm.bind(aSkel); aRoot.add(sm);
+    }
+    const hand = bones[att.bone];
+    if (hand) hand.add(aRoot);
+  }
+
+  group.add(content);
+  group.rotation.x = -Math.PI / 2; // Z-up → Y-up
+  scene.add(group);
+
+  // clip de uma action a partir de model.anims
+  function buildClip(anim) {
+    const tracks = [];
+    for (let b = 0; b < bones.length; b++) {
+      const tr = anim.tracks[b]; if (!tr) continue;
+      const times = [], pos = [], quat = [];
+      for (let k = 0; k < anim.numKeys; k++) { times.push(k / FPS); pos.push(tr.pos[k][0], tr.pos[k][1], tr.pos[k][2]); quat.push(tr.quat[k][0], tr.quat[k][1], tr.quat[k][2], tr.quat[k][3]); }
+      tracks.push(new THREE.VectorKeyframeTrack(bones[b].name + '.position', times, pos));
+      tracks.push(new THREE.QuaternionKeyframeTrack(bones[b].name + '.quaternion', times, quat));
+    }
+    return new THREE.AnimationClip('a', Math.max(1, anim.numKeys - 1) / FPS, tracks);
+  }
+  // poseia bind (action0/frame0)
+  const setBind = () => { model.bones.forEach((b, i) => { bones[i].position.set(b.bindPos[0], b.bindPos[1], b.bindPos[2]); bones[i].quaternion.set(b.bindQuat[0], b.bindQuat[1], b.bindQuat[2], b.bindQuat[3]); }); };
+  setBind();
+
+  // ── PRÉ-ROTAÇÃO (opts.preRot = euler [x,y,z]): orientação do item escolhida pelo
+  // CALLER (reforge-item-icons testa N candidatas e fica com a de maior silhueta —
+  // espada sai de perfil, escudo de frente). Aplicada ANTES da centralização/câmera,
+  // então o enquadramento já mede o modelo rotacionado.
+  if (opts.preRot) content.rotation.set(opts.preRot[0], opts.preRot[1], opts.preRot[2]);
+
+  // CENTRALIZA o content no origin do group (mede com group sem rotação) → girar direção não orbita.
+  // opts.lock = enquadramento CONGELADO de um render anterior (cc/center/R): usado pra
+  // renderizar PEÇAS isoladas (só o elmo, só o peito…) com a MESMA câmera do corpo
+  // inteiro → as camadas saem pixel-alinhadas e podem ser empilhadas em 2D.
+  group.rotation.x = 0; group.updateMatrixWorld(true);
+  const cc = opts.lock
+    ? new THREE.Vector3(opts.lock.cc[0], opts.lock.cc[1], opts.lock.cc[2])
+    : new THREE.Box3().setFromObject(content).getCenter(new THREE.Vector3());
+  content.position.sub(cc);
+  group.rotation.x = -Math.PI / 2; group.updateMatrixWorld(true);
+
+  // enquadramento FIXO: esfera do bind centralizado (invariante à direção → sem tremer)
+  let center, R;
+  if (opts.lock) {
+    center = new THREE.Vector3(opts.lock.center[0], opts.lock.center[1], opts.lock.center[2]);
+    R = opts.lock.R;
+  } else {
+    const box = new THREE.Box3().setFromObject(group);
+    center = box.getCenter(new THREE.Vector3());
+    const sphere = box.getBoundingSphere(new THREE.Sphere(center));
+    R = (sphere.radius || 1) * (opts.fit ?? 1.2);
+  }
+  // lock deste render (pra reutilizar em renders de peças): devolvido se opts.returnLock
+  const lockOut = { cc: [cc.x, cc.y, cc.z], center: [center.x, center.y, center.z], R };
+
+  const cam = new THREE.OrthographicCamera(-R, R, R, -R, 0.01, R * 40);
+  const dv = opts.dirVec || [0, 1.15, 1.55];
+  const dir = new THREE.Vector3(dv[0], dv[1], dv[2]).normalize();
+  cam.position.copy(center).addScaledVector(dir, R * 8); cam.up.set(0, 1, 0); cam.lookAt(center);
+  cam.left = -R; cam.right = R; cam.top = R; cam.bottom = -R; cam.updateProjectionMatrix();
+
+  const N = opts.dirs || 4;
+  const yaw0 = opts.yaw0 ?? 0;
+  const actions = opts.actions || [{ index: 0, frames: 1 }];
+  const out = [];
+  for (const act of actions) {
+    const anim = model.anims[act.index];
+    const numKeys = anim ? anim.numKeys : 1;
+    const nF = Math.max(1, Math.min(act.frames || 1, numKeys));
+    // amostra os frames
+    const ks = [];
+    for (let j = 0; j < nF; j++) ks.push(nF >= numKeys ? j : Math.floor(j * numKeys / nF)); // endpoint-exclusive → sem frames duplicados
+    let mixer = null, clipAction = null;
+    if (anim && numKeys > 1) { mixer = new THREE.AnimationMixer(group); clipAction = mixer.clipAction(buildClip(anim)); clipAction.play(); }
+    for (let d = 0; d < N; d++) {
+      group.rotation.z = yaw0 - (d / N) * Math.PI * 2; // sentido negativo → d=[0,1,2,3]=[sul,oeste,norte,leste]
+      for (let fi = 0; fi < ks.length; fi++) {
+        if (mixer) { mixer.setTime(ks[fi] / FPS); } else { setBind(); }
+        group.updateMatrixWorld(true);
+        renderer.render(scene, cam);
+        out.push({ a: act.index, d, k: fi, url: renderer.domElement.toDataURL('image/png') });
+      }
+    }
+    if (mixer) mixer.stopAllAction();
+  }
+  return opts.returnLock ? { frames: out, lock: lockOut } : out;
+};
+window.__ready = true;
+</script>
+</body></html>

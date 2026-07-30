@@ -1,0 +1,60 @@
+{
+  "loot": {
+    "names": {
+      "common": [
+        "Copper Pouch",
+        "Wolf Pelt",
+        "Cracked Fang",
+        "Torn Cloth",
+        "Bone Shard"
+      ],
+      "uncommon": [
+        "Iron Ingot",
+        "Health Vial",
+        "Hunter's Charm",
+        "Sturdy Buckler"
+      ],
+      "rare": [
+        "Silver Amulet",
+        "Enchanted Quiver",
+        "Runed Gauntlets",
+        "Mana Crystal"
+      ],
+      "epic": [
+        "Dragonhide Cloak",
+        "Warlord's Sigil",
+        "Astral Grimoire"
+      ],
+      "legendary": [
+        "Crown of the Fallen King",
+        "Heart of the Abyss"
+      ]
+    },
+    "rarityWeights": [
+      [
+        "common",
+        60
+      ],
+      [
+        "uncommon",
+        25
+      ],
+      [
+        "rare",
+        10
+      ],
+      [
+        "epic",
+        4
+      ],
+      [
+        "legendary",
+        1
+      ]
+    ]
+  },
+  "xpCurve": {
+    "base": 400,
+    "exp": 1.5
+  }
+}

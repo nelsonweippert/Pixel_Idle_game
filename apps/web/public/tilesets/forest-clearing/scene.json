@@ -1,0 +1,16 @@
+{
+  "name": "flagstone-mossgrass",
+  "baked": "clearing.png",
+  "pxW": 640,
+  "pxH": 416,
+  "tileW": 16,
+  "tileH": 16,
+  "tilesets": [],
+  "layers": [],
+  "battle": {
+    "x": 14,
+    "y": 9,
+    "w": 12,
+    "h": 8
+  }
+}

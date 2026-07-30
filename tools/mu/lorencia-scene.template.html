@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lorência — simulação de caçada</title>
+<style>
+  :root{
+    --bg:#0b0a0d; --panel:#15131a; --edge:#2a2434;
+    --gold:#c8a24a; --gold-soft:#e6c877; --parch:#d9cdb4; --muted:#8a8172;
+    --ink:#e8e2d4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:
+      radial-gradient(1200px 700px at 50% -10%, #1a1622 0%, var(--bg) 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    display:flex; flex-direction:column; align-items:center;
+    min-height:100%; padding:26px 16px 40px;
+  }
+  .wrap{width:100%; max-width:960px; display:flex; flex-direction:column; gap:14px}
+  header{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  .titles h1{
+    margin:0; font-size:clamp(26px,4.4vw,40px); font-weight:600; letter-spacing:.06em;
+    color:var(--gold-soft); text-shadow:0 2px 0 #000, 0 0 26px rgba(200,162,74,.22);
+  }
+  .titles .sub{margin:4px 0 0; color:var(--muted); font-size:14px; letter-spacing:.02em}
+  .titles .sub b{color:var(--parch); font-weight:600}
+  .prov{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:11px; line-height:1.5;
+    color:var(--muted); text-align:right; border-left:2px solid var(--edge); padding-left:12px;
+  }
+  .prov b{color:var(--gold)}
+  .stage{
+    position:relative; border:1px solid var(--edge); border-radius:12px; overflow:hidden;
+    background:#000; box-shadow:0 24px 60px -20px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.02);
+  }
+  .stage::after{ /* moldura dourada sutil */
+    content:""; position:absolute; inset:0; border-radius:12px; pointer-events:none;
+    box-shadow:inset 0 0 0 1px rgba(200,162,74,.16), inset 0 0 90px rgba(0,0,0,.7);
+  }
+  canvas{display:block; width:100%; height:auto; image-rendering:pixelated; image-rendering:crisp-edges}
+  .legend{display:flex; gap:18px; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:13px}
+  .legend .k{display:inline-flex; align-items:center; gap:7px}
+  .dot{width:9px;height:9px;border-radius:50%;box-shadow:0 0 8px currentColor}
+  .foot{color:var(--muted); font-size:12px; font-family:ui-monospace,monospace; letter-spacing:.02em}
+  .foot b{color:var(--gold-soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="titles">
+      <h1>Lorência — Caçada</h1>
+      <p class="sub">Uma arena sobre a <b>praça real de Lorência</b> · um <b>Dark Knight</b> caça <b>5 Bull Fighters</b> · combate automático</p>
+    </div>
+    <div class="prov">
+      pipeline MU→pixel · <b>Forja</b><br>
+      Monster01.bmd · player_s6 + ArmorClass02<br>
+      piso World1 (Lorência) · <b>R&amp;D</b>
+    </div>
+  </header>
+
+  <div class="stage"><canvas id="c" width="920" height="540"></canvas></div>
+
+  <div class="legend">
+    <span class="k"><span class="dot" style="color:#c8a24a"></span>Dark Knight (vocação melee)</span>
+    <span class="k"><span class="dot" style="color:#b06a4a"></span>Bull Fighter (Monster01)</span>
+    <span class="k" id="killk"><span class="dot" style="color:#7fd08a"></span>abates: <b style="color:#d9cdb4;margin-left:4px" id="kills">0</b></span>
+  </div>
+  <div class="foot">Sprites renderizados de modelos 3D reais do MU S6 (câmera ortográfica ~32°, 4 direções, idle/walk/attack) e reduzidos a pixel. Prova de motor — arte de launch será original/licenciada.</div>
+</div>
+
+<script>
+const ASSETS = /*__ASSETS__*/;
+
+// ---- carrega todas as dataURIs em Image ----
+function loadImg(src){ return new Promise((res)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>res(i); i.src=src; }); }
+async function loadActor(a){
+  const anims={};
+  for(const [name,dirs] of Object.entries(a.anims)){
+    anims[name]=await Promise.all(dirs.map(fr=>Promise.all(fr.map(loadImg))));
+  }
+  return {w:a.w,h:a.h,anims};
+}
+
+const cv=document.getElementById('c'), ctx=cv.getContext('2d');
+ctx.imageSmoothingEnabled=false;
+let W=cv.width, H=cv.height;      // ajustados ao piso assado no boot
+const killsEl=document.getElementById('kills');
+
+// ---- utilidades ----
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+function dirOf(dx,dy){ // 0 sul,1 oeste,2 norte,3 leste
+  if(Math.abs(dx)>Math.abs(dy)) return dx>0?3:1;
+  return dy>0?0:2;
+}
+
+let FLOOR, BULL, DK, CELLPX, WALK;
+let floorCanvas;
+
+// pré-renderiza o piso: chão REAL de Lorência (bake do .map) + tint dark-fantasy coeso
+function buildFloor(){
+  const fc=document.createElement('canvas'); fc.width=W; fc.height=H;
+  const g=fc.getContext('2d'); g.imageSmoothingEnabled=false;
+  g.drawImage(FLOOR, 0, 0, W, H);
+  // escurece/esfria de leve pra casar o mood (o chão do MU é claro/diurno) sem sujar o detalhe
+  g.fillStyle="rgba(8,8,14,0.24)"; g.fillRect(0,0,W,H);
+  const dg=g.createLinearGradient(0,0,0,H);
+  dg.addColorStop(0,"rgba(4,5,8,0.34)"); dg.addColorStop(0.5,"rgba(6,6,10,0.06)"); dg.addColorStop(1,"rgba(4,4,7,0.24)");
+  g.fillStyle=dg; g.fillRect(0,0,W,H);
+  g.fillStyle="rgba(28,18,40,0.10)"; g.fillRect(0,0,W,H); // tint roxo-frio
+  floorCanvas=fc;
+}
+
+// marca da arena: elipse translúcida + anel de "runas" sobre a praça caminhável
+let ARENA; // {cx,cy,rx,ry}
+function drawArena(g){
+  const {cx,cy,rx,ry}=ARENA;
+  g.save();
+  g.fillStyle="rgba(8,6,12,0.34)"; g.beginPath(); g.ellipse(cx,cy,rx,ry,0,0,7); g.fill();
+  g.strokeStyle="rgba(200,162,74,0.30)"; g.lineWidth=2; g.beginPath(); g.ellipse(cx,cy,rx,ry,0,0,7); g.stroke();
+  g.strokeStyle="rgba(200,162,74,0.12)"; g.lineWidth=1; g.beginPath(); g.ellipse(cx,cy,rx-7,ry-6,0,0,7); g.stroke();
+  g.restore();
+}
+
+// ---- entidades ----
+class Actor{
+  constructor(sp,x,y){ this.sp=sp; this.x=x; this.y=y; this.dir=0; this.state='idle';
+    this.t=0; this.frame=0; this.fps={idle:6,walk:10,attack:14}; this.flash=0; }
+  setState(s){ if(this.state!==s){ this.state=s; this.t=0; this.frame=0; } }
+  frames(){ return this.sp.anims[this.state][this.dir]; }
+  tick(dt){
+    this.t+=dt; this.flash=Math.max(0,this.flash-dt*4);
+    const fr=this.frames(); const fps=this.fps[this.state]||8;
+    this.frame=Math.floor(this.t*fps);
+    if(this.state==='attack'){ if(this.frame>=fr.length){ this.frame=fr.length-1; this._done=true; } }
+    else { this.frame%=fr.length; }
+  }
+  draw(g,scale=1,alpha=1){
+    const fr=this.frames(); const img=fr[clamp(this.frame,0,fr.length-1)];
+    const w=this.sp.w*scale, h=this.sp.h*scale;
+    g.globalAlpha=alpha;
+    g.drawImage(img, Math.round(this.x-w/2), Math.round(this.y-h), w, h);
+    if(this.flash>0){ // clarão branco de hit
+      g.save(); g.globalAlpha=alpha*this.flash*0.8; g.globalCompositeOperation='lighter';
+      g.drawImage(img, Math.round(this.x-w/2), Math.round(this.y-h), w, h);
+      g.restore();
+    }
+    g.globalAlpha=1;
+  }
+}
+
+class Bull extends Actor{
+  constructor(sp,x,y){ super(sp,x,y); this.maxhp=42; this.hp=this.maxhp; this.dead=false;
+    this.spawnT=0; this.dieT=-1; this.wander=rnd(0,6); }
+  update(dt, dk){
+    this.spawnT+=dt;
+    if(this.dieT>=0){ this.dieT+=dt; this.setState('idle'); this.tick(dt); return; }
+    // encara o cavaleiro quando perto; senão idle ocioso
+    const dx=dk.x-this.x, dy=(dk.y-this.y);
+    if(Math.hypot(dx,dy)<220) this.dir=dirOf(dx,dy);
+    this.setState('idle'); this.tick(dt);
+  }
+  hit(dmg,crit){ this.hp-=dmg; this.flash=1; if(this.hp<=0 && this.dieT<0){ this.dieT=0; } }
+  draw(g){
+    // nascer: anel dourado + escala/alpha
+    if(this.spawnT<0.62){
+      const p=this.spawnT/0.62, r=8+p*40;
+      g.save(); g.strokeStyle="rgba(230,200,119,"+((1-p)*0.9).toFixed(2)+")"; g.lineWidth=2.5;
+      g.beginPath(); g.ellipse(this.x,this.y,r,r*0.4,0,0,7); g.stroke();
+      g.fillStyle="rgba(230,200,119,"+((1-p)*0.25).toFixed(2)+")";
+      g.beginPath(); g.ellipse(this.x,this.y,r*0.7,r*0.28,0,0,7); g.fill(); g.restore();
+      super.draw(g, 0.4+p*0.6, Math.min(1,p*1.4)); return;
+    }
+    if(this.dieT>=0){ // morte: esvai + afunda
+      const p=clamp(this.dieT/0.7,0,1);
+      g.save(); g.translate(0,p*6);
+      super.draw(g, 1-p*0.15, 1-p);
+      g.restore(); return;
+    }
+    super.draw(g);
+    // barra de hp
+    const bw=34, bh=4, bx=this.x-bw/2, by=this.y-this.sp.h-8;
+    g.fillStyle="rgba(0,0,0,.6)"; g.fillRect(bx-1,by-1,bw+2,bh+2);
+    g.fillStyle="#3a1414"; g.fillRect(bx,by,bw,bh);
+    g.fillStyle="#c0402f"; g.fillRect(bx,by,bw*clamp(this.hp/this.maxhp,0,1),bh);
+  }
+}
+
+// ---- números de dano ----
+const dmgs=[];
+function popDmg(x,y,val,crit){ dmgs.push({x,y,val,crit,t:0,vx:rnd(-14,14)}); }
+
+// ---- estado da cena ----
+let bulls=[], dk, kills=0, spawnQueue=[];
+function walkableAt(px,py){ const cx=Math.floor(px/CELLPX), cy=Math.floor(py/CELLPX); return WALK?.[cy]?.[cx]===1; }
+function randArenaPoint(){ // ponto aleatório dentro da elipse da arena, em célula caminhável
+  for(let k=0;k<40;k++){ const a=rnd(0,7), r=Math.sqrt(rnd(0,1)); const x=ARENA.cx+Math.cos(a)*ARENA.rx*r*0.9, y=ARENA.cy+Math.sin(a)*ARENA.ry*r*0.9; if(walkableAt(x,y)) return [x,y]; }
+  return [ARENA.cx+rnd(-30,30), ARENA.cy+rnd(-20,20)];
+}
+function spawnBull(delay){ spawnQueue.push({t:-delay}); }
+function doSpawn(){ const [x,y]=randArenaPoint(); bulls.push(new Bull(BULL, x, y)); }
+
+function nearestBull(){ let best=null,bd=1e9; for(const b of bulls){ if(b.dieT>=0||b.spawnT<0.4) continue; const d=Math.hypot(b.x-dk.x,b.y-dk.y); if(d<bd){bd=d;best=b;} } return best; }
+
+let dkSwingApplied=false, dkTarget=null;
+function updateDK(dt){
+  const tgt=(dkTarget && dkTarget.dieT<0 && bulls.includes(dkTarget))?dkTarget:nearestBull();
+  dkTarget=tgt;
+  if(!tgt){ dk.setState('idle'); dk.tick(dt); return; }
+  const dx=tgt.x-dk.x, dy=tgt.y-dk.y, dist=Math.hypot(dx,dy);
+  const RANGE=72;
+  if(dk.state!=='attack') dk.dir=dirOf(dx,dy);
+  if(dist>RANGE){
+    dk.setState('walk'); dk.dir=dirOf(dx,dy);
+    const sp=92*dt; dk.x+=dx/dist*sp; dk.y+=dy/dist*sp;
+    dk.tick(dt);
+  } else {
+    if(dk.state!=='attack'){ dk.setState('attack'); dkSwingApplied=false; dk._done=false; }
+    dk.tick(dt);
+    const strike=Math.floor(dk.frames().length*0.55);
+    if(!dkSwingApplied && dk.frame>=strike){
+      dkSwingApplied=true;
+      const crit=Math.random()<0.22; let dmg=Math.round(rnd(9,14))*(crit?2:1);
+      tgt.hit(dmg,crit); popDmg(tgt.x, tgt.y-tgt.sp.h-6, dmg, crit);
+      if(tgt.hp<=0){ kills++; killsEl.textContent=kills; }
+    }
+    if(dk._done){ dk.setState('attack'); dk.t=0; dk.frame=0; dk._done=false; dkSwingApplied=false; } // re-swing
+  }
+}
+
+// ---- loop ----
+let last=0;
+function frame(ts){
+  const dt=Math.min(0.05,(ts-last)/1000||0); last=ts;
+  // spawns agendados (mantém ~5 vivos + "nascendo" contínuo)
+  for(const s of spawnQueue){ s.t+=dt; }
+  for(let i=spawnQueue.length-1;i>=0;i--){ if(spawnQueue[i].t>=0){ doSpawn(); spawnQueue.splice(i,1); } }
+  const alive=bulls.filter(b=>b.dieT<0).length + spawnQueue.length;
+  if(alive<5) spawnBull(rnd(0.4,1.4));
+
+  // update
+  updateDK(dt);
+  for(const b of bulls) b.update(dt,dk);
+  // separação: empurra bulls sobrepostos pra ler como combatentes distintos
+  for(let i=0;i<bulls.length;i++){ for(let j=i+1;j<bulls.length;j++){
+    const a=bulls[i], c=bulls[j]; if(a.dieT>=0||c.dieT>=0) continue;
+    let dx=c.x-a.x, dy=(c.y-a.y)*1.6, d=Math.hypot(dx,dy)||1; const MIN=46;
+    if(d<MIN){ const push=(MIN-d)/d*0.5; dx*=push; dy*=push/1.6;
+      a.x-=dx; a.y-=dy; c.x+=dx; c.y+=dy; }
+  }}
+  // mantém os bulls dentro da elipse da arena
+  for(const b of bulls){ const dx=(b.x-ARENA.cx)/ARENA.rx, dy=(b.y-ARENA.cy)/ARENA.ry, d=Math.hypot(dx,dy);
+    if(d>1){ b.x=ARENA.cx+dx/d*ARENA.rx; b.y=ARENA.cy+dy/d*ARENA.ry; } }
+  dk.x=clamp(dk.x,40,W-40); dk.y=clamp(dk.y,60,H-24);
+  // remove mortos (após anim) e agenda respawn
+  for(let i=bulls.length-1;i>=0;i--){ if(bulls[i].dieT>0.7){ bulls.splice(i,1); } }
+  for(const d of dmgs){ d.t+=dt; d.y-=26*dt; d.x+=d.vx*dt; }
+  for(let i=dmgs.length-1;i>=0;i--) if(dmgs[i].t>1.0) dmgs.splice(i,1);
+
+  // ---- render ----
+  ctx.clearRect(0,0,W,H);
+  ctx.drawImage(floorCanvas,0,0);
+  drawArena(ctx);
+
+  // ordena por pé (y) pra profundidade
+  const ents=[...bulls, dk].sort((a,b)=>a.y-b.y);
+  // sombras
+  for(const e of ents){ ctx.save(); ctx.globalAlpha=0.32; ctx.fillStyle="#000";
+    ctx.beginPath(); ctx.ellipse(e.x, e.y-2, e.sp.w*0.30, 6, 0, 0, 7); ctx.fill(); ctx.restore(); }
+  for(const e of ents) e.draw(ctx);
+
+  // números de dano
+  ctx.textAlign='center'; ctx.font='bold 15px ui-monospace,monospace';
+  for(const d of dmgs){
+    const a=clamp(1.4-d.t*1.2,0,1);
+    ctx.globalAlpha=a; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.85)";
+    ctx.fillStyle=d.crit?"#ffcf4d":"#f2ece0";
+    const s=d.crit?18:15; ctx.font=`bold ${s}px ui-monospace,monospace`;
+    ctx.strokeText(d.val + (d.crit?"!":""), d.x, d.y);
+    ctx.fillText(d.val + (d.crit?"!":""), d.x, d.y);
+  }
+  ctx.globalAlpha=1;
+
+  // vinheta
+  const vg=ctx.createRadialGradient(W/2,H*0.42,H*0.2, W/2,H*0.5,H*0.85);
+  vg.addColorStop(0,"rgba(0,0,0,0)"); vg.addColorStop(1,"rgba(0,0,0,0.55)");
+  ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
+
+  requestAnimationFrame(frame);
+}
+
+// ---- boot ----
+(async()=>{
+  const fb=ASSETS.floorBaked;
+  FLOOR=await loadImg(fb.png); CELLPX=fb.cellpx; WALK=fb.walkable;
+  W=fb.w; H=fb.h; cv.width=W; cv.height=H;
+  BULL=await loadActor(ASSETS.bull); DK=await loadActor(ASSETS.dk);
+  // arena elíptica sobre a praça caminhável de Lorência
+  ARENA={ cx:W*0.50, cy:H*0.56, rx:W*0.36, ry:H*0.36 };
+  buildFloor();
+  dk=new Actor(DK, ARENA.cx-ARENA.rx*0.95, ARENA.cy); dk.fps={idle:6,walk:11,attack:13};
+  for(let i=0;i<5;i++) spawnBull(0.5+i*0.55);
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
